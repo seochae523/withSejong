@@ -1,42 +1,26 @@
 package sejongZoo.sejongZoo.chat.domain;
 
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 
 @Getter
-@NoArgsConstructor
+@Setter // Setters are used in aws-dynamodb-sdk
+@Builder
 public class Chat {
-//    @Id
-//    @Column(name="MESSAGE_ID")
-    private Long id;
     private String sender;
-
-    private String senderEmail;
-
     private String message;
-
-//    @CreatedDate
-//    @Column(updatable = false)
     private LocalDateTime sendDate;
 
-    @Builder
-    public Chat(String sender, String senderEmail, String message, LocalDateTime sendDate) {
-        this.sender = sender;
-        this.senderEmail = senderEmail;
-        this.message = message;
-        this.sendDate = sendDate;
-    }
-
-
-    public static Chat createChat(String sender, String senderEmail, String message) {
+    public static Chat createChat(String sender, String message) {
         return Chat.builder()
                 .sender(sender)
-                .senderEmail(senderEmail)
                 .message(message)
                 .build();
     }
