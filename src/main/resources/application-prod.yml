@@ -67,7 +67,7 @@ spring:
     template:
       default-topic: error-messages
 
-logging:
-  discord:
-    webhook-url: ${WEB_HOOK_URL}
-  config: classpath:logback-discord.xml
+#logging:
+#  discord:
+#    webhook-url: ${WEB_HOOK_URL}
+#  config: classpath:logback-discord.xml
