@@ -4,6 +4,7 @@ package sejongZoo.sejongZoo.user.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 
-@Entity
+@Entity(name="user")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,15 +24,19 @@ import java.util.Collection;
 public class User implements UserDetails {
 
     @Id
-    @Column(name="USER_ID")
+    @Column(name="ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
+    @Column(columnDefinition = "varchar(20)")
     private String studentId;
     @NotNull
+    @Column(columnDefinition = "varchar(10)")
     private String name;
     @NotNull
+    @Column(columnDefinition = "varchar(30)")
     private String password;
+    @Column(columnDefinition = "varchar(20)")
     private String nickname;
     private String refreshToken;
 
@@ -40,6 +45,7 @@ public class User implements UserDetails {
     @NotNull
     @ColumnDefault("50")
     private Integer manner;
+    @Column(columnDefinition = "varchar(50)")
     private String role;
 
 

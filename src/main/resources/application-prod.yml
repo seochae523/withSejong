@@ -14,7 +14,7 @@ spring:
     generate-ddl: true
     database: mysql
     hibernate:
-      ddl-auto: update # 나중에 none으로
+      ddl-auto: none
     naming:
       physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
@@ -66,15 +66,6 @@ spring:
       auto-offset-reset: earliest
     template:
       default-topic: error-messages
-
-amazon:
-  dynamodb:
-    endpoint: http://localhost:8000
-    region: ${DYNAMODB_REGION}
-  aws:
-    accessKey: ${DYNAMODB_ACCESS_KEY}
-    secretKey: ${DYNAMODB_SECRET_KEY}
-
 
 logging:
   discord:
