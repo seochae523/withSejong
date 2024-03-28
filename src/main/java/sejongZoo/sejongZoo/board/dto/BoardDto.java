@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import sejongZoo.sejongZoo.board.domain.Board;
+
 
 import java.util.Date;
 

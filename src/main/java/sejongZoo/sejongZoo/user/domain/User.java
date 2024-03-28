@@ -21,6 +21,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @DynamicInsert
 public class User implements UserDetails {
+
     @Id
     @Column(name="USER_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +34,9 @@ public class User implements UserDetails {
     private String password;
     private String nickname;
     private String refreshToken;
+
+//    //학과 추가
+//    private String major;
     @NotNull
     @ColumnDefault("50")
     private Integer manner;

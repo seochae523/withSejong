@@ -1,14 +1,11 @@
 package sejongZoo.sejongZoo.user.controller;
 
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sejongZoo.sejongZoo.common.token.dto.AuthToken;
-import sejongZoo.sejongZoo.user.dto.LoginDto;
-import sejongZoo.sejongZoo.user.dto.UserDto;
 import sejongZoo.sejongZoo.user.dto.request.LoginRequestDto;
 import sejongZoo.sejongZoo.user.dto.request.SignUpRequestDto;
 import sejongZoo.sejongZoo.user.dto.response.SignUpResponseDto;

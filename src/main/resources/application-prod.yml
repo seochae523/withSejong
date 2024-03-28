@@ -67,16 +67,16 @@ spring:
     template:
       default-topic: error-messages
 
-#amazon:
-#  dynamodb:
-#    endpoint: http://localhost:8000
-#    region: ${DYNAMODB_REGION}
-#  aws:
-#    accessKey: ${DYNAMODB_ACCESS_KEY}
-#    secretKey: ${DYNAMODB_SECRET_KEY}
-#
+amazon:
+  dynamodb:
+    endpoint: http://localhost:8000
+    region: ${DYNAMODB_REGION}
+  aws:
+    accessKey: ${DYNAMODB_ACCESS_KEY}
+    secretKey: ${DYNAMODB_SECRET_KEY}
 
-#logging:
-#  discord:
-#    webhook-url: ${WEB_HOOK_URL}
-#  config: classpath:logback-discord.xml
+
+logging:
+  discord:
+    webhook-url: ${WEB_HOOK_URL}
+  config: classpath:logback-discord.xml
