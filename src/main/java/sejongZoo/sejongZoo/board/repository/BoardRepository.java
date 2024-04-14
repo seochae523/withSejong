@@ -24,6 +24,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     @Query("select b from board b join fetch b.user u left join fetch b.image i left join fetch b.tag t " +
             "where b.title like concat(:keyword, '%') or b.content like concat(:keyword, '%') " +
+            "or b.id=(select t2.board.id from tag t2 where t2.category like concat(:keyword, '%')) " +
             "order by b.createdAt desc")
     Page<Board> searchWithKeyword(@Param("keyword") String keyword, Pageable pageable);
 }
