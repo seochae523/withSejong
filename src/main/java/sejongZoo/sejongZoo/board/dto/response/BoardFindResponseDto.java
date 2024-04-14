@@ -1,5 +1,6 @@
 package sejongZoo.sejongZoo.board.dto.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import sejongZoo.sejongZoo.board.domain.Board;
 
@@ -12,12 +13,19 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Builder
 public class BoardFindResponseDto {
+    @Schema(description = "조회 결과 id 나중에 update, delete 할때 필요함", example = "3")
     private Long id;
+    @Schema(description = "제목", example = "example")
     private String title;
+    @Schema(description = "가격", example = "12321123")
     private Integer price;
+    @Schema(description = "학번", example = "example")
     private String studentId;
+    @Schema(description = "작성일", example = "2024-04-14T17:21:33.975Z")
     private Date createdAt;
+    @Schema(description = "이미지들", example = "image :[~~]")
     private Set<ImageFindResponseDto> image;
+    @Schema(description = "태그들", example = "tag : [~~]")
     private Set<TagFindResponseDto> tag;
     public BoardFindResponseDto(Board board){
         this.id = board.getId();

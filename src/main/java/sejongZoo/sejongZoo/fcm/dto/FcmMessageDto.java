@@ -1,6 +1,7 @@
 package sejongZoo.sejongZoo.fcm.dto;
 
 import com.google.firebase.messaging.Message;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +10,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Builder
 public class FcmMessageDto {
+    @Schema(description = "테스트 버전이냐 아니냐 true = 테스트 버전, false = 배포 버전", example = "false")
     private Boolean validateOnly;
+    @Schema(description = "메시지", example = "something happend")
     private FcmMessageDto.Message message;
 
     @Builder
