@@ -59,12 +59,13 @@ public class User implements UserDetails {
 
 
     @Builder
-    public User( String name, String studentId, String password, String nickname, Integer manner) {
+    public User( String name, String major, String studentId, String password, String nickname, Integer manner) {
         this.name = name;
         this.studentId = studentId;
         this.password = password;
         this.nickname = nickname;
         this.manner = manner;
+		this.major=major;
     }
 
     public void setRole(Role role){
