@@ -20,7 +20,7 @@ import sejongZoo.sejongZoo.common.token.service.RefreshService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user/refresh")
+@RequestMapping("/refresh")
 @Tag(name = "리프레쉬 컨트롤러")
 public class RefreshController {
     private final RefreshService refreshService;
