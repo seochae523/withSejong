@@ -14,7 +14,7 @@ import sejongZoo.sejongZoo.user.service.LoginService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping
 public class LoginController {
 
     private final LoginService loginService;
