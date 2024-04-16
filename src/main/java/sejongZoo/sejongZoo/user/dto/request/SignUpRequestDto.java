@@ -18,13 +18,15 @@ public class SignUpRequestDto {
     private String password;
     @Schema(description = "별명", example = "정건희 바보")
     private String nickname;
-
+	@Schema(description = "전공", example = "컴공")
+    private String major;
     public User toEntity(){
         return User.builder()
                 .studentId(studentId)
                 .password(password)
                 .nickname(nickname)
                 .name(name)
+				 .major(major)
                 .manner(50)
                 .build();
     }
