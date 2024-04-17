@@ -1,6 +1,7 @@
 package sejongZoo.sejongZoo.chat.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
+@SecurityRequirement(name = "Bearer Authentication")
 public class ChatController {
     private final MemoryChatRoomRepository chatRoomService;
     private final SimpMessageSendingOperations messageSendingOperations;

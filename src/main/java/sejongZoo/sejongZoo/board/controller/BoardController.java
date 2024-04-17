@@ -3,6 +3,7 @@ package sejongZoo.sejongZoo.board.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/board")
 @Tag(name = "board")
+@SecurityRequirement(name = "Bearer Authentication")
 public class BoardController {
     private final BoardService boardService;
 

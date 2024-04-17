@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import sejongZoo.sejongZoo.common.exception.board.*;
 import sejongZoo.sejongZoo.common.exception.token.*;
-import sejongZoo.sejongZoo.common.exception.user.AccountNotFound;
-import sejongZoo.sejongZoo.common.exception.user.StudentIdNotFound;
-import sejongZoo.sejongZoo.common.exception.user.UserIdNotFound;
+import sejongZoo.sejongZoo.common.exception.user.*;
 
 
 @RestControllerAdvice
@@ -74,6 +72,38 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> emailNotFound(UserIdNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEU-003", "User Id (Primary key) Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(MajorNotFound.class)
+    public ResponseEntity<ApiErrorResponse> majorNotFound(MajorNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEU-004", "Major Not Found.");
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(NicknameNotFound.class)
+    public ResponseEntity<ApiErrorResponse> nicknameNotFound(NicknameNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEU-005", "Nickname Not Found.");
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(PasswordNotFound.class)
+    public ResponseEntity<ApiErrorResponse> passwordNotFound(PasswordNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEU-006", "Password Not Found.");
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(UserNameNotFound.class)
+    public ResponseEntity<ApiErrorResponse> majorDoesNotExist(UserNameNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEU-007", "User Name Not Found.");
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(DuplicatedNickname.class)
+    public ResponseEntity<ApiErrorResponse> duplicatedNickname(DuplicatedNickname ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEU-008", "Duplicated Nickname. Nickname : " + ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(DuplicatedStudentId.class)
+    public ResponseEntity<ApiErrorResponse> duplicatedStudentId(DuplicatedStudentId ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEU-008", "Duplicated Student Id. Student Id : " + ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 
     /**

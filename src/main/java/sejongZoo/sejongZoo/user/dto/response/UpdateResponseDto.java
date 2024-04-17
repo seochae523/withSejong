@@ -1,20 +1,19 @@
-package sejongZoo.sejongZoo.user.dto.request;
+package sejongZoo.sejongZoo.user.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.checkerframework.checker.units.qual.A;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @Builder
-public class UpdateRequestDto {
-    @Schema(description = "학번", example = "1901914912")
+@AllArgsConstructor
+public class UpdateResponseDto {
+    @Schema(description = "학번", example = "123123")
     private String studentId;
-    @Schema(description = "별명", example = "정건희 바보")
+    @Schema(description = "닉네임", example = "nickname")
     private String nickname;
     @Schema(description = "전공", example = "컴공")
     private String major;

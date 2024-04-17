@@ -56,7 +56,8 @@ public class User implements UserDetails {
     @Column(columnDefinition = "varchar(50)")
     private String role;
 
-
+//    @ColumnDefault(value = "false")
+//    private Boolean deleted;
 
     @Builder
     public User( String name, String major, String studentId, String password, String nickname, Integer manner) {
@@ -67,7 +68,10 @@ public class User implements UserDetails {
         this.manner = manner;
 		this.major=major;
     }
-
+    public void updateInfo(String major, String nickname){
+        this.major = major;
+        this.nickname = nickname;
+    }
     public void setRole(Role role){
         if(this.role == null) {
             this.role = role.getValue();

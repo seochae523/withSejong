@@ -2,6 +2,7 @@ package sejongZoo.sejongZoo.user.controller;
 
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,12 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import sejongZoo.sejongZoo.common.token.dto.AuthToken;
 import sejongZoo.sejongZoo.user.dto.request.LoginRequestDto;
 import sejongZoo.sejongZoo.user.dto.request.SignUpRequestDto;
+import sejongZoo.sejongZoo.user.dto.response.LogoutResponseDto;
 import sejongZoo.sejongZoo.user.dto.response.SignUpResponseDto;
 import sejongZoo.sejongZoo.user.service.LoginService;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping
+@SecurityRequirement(name = "Bearer Authentication")
 public class LoginController {
 
     private final LoginService loginService;
@@ -31,5 +34,12 @@ public class LoginController {
             description = "회원가입")
     public ResponseEntity<SignUpResponseDto> signUp(@RequestBody SignUpRequestDto signUpRequestDto){
         return new ResponseEntity(loginService.signup(signUpRequestDto), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/user/logout")
+    @Operation(summary = "로그아웃",
+            description = "로그아웃 하면 refresh token 파기")
+    public ResponseEntity<LogoutResponseDto> logout(@RequestParam(value = "studentId", required = false) String studentId){
+        return new ResponseEntity(loginService.logout(studentId), HttpStatus.OK);
     }
 }

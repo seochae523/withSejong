@@ -9,13 +9,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sejongZoo.sejongZoo.common.emun.Role;
-import sejongZoo.sejongZoo.common.exception.user.AccountNotFound;
-import sejongZoo.sejongZoo.common.exception.user.StudentIdNotFound;
+import sejongZoo.sejongZoo.common.exception.user.*;
 import sejongZoo.sejongZoo.common.token.AuthTokenProvider;
 import sejongZoo.sejongZoo.common.token.dto.AuthToken;
 import sejongZoo.sejongZoo.user.domain.User;
 import sejongZoo.sejongZoo.user.dto.request.LoginRequestDto;
 import sejongZoo.sejongZoo.user.dto.request.SignUpRequestDto;
+import sejongZoo.sejongZoo.user.dto.response.LogoutResponseDto;
 import sejongZoo.sejongZoo.user.dto.response.SignUpResponseDto;
 import sejongZoo.sejongZoo.user.repository.UserRepository;
 import sejongZoo.sejongZoo.user.service.LoginService;
@@ -61,6 +61,28 @@ public class LoginServiceImpl implements LoginService{
 
     @Override
     public SignUpResponseDto signup(SignUpRequestDto signUpRequestDto) {
+        String name = signUpRequestDto.getName();
+        String password = signUpRequestDto.getPassword();
+        String studentId = signUpRequestDto.getStudentId();
+        String major = signUpRequestDto.getMajor();
+        String nickname = signUpRequestDto.getNickname();
+
+        if(name == null){
+            throw new UserNameNotFound();
+        }
+        if(password == null){
+            throw new PasswordNotFound();
+        }
+        if(studentId == null){
+            throw new StudentIdNotFound();
+        }
+        if(major == null) {
+            throw new MajorNotFound();
+        }
+        if(nickname == null){
+            throw new NicknameNotFound();
+        }
+
         User user = signUpRequestDto.toEntity();
 
         user.setRole(Role.USER);
@@ -75,8 +97,17 @@ public class LoginServiceImpl implements LoginService{
     }
 
     @Override
-    public LoginRequestDto logout(LoginRequestDto loginRequestDto) {
-        return null;
+    public LogoutResponseDto logout(String studentId) {
+        if (studentId == null){
+            throw new StudentIdNotFound();
+        }
+        User user = userRepository
+                .findByStudentId(studentId)
+                .orElseThrow(() -> new AccountNotFound(studentId));
+
+        user.setRefreshToken(null);
+
+        return new LogoutResponseDto(user);
     }
 
 
