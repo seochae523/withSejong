@@ -32,15 +32,7 @@ public class DynamoDBConfig {
     @Primary
     @Bean
     public DynamoDBMapper dynamoDbMapper(AmazonDynamoDB amazonDynamoDb) {
-        DynamoDBMapperConfig mapperConfig = DynamoDBMapperConfig.builder()
-                .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.CLOBBER)
-                .withConsistentReads(DynamoDBMapperConfig.ConsistentReads.CONSISTENT)
-                .withTableNameOverride(null)
-                .withPaginationLoadingStrategy(DynamoDBMapperConfig.PaginationLoadingStrategy.EAGER_LOADING)
-                .build();
-
-
-        return new DynamoDBMapper(amazonDynamoDb, mapperConfig);
+        return new DynamoDBMapper(amazonDynamoDb, DynamoDBMapperConfig.DEFAULT);
     }
 
     @Bean(name = "amazonDynamoDB")
