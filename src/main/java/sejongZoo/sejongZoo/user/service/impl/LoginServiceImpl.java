@@ -15,6 +15,7 @@ import sejongZoo.sejongZoo.common.token.dto.AuthToken;
 import sejongZoo.sejongZoo.user.domain.User;
 import sejongZoo.sejongZoo.user.dto.request.LoginRequestDto;
 import sejongZoo.sejongZoo.user.dto.request.SignUpRequestDto;
+import sejongZoo.sejongZoo.user.dto.response.LoginResponseDto;
 import sejongZoo.sejongZoo.user.dto.response.LogoutResponseDto;
 import sejongZoo.sejongZoo.user.dto.response.SignUpResponseDto;
 import sejongZoo.sejongZoo.user.repository.UserRepository;
@@ -33,12 +34,13 @@ public class LoginServiceImpl implements LoginService{
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     @Override
-    public AuthToken login(sejongZoo.sejongZoo.user.dto.request.LoginRequestDto loginRequestDto) {
+    public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         String studentId = loginRequestDto.getStudentId();
         if(studentId == null){
             throw new StudentIdNotFound();
         }
         User user = userRepository.findByStudentId(studentId)
+                .filter(x -> !x.getDeleted())
                 .orElseThrow(() -> new AccountNotFound(studentId));
 
         String role = user.getRole();
@@ -53,7 +55,13 @@ public class LoginServiceImpl implements LoginService{
         AuthToken authToken = authTokenProvider.generateToken(authentication, roles);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return authToken;
+        return LoginResponseDto.builder()
+                .authToken(authToken)
+                .major(user.getMajor())
+                .nickname(user.getNickname())
+                .studentId(user.getStudentId())
+                .build();
+
     }
 
 

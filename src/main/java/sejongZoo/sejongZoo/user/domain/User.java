@@ -56,8 +56,8 @@ public class User implements UserDetails {
     @Column(columnDefinition = "varchar(50)")
     private String role;
 
-//    @ColumnDefault(value = "false")
-//    private Boolean deleted;
+    @ColumnDefault("false")
+    private Boolean deleted;
 
     @Builder
     public User( String name, String major, String studentId, String password, String nickname, Integer manner) {
@@ -80,6 +80,9 @@ public class User implements UserDetails {
             this.role += ",";
             this.role += role.getValue();
         }
+    }
+    public void setDeleted(Boolean deleted){
+        this.deleted = deleted;
     }
     public void setRefreshToken(String refreshToken){
         this.refreshToken =refreshToken;

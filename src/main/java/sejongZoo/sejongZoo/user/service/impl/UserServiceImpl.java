@@ -2,10 +2,13 @@ package sejongZoo.sejongZoo.user.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sejongZoo.sejongZoo.common.exception.user.*;
 import sejongZoo.sejongZoo.user.domain.User;
+import sejongZoo.sejongZoo.user.dto.request.ChangePasswordRequestDto;
 import sejongZoo.sejongZoo.user.dto.request.UpdateRequestDto;
+import sejongZoo.sejongZoo.user.dto.response.ChangePasswordResponseDto;
 import sejongZoo.sejongZoo.user.dto.response.DeleteResponseDto;
 import sejongZoo.sejongZoo.user.dto.response.UpdateResponseDto;
 import sejongZoo.sejongZoo.user.repository.UserRepository;
@@ -16,6 +19,7 @@ import sejongZoo.sejongZoo.user.service.UserService;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     @Override
     public Boolean checkStudentId(String studentId) {
         if(studentId == null){
@@ -80,6 +84,33 @@ public class UserServiceImpl implements UserService {
                 .studentId(studentId)
                 .major(major)
                 .nickname(nickname)
+                .build();
+    }
+
+    @Override
+    public ChangePasswordResponseDto changePassword(ChangePasswordRequestDto changePasswordRequestDto) {
+        String studentId = changePasswordRequestDto.getStudentId();
+        String password = changePasswordRequestDto.getPassword();
+
+        if(studentId == null){
+            throw new StudentIdNotFound();
+        }
+        if(password == null){
+            throw new PasswordNotFound();
+        }
+
+        User user = userRepository.
+                findByStudentId(studentId).
+                filter(x -> !x.getDeleted()).
+                orElseThrow(() -> new AccountNotFound(studentId));
+
+        user.updatePassword(password);
+        user.hashPassword(passwordEncoder);
+        userRepository.save(user);
+
+        return ChangePasswordResponseDto.builder()
+                .nickname(user.getNickname())
+                .studentId(studentId)
                 .build();
     }
 }

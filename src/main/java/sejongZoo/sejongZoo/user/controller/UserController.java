@@ -7,8 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sejongZoo.sejongZoo.common.token.dto.AuthToken;
+import sejongZoo.sejongZoo.user.dto.request.ChangePasswordRequestDto;
 import sejongZoo.sejongZoo.user.dto.request.LoginRequestDto;
 import sejongZoo.sejongZoo.user.dto.request.UpdateRequestDto;
+import sejongZoo.sejongZoo.user.dto.response.ChangePasswordResponseDto;
 import sejongZoo.sejongZoo.user.dto.response.DeleteResponseDto;
 import sejongZoo.sejongZoo.user.dto.response.UpdateResponseDto;
 import sejongZoo.sejongZoo.user.service.UserService;
@@ -44,4 +46,12 @@ public class UserController {
     public ResponseEntity<UpdateResponseDto> update(@RequestBody UpdateRequestDto updateRequestDto){
         return new ResponseEntity(userService.update(updateRequestDto), HttpStatus.OK);
     }
+
+    @PutMapping("/user/change-password")
+    @Operation(summary = "비번 변경",
+        description = "입력된 정보로 비번 변경")
+    public ResponseEntity<ChangePasswordResponseDto> updatePassword(@RequestBody ChangePasswordRequestDto changePasswordRequestDto){
+        return new ResponseEntity(userService.changePassword(changePasswordRequestDto), HttpStatus.OK);
+    }
+
 }
