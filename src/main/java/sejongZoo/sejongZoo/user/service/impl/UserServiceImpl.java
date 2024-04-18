@@ -25,7 +25,9 @@ public class UserServiceImpl implements UserService {
         if(studentId == null){
             throw new StudentIdNotFound();
         }
-        userRepository.findByStudentId(studentId).ifPresent(x -> {
+        userRepository.findByStudentId(studentId)
+                .filter(user -> !user.getDeleted())
+                .ifPresent(user -> {
             throw new DuplicatedStudentId(studentId);
         });
 
@@ -37,7 +39,8 @@ public class UserServiceImpl implements UserService {
         if(nickname == null){
             throw new NicknameNotFound();
         }
-        userRepository.findByNickname(nickname).ifPresent(x ->{
+        userRepository.findByNickname(nickname).filter(user -> !user.getDeleted())
+                .ifPresent(x ->{
             throw new DuplicatedNickname(nickname);
         });
 
@@ -51,7 +54,10 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = userRepository.findByStudentId(studentId).orElseThrow(() -> new AccountNotFound(studentId));
-        userRepository.delete(user);
+
+        // soft delete
+        user.setDeleted(true);
+        userRepository.save(user);
 
         return DeleteResponseDto.builder()
                 .name(user.getName())
@@ -77,9 +83,12 @@ public class UserServiceImpl implements UserService {
 
         checkNickname(nickname);
 
-        User user = userRepository.findByStudentId(studentId).orElseThrow(() -> new AccountNotFound(studentId));
+        User user = userRepository.findByStudentId(studentId).filter(x->!x.getDeleted())
+                .orElseThrow(() -> new AccountNotFound(studentId));
+
         user.updateInfo(major, nickname);
         userRepository.save(user);
+
         return UpdateResponseDto.builder()
                 .studentId(studentId)
                 .major(major)

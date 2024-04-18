@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import sejongZoo.sejongZoo.common.exception.board.*;
+import sejongZoo.sejongZoo.common.exception.faq.*;
 import sejongZoo.sejongZoo.common.exception.token.*;
 import sejongZoo.sejongZoo.common.exception.user.*;
 
@@ -140,6 +141,40 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(KeywordNotFound.class)
     public ResponseEntity<ApiErrorResponse> emailNotFound(KeywordNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEB-006", "Keyword Not Found.");
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * SEF -> Sejong Error Faq
+     */
+
+    @ExceptionHandler(FaqContextNotFound.class)
+    public ResponseEntity<ApiErrorResponse> FaqContentNotFound(FaqContextNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEF-001", "Faq Context Not Found.");
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(FaqIdNotFound.class)
+    public ResponseEntity<ApiErrorResponse> FaqIdNotFound(FaqIdNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEF-002", "Faq Id Not Found.");
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(FaqTitleNotFound.class)
+    public ResponseEntity<ApiErrorResponse> FaqTitleNotFound(FaqTitleNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEF-003", "Faq Title Not Found.");
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(FaqNotFound.class)
+    public ResponseEntity<ApiErrorResponse> FaqContentNotFound(FaqNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEF-004", "Faq Not Found. Id : " + ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CreatedAtNotFound.class)
+    public ResponseEntity<ApiErrorResponse> FaqContentNotFound(CreatedAtNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEF-005", "Created At Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 }
