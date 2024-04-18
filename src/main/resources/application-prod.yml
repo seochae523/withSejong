@@ -73,13 +73,11 @@ cloud:
       accessKey: ${S3_ACCESS_KEY}
       secretKey: ${S3_SECRET_KEY}
 
-amazon:
-  dynamodb:
-    endpoint: ${DYNAMODB_ENDPOINT}
-    region: ${DYNAMODB_REGION}
-  aws:
-    accessKey: ${DYNAMODB_ACCESS_KEY}
-    secretKey: ${DYNAMODB_SECRET_KEY}
+    dynamodb:
+      endpoint: ${DYNAMODB_ENDPOINT}
+      region: ${DYNAMODB_REGION}
+      accessKey: ${DYNAMODB_ACCESS_KEY}
+      secretKey: ${DYNAMODB_SECRET_KEY}
 
 #  kafka:
 #    bootstrap-servers: localhost:10000,localhost:10001,localhost:10002 # 카프카 서버 주소

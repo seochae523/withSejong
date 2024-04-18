@@ -17,16 +17,16 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 @EnableDynamoDBRepositories(basePackages = {"sejongZoo.sejongZoo.faq.domain"}) // DynamoDB Repository 패키지 위치 등록
 public class DynamoDBConfig {
-    @Value("${amazon.aws.accessKey}")
+    @Value("${cloud.aws.dynamodb.accessKey}")
     private String accessKey;
 
-    @Value("${amazon.aws.secretKey}")
+    @Value("${cloud.aws.dynamodb.secretKey}")
     private String secretKey;
 
-    @Value("${amazon.dynamodb.endpoint}")
+    @Value("${cloud.aws.dynamodb.endpoint}")
     private String endpoint;
 
-    @Value("${amazon.dynamodb.region}")
+    @Value("${cloud.aws.dynamodb.region}")
     private String region;
 
     @Primary
