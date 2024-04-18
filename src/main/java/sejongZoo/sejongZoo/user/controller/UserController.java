@@ -54,4 +54,10 @@ public class UserController {
         return new ResponseEntity(userService.changePassword(changePasswordRequestDto), HttpStatus.OK);
     }
 
+    @PutMapping("/change-password")
+    @Operation(summary = "비번 변경",
+            description = "잊어버린 비번 변경")
+    public ResponseEntity<ChangePasswordResponseDto> updateForgetPassword(@RequestBody ChangePasswordRequestDto changePasswordRequestDto){
+        return new ResponseEntity(userService.changePassword(changePasswordRequestDto), HttpStatus.OK);
+    }
 }
