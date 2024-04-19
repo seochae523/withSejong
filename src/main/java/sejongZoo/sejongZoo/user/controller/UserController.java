@@ -11,6 +11,7 @@ import sejongZoo.sejongZoo.user.dto.request.ChangePasswordRequestDto;
 import sejongZoo.sejongZoo.user.dto.request.LoginRequestDto;
 import sejongZoo.sejongZoo.user.dto.request.UpdateRequestDto;
 import sejongZoo.sejongZoo.user.dto.response.ChangePasswordResponseDto;
+import sejongZoo.sejongZoo.user.dto.response.CheckStudentIdResponseDto;
 import sejongZoo.sejongZoo.user.dto.response.DeleteResponseDto;
 import sejongZoo.sejongZoo.user.dto.response.UpdateResponseDto;
 import sejongZoo.sejongZoo.user.service.UserService;
@@ -22,16 +23,16 @@ import sejongZoo.sejongZoo.user.service.UserService;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/checkNickname")
+    @GetMapping("/check-nickname")
     @Operation(summary = "닉네임 중복 체크",
             description = "닉네임 중복 체크")
     public ResponseEntity<Boolean> checkNickname(@RequestParam(value = "nickname", required = false) String nickname){
         return new ResponseEntity(userService.checkNickname(nickname), HttpStatus.OK);
     }
-    @GetMapping("/checkStudentId")
+    @GetMapping("/check-student-id")
     @Operation(summary = "학번 중복 체크",
             description = "학번 중복 체크")
-    public ResponseEntity<Boolean> checkStudentId(@RequestParam(value = "studentId", required = false) String studentId){
+    public ResponseEntity<CheckStudentIdResponseDto> checkStudentId(@RequestParam(value = "studentId", required = false) String studentId){
         return new ResponseEntity(userService.checkStudentId(studentId), HttpStatus.OK);
     }
     @DeleteMapping("/user/delete")
