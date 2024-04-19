@@ -106,6 +106,16 @@ public class GlobalExceptionHandler {
         ApiErrorResponse response = new ApiErrorResponse("SEU-008", "Duplicated Student Id. Student Id : " + ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
+    @ExceptionHandler(IsDeletedNotFound.class)
+    public ResponseEntity<ApiErrorResponse> isDeletedNotFound(IsDeletedNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEU-009", "Is Deleted Not Found.");
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(IsSignedNotFound.class)
+    public ResponseEntity<ApiErrorResponse> isSignedNotFound(IsSignedNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEU-010", "Is Signed Not Found.");
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
 
     /**
      * SEB -> Sejong Error Board

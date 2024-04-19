@@ -75,6 +75,7 @@ public class LoginServiceImpl implements LoginService{
         String studentId = signUpRequestDto.getStudentId();
         String major = signUpRequestDto.getMajor();
         String nickname = signUpRequestDto.getNickname();
+        Boolean isSigned = signUpRequestDto.getIsSigned();
 
         if(name == null){
             throw new UserNameNotFound();
@@ -91,8 +92,12 @@ public class LoginServiceImpl implements LoginService{
         if(nickname == null){
             throw new NicknameNotFound();
         }
+        if(isSigned == null){
+            throw new IsSignedNotFound();
+        }
 
-        if(!signUpRequestDto.getIsSigned()){
+
+        if(!isSigned){
             User user = signUpRequestDto.toEntity();
 
             user.setRole(Role.USER);
@@ -125,8 +130,7 @@ public class LoginServiceImpl implements LoginService{
         if (studentId == null){
             throw new StudentIdNotFound();
         }
-        User user = userRepository
-                .findByStudentId(studentId)
+        User user = userRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new AccountNotFound(studentId));
 
         user.setRefreshToken(null);
