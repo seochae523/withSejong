@@ -45,7 +45,7 @@ jobs:
     # 1-1. application.yml 세팅
     - name: Set JSON
       run: |
-        echo "${{ secrets.FCM_PRIVATE_KEY }}" > src/main/resources/firebase/fcm-private-key.json
+        echo "${{ secrets.FCM_PRIVATE_KEY }}" > src/main/resources/fcm-private-key.json
     # 2. Spring Boot 애플리케이션 빌드
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
