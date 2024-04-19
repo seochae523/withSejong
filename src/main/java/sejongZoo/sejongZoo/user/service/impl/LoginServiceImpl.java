@@ -23,6 +23,7 @@ import sejongZoo.sejongZoo.user.service.LoginService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @Slf4j
@@ -91,17 +92,32 @@ public class LoginServiceImpl implements LoginService{
             throw new NicknameNotFound();
         }
 
-        User user = signUpRequestDto.toEntity();
+        if(!signUpRequestDto.getIsSigned()){
+            User user = signUpRequestDto.toEntity();
 
-        user.setRole(Role.USER);
-        user.hashPassword(passwordEncoder);
+            user.setRole(Role.USER);
+            user.hashPassword(passwordEncoder);
 
-        userRepository.save(user);
+            userRepository.save(user);
 
-        return SignUpResponseDto.builder()
-                .name(user.getName())
-                .studentId(user.getStudentId())
-                .build();
+
+            return SignUpResponseDto.builder()
+                    .name(user.getName())
+                    .studentId(user.getStudentId())
+                    .build();
+        }
+        else{
+            User user = userRepository.findByStudentId(studentId)
+                    .orElseThrow(() -> new AccountNotFound(studentId));
+
+            user.setDeleted(true);
+            userRepository.save(user);
+
+            return SignUpResponseDto.builder()
+                    .name(user.getName())
+                    .studentId(user.getStudentId())
+                    .build();
+        }
     }
 
     @Override

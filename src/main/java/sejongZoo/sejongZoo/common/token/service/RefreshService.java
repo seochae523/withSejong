@@ -4,8 +4,6 @@ package sejongZoo.sejongZoo.common.token.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -21,7 +19,6 @@ import sejongZoo.sejongZoo.common.token.dto.RefreshDto;
 import sejongZoo.sejongZoo.user.domain.User;
 import sejongZoo.sejongZoo.user.repository.UserRepository;
 
-
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -31,8 +28,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RefreshService {
     private final UserRepository userRepository;
-
     private final AuthTokenProvider authTokenProvider;
+
     public AuthToken refresh(RefreshDto refreshDto) throws ParseException {
         if(validation(refreshDto)) {
             String subject = getSubject(refreshDto);
@@ -48,7 +45,6 @@ public class RefreshService {
             for (String s : role.split(",")) {
                 roles.add(s);
             }
-
             AuthToken newAuthToken = authTokenProvider.generateToken(authentication, roles);
             findUser.updateRefreshToken(newAuthToken.getRefreshToken());
             userRepository.save(findUser);

@@ -9,10 +9,13 @@ import sejongZoo.sejongZoo.user.domain.User;
 import sejongZoo.sejongZoo.user.dto.request.ChangePasswordRequestDto;
 import sejongZoo.sejongZoo.user.dto.request.UpdateRequestDto;
 import sejongZoo.sejongZoo.user.dto.response.ChangePasswordResponseDto;
+import sejongZoo.sejongZoo.user.dto.response.CheckStudentIdResponseDto;
 import sejongZoo.sejongZoo.user.dto.response.DeleteResponseDto;
 import sejongZoo.sejongZoo.user.dto.response.UpdateResponseDto;
 import sejongZoo.sejongZoo.user.repository.UserRepository;
 import sejongZoo.sejongZoo.user.service.UserService;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -21,17 +24,29 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     @Override
-    public Boolean checkStudentId(String studentId) {
+    public CheckStudentIdResponseDto checkStudentId(String studentId) {
+        /**
+         * 1. 가입 되고 deleted false면 throw
+         * 2. 가입 됐는데 deleted true면 가입
+         * 3. 가입 안됐으면 true 리턴
+         */
         if(studentId == null){
             throw new StudentIdNotFound();
         }
-        userRepository.findByStudentId(studentId)
-                .filter(user -> !user.getDeleted())
-                .ifPresent(user -> {
-            throw new DuplicatedStudentId(studentId);
-        });
+        Optional<User> result = userRepository.findByStudentId(studentId);
 
-        return true;
+        if(result.isEmpty()){
+            return CheckStudentIdResponseDto.builder()
+                    .isDeleted(true)
+                    .isSigned(false)
+                    .build();
+        }
+        else{
+            return CheckStudentIdResponseDto.builder()
+                    .isDeleted(result.get().getDeleted())
+                    .isSigned(true)
+                    .build();
+        }
     }
 
     @Override
@@ -39,7 +54,7 @@ public class UserServiceImpl implements UserService {
         if(nickname == null){
             throw new NicknameNotFound();
         }
-        userRepository.findByNickname(nickname).filter(user -> !user.getDeleted())
+        userRepository.findByNickname(nickname)
                 .ifPresent(x ->{
             throw new DuplicatedNickname(nickname);
         });
@@ -83,7 +98,7 @@ public class UserServiceImpl implements UserService {
 
         checkNickname(nickname);
 
-        User user = userRepository.findByStudentId(studentId).filter(x->!x.getDeleted())
+        User user = userRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new AccountNotFound(studentId));
 
         user.updateInfo(major, nickname);
