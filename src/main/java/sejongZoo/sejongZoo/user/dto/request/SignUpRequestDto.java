@@ -20,17 +20,13 @@ public class SignUpRequestDto {
     private String nickname;
 	@Schema(description = "전공", example = "컴공")
     private String major;
-    @Schema(description = "가입 여부", example = "false")
-    private Boolean isSigned;
-    @Schema(description = "삭제 여부", example = "false")
-    private Boolean isDeleted;
     public User toEntity(){
         return User.builder()
                 .studentId(studentId)
                 .password(password)
                 .nickname(nickname)
                 .name(name)
-				 .major(major)
+                .major(major)
                 .manner(50)
                 .build();
     }

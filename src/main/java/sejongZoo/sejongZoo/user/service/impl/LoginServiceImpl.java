@@ -23,6 +23,7 @@ import sejongZoo.sejongZoo.user.service.LoginService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
@@ -75,7 +76,6 @@ public class LoginServiceImpl implements LoginService{
         String studentId = signUpRequestDto.getStudentId();
         String major = signUpRequestDto.getMajor();
         String nickname = signUpRequestDto.getNickname();
-        Boolean isSigned = signUpRequestDto.getIsSigned();
 
         if(name == null){
             throw new UserNameNotFound();
@@ -92,12 +92,10 @@ public class LoginServiceImpl implements LoginService{
         if(nickname == null){
             throw new NicknameNotFound();
         }
-        if(isSigned == null){
-            throw new IsSignedNotFound();
-        }
 
+        Optional<User> result = userRepository.findByStudentId(studentId);
 
-        if(!isSigned){
+        if(result.isEmpty()){
             User user = signUpRequestDto.toEntity();
 
             user.setRole(Role.USER);
@@ -112,16 +110,20 @@ public class LoginServiceImpl implements LoginService{
                     .build();
         }
         else{
-            User user = userRepository.findByStudentId(studentId)
-                    .orElseThrow(() -> new AccountNotFound(studentId));
+            User user = result.get();
+            if(user.getDeleted()){
+                user.setDeleted(false);
+                userRepository.save(user);
 
-            user.setDeleted(true);
-            userRepository.save(user);
 
-            return SignUpResponseDto.builder()
-                    .name(user.getName())
-                    .studentId(user.getStudentId())
-                    .build();
+                return SignUpResponseDto.builder()
+                        .name(user.getName())
+                        .studentId(user.getStudentId())
+                        .build();
+            }
+            else{
+                throw new AccountAlreadyExist(studentId);
+            }
         }
     }
 

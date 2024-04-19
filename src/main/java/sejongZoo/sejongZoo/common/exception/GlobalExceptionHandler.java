@@ -117,6 +117,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(AccountAlreadyExist.class)
+    public ResponseEntity<ApiErrorResponse> isSignedNotFound(AccountAlreadyExist ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEU-011", "Account Already Exist. Student Id : " + ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+
     /**
      * SEB -> Sejong Error Board
      */
