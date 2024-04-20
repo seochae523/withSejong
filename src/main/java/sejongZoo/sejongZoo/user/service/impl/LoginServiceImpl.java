@@ -57,6 +57,9 @@ public class LoginServiceImpl implements LoginService{
         AuthToken authToken = authTokenProvider.generateToken(authentication, roles);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        user.setRefreshToken(authToken.getRefreshToken());
+        userRepository.save(user);
+
         return LoginResponseDto.builder()
                 .authToken(authToken)
                 .major(user.getMajor())
