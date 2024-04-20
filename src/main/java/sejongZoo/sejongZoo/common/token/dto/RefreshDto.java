@@ -14,7 +14,6 @@ public class RefreshDto {
     @Schema(description = "학번", example = "example")
     private String studentId;
     @Schema(description = "access token")
-    @Hidden
     private String accessToken;
     @Schema(description = "refresh token")
     private String refreshToken;
