@@ -2,6 +2,7 @@ package sejongZoo.sejongZoo.common.token;
 
 
 import io.jsonwebtoken.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer Authentication")
 public class AuthTokenProvider {
     @Value("${spring.jwt.secret}")
     private String key;

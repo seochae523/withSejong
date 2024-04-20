@@ -13,6 +13,6 @@ public interface UserService {
     Boolean checkNickname(String nickname);
     DeleteResponseDto delete(String studentId);
     UpdateResponseDto update(UpdateRequestDto updateRequestDto);
-
     ChangePasswordResponseDto changePassword(ChangePasswordRequestDto changePasswordRequestDto);
+
 }
