@@ -137,4 +137,17 @@ public class UserServiceImpl implements UserService {
                 .studentId(studentId)
                 .build();
     }
+
+    @Override
+    public String findNickname(String studentId) {
+        if(studentId == null){
+            throw new StudentIdNotFound();
+        }
+
+        User user = userRepository.findByStudentId(studentId)
+                .orElseThrow(() -> new AccountNotFound(studentId));
+
+        return user.getNickname();
+
+    }
 }

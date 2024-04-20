@@ -2,6 +2,7 @@ package sejongZoo.sejongZoo.user.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,5 +61,12 @@ public class UserController {
             description = "잊어버린 비번 변경")
     public ResponseEntity<ChangePasswordResponseDto> updateForgetPassword(@RequestBody ChangePasswordRequestDto changePasswordRequestDto){
         return new ResponseEntity(userService.changePassword(changePasswordRequestDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/find-nickname")
+    @Operation(summary = "닉네임 찾기",
+            description = "학번 기준으로 닉네임 찾기")
+    public ResponseEntity<String> updateForgetPassword(@RequestParam(value = "studentId", required = false) String studentId){
+        return new ResponseEntity(userService.findNickname(studentId), HttpStatus.OK);
     }
 }

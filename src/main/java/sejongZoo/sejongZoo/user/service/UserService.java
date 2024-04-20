@@ -15,4 +15,5 @@ public interface UserService {
     UpdateResponseDto update(UpdateRequestDto updateRequestDto);
     ChangePasswordResponseDto changePassword(ChangePasswordRequestDto changePasswordRequestDto);
 
+    String findNickname(String studentId);
 }
