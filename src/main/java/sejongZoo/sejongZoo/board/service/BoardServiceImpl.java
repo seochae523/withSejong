@@ -15,6 +15,7 @@ import sejongZoo.sejongZoo.board.domain.Image;
 import sejongZoo.sejongZoo.board.domain.Tag;
 import sejongZoo.sejongZoo.board.dto.request.BoardSaveRequestDto;
 import sejongZoo.sejongZoo.board.dto.request.BoardUpdateRequestDto;
+import sejongZoo.sejongZoo.board.dto.request.ImageUpdateResponseDto;
 import sejongZoo.sejongZoo.board.dto.response.*;
 import sejongZoo.sejongZoo.board.repository.BoardRepository;
 import sejongZoo.sejongZoo.board.repository.ImageRepository;
@@ -50,6 +51,7 @@ public class BoardServiceImpl implements BoardService{
         Page<Board> result = boardRepository.findAllWithUserAndImage(pageable);
 
         return result.stream()
+                .filter(x->!x.getDeleted())
                 .map(BoardFindResponseDto::new)
                 .collect(Collectors.toList());
     }
@@ -115,9 +117,23 @@ public class BoardServiceImpl implements BoardService{
         // 2. board 찾기
         // 3. 이미지 찾기
         Long id = boardUpdateRequestDto.getId();
+        String title = boardUpdateRequestDto.getTitle();
+        String content = boardUpdateRequestDto.getContent();
+        Integer price = boardUpdateRequestDto.getPrice();
+        List<ImageUpdateResponseDto> image = boardUpdateRequestDto.getImageUpdateResponseDto();
         if(id == null){
             throw new BoardIdNotFound();
         }
+        if(title == null){
+            throw new TitleNotFound();
+        }
+        if(content == null){
+            throw new ContentNotFound();
+        }
+        if(price == null){
+            throw new PriceNotFound();
+        }
+
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new BoardNotFound(id));
 

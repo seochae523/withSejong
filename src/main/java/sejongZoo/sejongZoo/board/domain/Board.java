@@ -55,11 +55,10 @@ public class Board {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name="BOARD_ID")
     private Set<Tag> tag;
-    public void updateBoard(BoardUpdateRequestDto dto, User user, Set<Image> image, Set<Tag> tag){
+    public void updateBoard(BoardUpdateRequestDto dto,Set<Image> image, Set<Tag> tag){
         this.content = dto.getContent();
         this.title = dto.getTitle();
         this.price = dto.getPrice();
-        this.user = user;
         this.image = image;
         this.tag = tag;
     }
