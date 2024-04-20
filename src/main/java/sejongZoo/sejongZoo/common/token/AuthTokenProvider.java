@@ -24,7 +24,7 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@SecurityRequirement(name = "Bearer Authentication")
+
 public class AuthTokenProvider {
     @Value("${spring.jwt.secret}")
     private String key;

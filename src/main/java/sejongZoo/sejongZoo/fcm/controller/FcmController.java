@@ -1,6 +1,7 @@
 package sejongZoo.sejongZoo.fcm.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import okhttp3.Response;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/fcm")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer Authentication")
 public class FcmController {
     private final FcmService fcmService;
 

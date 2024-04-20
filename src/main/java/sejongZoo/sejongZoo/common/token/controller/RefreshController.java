@@ -3,6 +3,7 @@ package sejongZoo.sejongZoo.common.token.controller;
 
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import sejongZoo.sejongZoo.common.token.service.RefreshService;
 @RequiredArgsConstructor
 @RequestMapping("/refresh")
 @Tag(name = "리프레쉬 컨트롤러")
+@SecurityRequirement(name = "Bearer Authentication")
 public class RefreshController {
     private final RefreshService refreshService;
     @Operation(summary = "access token 만료시 refresh token을 이용하여 재발급",
