@@ -96,10 +96,12 @@ public class UserServiceImpl implements UserService {
             throw new NicknameNotFound();
         }
 
-        checkNickname(nickname);
-
         User user = userRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new AccountNotFound(studentId));
+
+        if(!user.getStudentId().equals(studentId)) {
+            checkNickname(nickname);
+        }
 
         user.updateInfo(major, nickname);
         userRepository.save(user);
