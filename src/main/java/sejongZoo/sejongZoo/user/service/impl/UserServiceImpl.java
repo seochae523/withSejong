@@ -62,6 +62,14 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    private void checkNickname(String studentId, String nickname){
+        userRepository.findByNickname(nickname).ifPresent(x -> {
+            if(!x.getStudentId().equals(studentId)){
+                throw new DuplicatedNickname(nickname);
+            }
+        });
+    }
+
     @Override
     public DeleteResponseDto delete(String studentId) {
         if(studentId == null){
@@ -96,12 +104,10 @@ public class UserServiceImpl implements UserService {
             throw new NicknameNotFound();
         }
 
+        this.checkNickname(studentId, nickname);
+
         User user = userRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new AccountNotFound(studentId));
-
-        if(!user.getStudentId().equals(studentId)) {
-            checkNickname(nickname);
-        }
 
         user.updateInfo(major, nickname);
         userRepository.save(user);
