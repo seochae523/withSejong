@@ -26,10 +26,7 @@ import sejongZoo.sejongZoo.user.domain.User;
 import sejongZoo.sejongZoo.user.repository.UserRepository;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,7 +39,8 @@ public class BoardServiceImpl implements BoardService{
     private final AmazonS3 amazonS3;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
-
+    @Value("${cloud.aws.s3.url}")
+    private String s3Url;
     @Value("${spring.data.rest.default-page-size}")
     private Integer pageSize;
     @Override
@@ -83,7 +81,7 @@ public class BoardServiceImpl implements BoardService{
                 .orElseThrow(() -> new AccountNotFound(studentId));
         if(images != null) {
             for (MultipartFile image : images) {
-                String originalFilename = image.getOriginalFilename() + studentId;
+                String originalFilename = image.getOriginalFilename() + UUID.randomUUID();
 
                 ObjectMetadata metadata = new ObjectMetadata();
 
@@ -133,7 +131,20 @@ public class BoardServiceImpl implements BoardService{
         if(price == null){
             throw new PriceNotFound();
         }
-
+        // 1. 이미지 추가
+        // 2. 이미지 수정
+        // 3. 이미지 삭제
+        for (ImageUpdateResponseDto imageUpdateResponseDto : image) {
+            Long imageId = imageUpdateResponseDto.getId();
+            String imageUrl = imageUpdateResponseDto.getUrl();
+            if(imageId == null){
+                throw new ImageIdNotFound();
+            }
+            if(imageUrl == null){
+                throw new ImageUrlNotFound();
+            }
+            imageRepository.findById(imageId).orElseThrow(()->new ImageNotFound(imageId));
+        }
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new BoardNotFound(id));
 
@@ -146,8 +157,9 @@ public class BoardServiceImpl implements BoardService{
                 .orElseThrow(() -> new BoardNotFound(id));
 
         board.setDeleted(true);
-
+        boardRepository.save(board);
         return new BoardDeleteResponseDto(board);
+
     }
 
     @Override

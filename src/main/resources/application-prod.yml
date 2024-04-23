@@ -52,7 +52,7 @@ spring:
     header: Authorization
     secret: ${JWT_SECRET}
     # 30 * 60 * 1000 = 30분
-    access-token-expiration-time: 3000
+    access-token-expiration-time: 30000
     # 30 * 24 * 60 * 60 * 1000 = 30일
     refresh-token-expiration-time: 2592000000
   data:
@@ -64,6 +64,7 @@ spring:
 cloud:
   aws:
     s3:
+      url: ${S3_URL}
       bucket: ${S3_BUCKET_NAME}
     stack:
       auto: false
@@ -72,6 +73,8 @@ cloud:
     credentials:
       accessKey: ${S3_ACCESS_KEY}
       secretKey: ${S3_SECRET_KEY}
+
+
 
     dynamodb:
       endpoint: ${DYNAMODB_ENDPOINT}

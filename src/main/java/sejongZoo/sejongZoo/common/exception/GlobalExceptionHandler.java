@@ -159,6 +159,21 @@ public class GlobalExceptionHandler {
         ApiErrorResponse response = new ApiErrorResponse("SEB-006", "Keyword Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(ImageNotFound.class)
+    public ResponseEntity<ApiErrorResponse> emailNotFound(ImageNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEB-007", "Image Not Found. Id : "+ ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(ImageIdNotFound.class)
+    public ResponseEntity<ApiErrorResponse> emailNotFound(ImageIdNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEB-008", "Image Id Not Found. ");
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(ImageUrlNotFound.class)
+    public ResponseEntity<ApiErrorResponse> emailNotFound(ImageUrlNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEB-009", "Image Url Not Found. ");
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
 
     /**
      * SEF -> Sejong Error Faq
