@@ -29,6 +29,7 @@ jobs:
       DYNAMODB_REGION: ${{secrets.DYNAMODB_REGION}}
       DYNAMODB_ACCESS_KEY: ${{secrets.DYNAMODB_ACCESS_KEY}}
       DYNAMODB_SECRET_KEY: ${{secrets.DYNAMODB_SECRET_KEY}}
+      S3_URL: ${{secrets.S3_URL}}
       # WEB_HOOK_URL: ${{secrets.WEB_HOOK_URL}}
       # MAIL_HOST: ${{secrets.MAIL_HOST}}
       # MAIL_PORT: ${{secrets.MAIL_PORT}}
@@ -69,6 +70,7 @@ jobs:
         --build-arg FCM_APP_URL="${{env.FCM_APP_URL}}" \
         --build-arg S3_ACCESS_KEY="${{env.S3_ACCESS_KEY}}" \
         --build-arg S3_SECRET_KEY="${{env.S3_SECRET_KEY}}" \
+        --build-arg S3_URL="${{env.S3_URL}}
         -t ${{ secrets.DOCKERHUB_USERNAME }}/with-sejong .
     # 4. DockerHub 로그인
     - name: docker login
