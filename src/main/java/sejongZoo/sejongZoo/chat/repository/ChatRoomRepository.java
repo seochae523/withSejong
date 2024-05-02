@@ -1,12 +1,21 @@
 package sejongZoo.sejongZoo.chat.repository;
 
-import sejongZoo.sejongZoo.chat.dto.response.ChatRoomResponseDto;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+import sejongZoo.sejongZoo.chat.domain.ChatRoom;
+import sejongZoo.sejongZoo.chat.dto.response.ChatRoomFindResponseDto;
+import sejongZoo.sejongZoo.user.domain.User;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface ChatRoomRepository {
-    void init();
-    List<ChatRoomResponseDto> findAll();
-    ChatRoomResponseDto findRoomById(String roomId);
-    ChatRoomResponseDto createRoom(String name);
+@Repository
+public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
+    @Query("select r from ChatRoom r left join fetch r.publisher p left join fetch r.subscriber s " +
+            "where (s.studentId=:studentId or p.studentId=:studentId) and r.deleted=false")
+    List<ChatRoom> findByStudentId(@Param("studentId") String studentId);
+
+    Optional<ChatRoom> findByRoomId(@Param("roomId") Long roomId);
 }

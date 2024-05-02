@@ -7,6 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import sejongZoo.sejongZoo.common.exception.board.*;
+import sejongZoo.sejongZoo.common.exception.chat.ChatRoomNotFound;
+import sejongZoo.sejongZoo.common.exception.chat.MessageNotFound;
+import sejongZoo.sejongZoo.common.exception.chat.RoomIdNotFound;
+import sejongZoo.sejongZoo.common.exception.chat.SenderNotFound;
+import sejongZoo.sejongZoo.common.exception.chat.ChatCreatedAtNotFound;
 import sejongZoo.sejongZoo.common.exception.faq.*;
 import sejongZoo.sejongZoo.common.exception.token.*;
 import sejongZoo.sejongZoo.common.exception.user.*;
@@ -203,9 +208,38 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(CreatedAtNotFound.class)
-    public ResponseEntity<ApiErrorResponse> FaqContentNotFound(CreatedAtNotFound ex){
-        ApiErrorResponse response = new ApiErrorResponse("SEF-005", "Created At Not Found.");
+    @ExceptionHandler(FaqCreatedAtNotFound.class)
+    public ResponseEntity<ApiErrorResponse> FaqContentNotFound(FaqCreatedAtNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEF-005", "Faq Created At Not Found.");
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * SEC -> Sejong Error Chatting
+     */
+    @ExceptionHandler(ChatRoomNotFound.class)
+    public ResponseEntity<ApiErrorResponse> chatRoomNotFound(ChatRoomNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEC-001", "Chat Room Not Found. Room Id : " + ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(RoomIdNotFound.class)
+    public ResponseEntity<ApiErrorResponse> roomIdNotFound(RoomIdNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEC-002", "Room Id Not Found.");
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(ChatCreatedAtNotFound.class)
+    public ResponseEntity<ApiErrorResponse> createdAtNotFound(ChatCreatedAtNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEC-003", "Chat Created At Not Found.");
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(SenderNotFound.class)
+    public ResponseEntity<ApiErrorResponse> senderNotFound(SenderNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEC-004", "Sender Not Found.");
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(MessageNotFound.class)
+    public ResponseEntity<ApiErrorResponse> messageNotFound(MessageNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEC-005", "Message Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 }

@@ -4,13 +4,18 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.*;
-import sejongZoo.sejongZoo.chat.dto.response.ChatRoomResponseDto;
-import sejongZoo.sejongZoo.chat.dto.MessageDto;
-import sejongZoo.sejongZoo.chat.repository.MemoryChatRoomRepository;
+import sejongZoo.sejongZoo.chat.dto.request.ChatRoomSaveRequestDto;
+import sejongZoo.sejongZoo.chat.dto.response.ChatFindResponseDto;
+import sejongZoo.sejongZoo.chat.dto.response.ChatRoomFindResponseDto;
+import sejongZoo.sejongZoo.chat.dto.request.ChatSaveRequestDto;
+import sejongZoo.sejongZoo.chat.dto.response.ChatSaveResponseDto;
 import sejongZoo.sejongZoo.chat.service.ChatRoomService;
+import sejongZoo.sejongZoo.chat.service.ChatService;
 
 import java.util.List;
 
@@ -19,32 +24,42 @@ import java.util.List;
 @RequestMapping("/user")
 @SecurityRequirement(name = "Bearer Authentication")
 public class ChatController {
-    private final MemoryChatRoomRepository chatRoomService;
-    private final SimpMessageSendingOperations messageSendingOperations;
+    private final ChatRoomService chatRoomService;
 
+    private final ChatService chatService;
     /**
      * 해당 message dynamodb에 저장
      */
-    @MessageMapping("/message")
-    @Operation(summary = "message 전송",
-            description = "채팅방으로 message 전송")
-    public void message(MessageDto message){
-        messageSendingOperations.convertAndSend("/sub/message/" + message.getRoomId(), message);
-    }
+    // /pub/message
 
     @PostMapping("/chat/room")
     @Operation(summary = "채팅방 생성",
             description = "리턴되는 room 번호로 새로운 채팅방 생성")
-    public ChatRoomResponseDto createRoom(@RequestBody ChatRoomResponseDto chatRoomDto){
-        ChatRoomResponseDto room = chatRoomService.createRoom(chatRoomDto.getName());
-        return room;
+    public ResponseEntity<ChatRoomFindResponseDto> createRoom(@RequestBody ChatRoomSaveRequestDto chatRoomSaveRequestDto){
+        return new ResponseEntity(chatRoomService.save(chatRoomSaveRequestDto), HttpStatus.CREATED);
     }
+
     @GetMapping("/chat/rooms")
     @Operation(summary = "모든 채팅방 조회",
             description = "모든 채팅방 조회")
-    public List<ChatRoomResponseDto> findAll(){
-        List<ChatRoomResponseDto> all = chatRoomService.findAll();
-        return all;
+    public ResponseEntity<List<ChatRoomFindResponseDto>> findAll(@RequestParam(name="studentId", required = false) String studentId){
+        return new ResponseEntity(chatRoomService.findByStudentId(studentId), HttpStatus.OK);
+    }
+    @DeleteMapping("/chat/room/delete/{roomId}")
+    @Operation(summary = "채팅방 삭제",
+            description = "해당 room id로 채팅방 삭제")
+    public ResponseEntity deleteChat(@PathVariable Long roomId){
+        chatRoomService.delete(roomId);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+    @PostMapping("/chat")
+    public ResponseEntity<ChatSaveResponseDto> chat(@RequestBody ChatSaveRequestDto chatSaveRequestDto){
+        return new ResponseEntity(chatService.chat(chatSaveRequestDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/chat/{roomId}")
+    public ResponseEntity<List<ChatFindResponseDto>> findAllChat(@PathVariable Long roomId){
+        return new ResponseEntity(chatService.findAll(roomId), HttpStatus.OK);
     }
 
 }

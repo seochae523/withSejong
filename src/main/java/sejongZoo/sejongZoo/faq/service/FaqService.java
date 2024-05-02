@@ -9,7 +9,7 @@ import com.amazonaws.services.dynamodbv2.util.TableUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import sejongZoo.sejongZoo.common.exception.faq.CreatedAtNotFound;
+import sejongZoo.sejongZoo.common.exception.chat.ChatCreatedAtNotFound;
 import sejongZoo.sejongZoo.common.exception.faq.FaqContextNotFound;
 import sejongZoo.sejongZoo.common.exception.faq.FaqIdNotFound;
 import sejongZoo.sejongZoo.common.exception.faq.FaqTitleNotFound;
@@ -21,8 +21,6 @@ import sejongZoo.sejongZoo.faq.dto.response.FaqFindResponseDto;
 import sejongZoo.sejongZoo.faq.dto.response.FaqSaveResponseDto;
 import sejongZoo.sejongZoo.faq.dto.response.FaqUpdateResponseDto;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -87,7 +85,7 @@ public class FaqService {
         }
 
         Faq load = dynamoDBMapper.load(Faq.class, id, createdAt);
-        System.out.println("load = " + load);
+
         load.setContext(context);
         load.setTitle(title);
 
@@ -105,7 +103,7 @@ public class FaqService {
             throw new FaqIdNotFound();
         }
         if(createdAt == null){
-            throw new CreatedAtNotFound();
+            throw new ChatCreatedAtNotFound();
         }
 
         Faq load = dynamoDBMapper.load(Faq.class, id, createdAt);

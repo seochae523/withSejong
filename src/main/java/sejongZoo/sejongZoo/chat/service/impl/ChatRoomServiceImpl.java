@@ -1,90 +1,95 @@
-//package sejongZoo.sejongZoo.chat.service.impl;
-//
-//import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-//import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-//import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
-//import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
-//import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
-//import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
-//import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
-//import com.amazonaws.services.dynamodbv2.util.TableUtils;
-//import lombok.RequiredArgsConstructor;
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.stereotype.Service;
-//import sejongZoo.sejongZoo.chat.domain.ChatRoom;
-//import sejongZoo.sejongZoo.chat.dto.response.ChatRoomResponseDto;
-//import sejongZoo.sejongZoo.chat.service.ChatRoomService;
-//
-//import java.util.ArrayList;
-//import java.util.Date;
-//import java.util.List;
-//import java.util.UUID;
-//import java.util.stream.Collectors;
-//
-//@Service
-//@RequiredArgsConstructor
-//@Slf4j
-//public class ChatRoomServiceImpl implements ChatRoomService {
-//    private final DynamoDBMapper dynamoDBMapper;
-//    private final AmazonDynamoDB amazonDynamoDB;
-//
-//    private void createChatRoomTableIfNotExists() {
-//        CreateTableRequest createTableRequest = dynamoDBMapper.generateCreateTableRequest(ChatRoom.class)
-//                .withProvisionedThroughput(new ProvisionedThroughput(1L, 1L));
-//        TableUtils.createTableIfNotExists(amazonDynamoDB, createTableRequest);
-//    }
-//
-//
-//    @Override
-//    public ChatRoomResponseDto createRoom(String roomName) {
-//        this.createChatRoomTableIfNotExists();
-//        String roomId = UUID.randomUUID().toString();
-//        ChatRoom chatRoom = ChatRoom.builder()
-//                .roomName(roomName)
-//                .roomId(roomId)
-//                .createdAt(new Date())
-//                .chat(new ArrayList<>())
-//                .build();
-//
-//        dynamoDBMapper.save(chatRoom);
-//
-//        return ChatRoomResponseDto.builder()
-//                .name(roomName)
-//                .roomId(roomId)
-//                .build();
-//    }
-//
-//    @Override
-//    public ChatRoomResponseDto removeRoom(String roomId) {
-//        return null;
-//    }
-//
-//    @Override
-//    public ChatRoomResponseDto findByRoomId(String roomId) {
-//        ChatRoom target = ChatRoom.builder().roomId(roomId).build();
-//
-//        DynamoDBQueryExpression<ChatRoom> queryExpression = new DynamoDBQueryExpression().withHashKeyValues(target);
-//        List<ChatRoom> result = dynamoDBMapper.query(ChatRoom.class, queryExpression);
-//
-//        if(result.size()==0){
-//            // exception
-//        }
-//        ChatRoom chatRoom = result.get(0);
-//
-//        return ChatRoomResponseDto.builder()
-//                .roomId(chatRoom.getRoomId())
-//                .name(chatRoom.getRoomName())
-//                .build();
-//    }
-//
-//    @Override
-//    public List<ChatRoomResponseDto> findAll(){
-//        DynamoDBScanExpression dynamoDBScanExpression = new DynamoDBScanExpression();
-//
-//        List<ChatRoom> load = dynamoDBMapper.scan(ChatRoom.class, dynamoDBScanExpression);
-//
-//        return load.stream()
-//                .map(ChatRoomResponseDto::new)
-//                .collect(Collectors.toList());
-//    }
-//}
+package sejongZoo.sejongZoo.chat.service.impl;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import sejongZoo.sejongZoo.chat.domain.ChatRoom;
+import sejongZoo.sejongZoo.chat.dto.request.ChatRoomSaveRequestDto;
+import sejongZoo.sejongZoo.chat.dto.response.ChatRoomFindResponseDto;
+import sejongZoo.sejongZoo.chat.dto.response.ChatRoomSaveResponseDto;
+import sejongZoo.sejongZoo.chat.repository.ChatRoomRepository;
+import sejongZoo.sejongZoo.chat.service.ChatRoomService;
+import sejongZoo.sejongZoo.common.exception.chat.ChatRoomNotFound;
+import sejongZoo.sejongZoo.common.exception.chat.RoomIdNotFound;
+import sejongZoo.sejongZoo.common.exception.user.AccountNotFound;
+import sejongZoo.sejongZoo.common.exception.user.StudentIdNotFound;
+import sejongZoo.sejongZoo.user.domain.User;
+import sejongZoo.sejongZoo.user.repository.UserRepository;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class ChatRoomServiceImpl implements ChatRoomService {
+    private final UserRepository userRepository;
+    private final ChatRoomRepository chatRoomRepository;
+    @Override
+    public ChatRoomSaveResponseDto save(ChatRoomSaveRequestDto chatRoomSaveRequestDto) {
+        String publisher = chatRoomSaveRequestDto.getPublisher();
+        String subscriber = chatRoomSaveRequestDto.getSubscriber();
+        if(publisher == null || subscriber == null){
+            throw new StudentIdNotFound();
+        }
+        Date createdAt = new Date();
+
+        User pub = userRepository.findByStudentId(publisher)
+                .orElseThrow(() -> new AccountNotFound(publisher));
+        User sub = userRepository.findByStudentId(subscriber)
+                .orElseThrow(() -> new AccountNotFound(subscriber));
+
+        ChatRoom build = ChatRoom.builder()
+                .publisher(pub)
+                .subscriber(sub)
+                .createdAt(createdAt)
+                .deleted(false)
+                .build();
+
+        chatRoomRepository.save(build);
+
+        return ChatRoomSaveResponseDto.builder()
+                .publisher(publisher)
+                .subscriber(subscriber)
+                .createdAt(createdAt)
+                .build();
+
+    }
+
+    @Override
+    public void delete(Long roomId) {
+        if(roomId == null){
+            throw new RoomIdNotFound();
+        }
+
+        ChatRoom chatRoom = chatRoomRepository.findByRoomId(roomId)
+                .orElseThrow(() -> new ChatRoomNotFound(roomId));
+
+        chatRoom.setDeleted(true);
+        chatRoomRepository.save(chatRoom);
+    }
+
+    @Override
+    public List<ChatRoomFindResponseDto> findByStudentId(String studentId) {
+        if(studentId == null){
+            throw new StudentIdNotFound();
+        }
+
+        List<ChatRoom> chatRooms = chatRoomRepository.findByStudentId(studentId);
+        List<ChatRoomFindResponseDto> result = new ArrayList<>();
+        for (ChatRoom chatRoom : chatRooms) {
+            ChatRoomFindResponseDto build = ChatRoomFindResponseDto.builder()
+                    .roomId(chatRoom.getRoomId())
+                    .publisher(chatRoom.getPublisher().getStudentId())
+                    .subscriber(chatRoom.getSubscriber().getStudentId())
+                    .createdAt(chatRoom.getCreatedAt()).build();
+
+            result.add(build);
+        }
+
+        return result;
+    }
+
+
+}

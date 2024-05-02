@@ -1,16 +1,17 @@
 package sejongZoo.sejongZoo.chat.dto.response;
 
+
 import lombok.*;
 
 import java.util.Date;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class ChatRoomCreateResponseDto {
-    private Long roomId;
-    private String studentId;
+@AllArgsConstructor
+@NoArgsConstructor
+public class ChatRoomSaveResponseDto {
+    private String publisher;
+    private String subscriber;
     private Date createdAt;
 }

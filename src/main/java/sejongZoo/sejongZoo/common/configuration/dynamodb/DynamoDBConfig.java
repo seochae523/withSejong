@@ -1,4 +1,4 @@
-package sejongZoo.sejongZoo.common.configuration;
+package sejongZoo.sejongZoo.common.configuration.dynamodb;
 
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;

@@ -1,4 +1,4 @@
-package sejongZoo.sejongZoo.chat.dto;
+package sejongZoo.sejongZoo.chat.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class MessageDto {
-    private String roomId;
+public class ChatSaveRequestDto {
+    private Long roomId;
     private String sender;
     private String message;
 
     @Builder
-    public MessageDto(String roomId, String sender, String message) {
+    public ChatSaveRequestDto(Long roomId, String sender, String message) {
         this.roomId = roomId;
         this.sender = sender;
         this.message = message;

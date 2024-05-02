@@ -5,28 +5,46 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import sejongZoo.sejongZoo.user.domain.User;
 
 import java.util.Date;
 import java.util.List;
 
 @Getter
-@Setter // Setters are used in aws-dynamodb-sdk
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@DynamoDBTable(tableName = "chat_room")
+@Entity
+@Table(name="chat_room")
 public class ChatRoom {
-    @DynamoDBAttribute(attributeName = "room_id")
-    @DynamoDBHashKey
-    private String roomId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="room_id")
+    private Long roomId;
 
-    @DynamoDBAttribute(attributeName = "room_name")
-    private String roomName;
-    @DynamoDBAttribute(attributeName = "chat")
-    private List<Chat> chat;
-
-    @DynamoDBAttribute(attributeName = "created_at")
-    @DynamoDBRangeKey
+    @NotNull
+    @Column(name="created_at")
     private Date createdAt;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "publisher_id")
+    private User publisher;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "subscriber_id")
+    private User subscriber;
+
+    @NotNull
+    @ColumnDefault("false")
+    private Boolean deleted;
+
+    public void setDeleted(Boolean deleted){
+        this.deleted = deleted;
+    }
 }

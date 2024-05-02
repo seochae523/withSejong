@@ -1,4 +1,4 @@
-package sejongZoo.sejongZoo.common.exception.faq;
+package sejongZoo.sejongZoo.common.exception.board;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 @Getter
-public class CreatedAtNotFound extends RuntimeException{
-    public CreatedAtNotFound() {
+public class BoardCreatedAtNotFound extends RuntimeException{
+    public BoardCreatedAtNotFound() {
         super();
     }
 }

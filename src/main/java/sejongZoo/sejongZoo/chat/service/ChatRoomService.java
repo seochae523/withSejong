@@ -1,13 +1,13 @@
 package sejongZoo.sejongZoo.chat.service;
 
-import sejongZoo.sejongZoo.chat.dto.response.ChatRoomCreateResponseDto;
-import sejongZoo.sejongZoo.chat.dto.response.ChatRoomResponseDto;
+import sejongZoo.sejongZoo.chat.dto.request.ChatRoomSaveRequestDto;
+import sejongZoo.sejongZoo.chat.dto.response.ChatRoomFindResponseDto;
+import sejongZoo.sejongZoo.chat.dto.response.ChatRoomSaveResponseDto;
 
 import java.util.List;
 
 public interface ChatRoomService {
-    ChatRoomResponseDto createRoom(String roomName);
-    ChatRoomResponseDto removeRoom(String roomId);
-    ChatRoomResponseDto findByRoomId(String roomId);
-    List<ChatRoomResponseDto> findAll();
+    ChatRoomSaveResponseDto save(ChatRoomSaveRequestDto chatRoomSaveRequestDto);
+    void delete(Long roomId);
+    List<ChatRoomFindResponseDto> findByStudentId(String studentId);
 }

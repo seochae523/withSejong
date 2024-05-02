@@ -41,12 +41,12 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request){
-
         String[] excludePath = {"/login", "/signup",
                 "/refresh", "/v3/api-docs/**",
                 "/swagger-ui/**",
-                "/check-student-id", "/check-nickname", "/change-forget-password", "/find-nickname"
-                };
+                "/check-student-id", "/check-nickname", "/change-forget-password", "/find-nickname",
+                "/ws/chat"
+        };
         // jwt 인증 미 실시 토큰
 
         String path = request.getRequestURI();

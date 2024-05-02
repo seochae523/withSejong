@@ -33,9 +33,12 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers( "/find-nickname", "/login", "/signup", "/swagger-ui/**", "/v3/api-docs/**", "/check-nickname", "/check-student-id", "/change-forget-password", "/refresh").permitAll()
+                .requestMatchers( "/find-nickname", "/login", "/signup", "/swagger-ui/**", "/v3/api-docs/**", "/check-nickname",
+                        "/check-student-id", "/change-forget-password", "/refresh","/ws/chat"
+                ).permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/user/**").hasRole("USER")
+
                 .and()
                 .addFilterBefore(new JwtFilter(authTokenProvider), UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();

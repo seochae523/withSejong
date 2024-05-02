@@ -1,4 +1,4 @@
-package sejongZoo.sejongZoo.common.configuration;
+package sejongZoo.sejongZoo.common.configuration.chat;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +17,9 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 public class StompHandler implements ChannelInterceptor {
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
-        //log.info("Stomp Handler 실행");
+        log.info("Stomp Handler 실행");
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(message);
+        log.info("header : {}", headerAccessor.getMessageHeaders().toString());
         // 헤더 토큰 얻기
         //String authorizationHeader = String.valueOf(headerAccessor.getNativeHeader("Authorization"));
         return message;
