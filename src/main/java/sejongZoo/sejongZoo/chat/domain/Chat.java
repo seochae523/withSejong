@@ -25,7 +25,7 @@ public class Chat {
     private String message;
 
     @DynamoDBAttribute
-    @DynamoDBRangeKey
+    @DynamoDBRangeKey(attributeName = "created_at")
     private Date createdAt;
 
 }
