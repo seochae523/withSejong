@@ -93,16 +93,16 @@ jobs:
       # 1. 최신 이미지를 풀받습니다
       - name: docker pull
         run: sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/with-sejong
-      
+     
       # 2. 기존의 컨테이너를 중지시킵니다
       - name: docker stop container
         run: sudo docker stop $(sudo docker ps -q) 2>/dev/null || true
-
+        
+      - name: run kafka
+        run: sudo docker-compose up -d
       # 3. 최신 이미지를 컨테이너화하여 실행시킵니다
       - name: docker run new container
-        run: | 
-          sudo docker run -d -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/with-sejong \
-          sudo docker-compose up -d
+        run: sudo docker run -d -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/with-sejong 
               
 
       # 4. 미사용 이미지를 정리합니다
