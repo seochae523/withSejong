@@ -66,9 +66,6 @@ public class ChatServiceImpl implements ChatService{
         KafkaChatDto kafkaChatDto = new KafkaChatDto(chatSaveRequestDto, createdAt);
         this.createChatTableIfNotExists();
 
-        /**
-         * consume 체크하고
-         */
         this.send(KafkaConst.TOPIC, kafkaChatDto);
 
         Chat chat = Chat.builder()
