@@ -26,8 +26,7 @@ public class BoardSaveRequestDto {
     private String studentId;
     @Schema(description = "가격", example = "2999999")
     private Integer price;
-    @Schema(description = "이미지", example = "파일임 json 아님")
-    private Set<MultipartFile> images;
+
     public Board toEntity(User user, Set<Image> images){
         return Board.builder()
                 .content(content)
