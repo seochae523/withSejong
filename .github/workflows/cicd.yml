@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: move dir
         run: cd ~/withSejong
+      - name: ls
+        run: ls
       - name: git pull
         run: git pull
       - name: build
