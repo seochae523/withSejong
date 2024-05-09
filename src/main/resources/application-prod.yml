@@ -84,8 +84,6 @@ cloud:
       accessKey: ${S3_ACCESS_KEY}
       secretKey: ${S3_SECRET_KEY}
 
-
-
     dynamodb:
       endpoint: ${DYNAMODB_ENDPOINT}
       region: ${DYNAMODB_REGION}
