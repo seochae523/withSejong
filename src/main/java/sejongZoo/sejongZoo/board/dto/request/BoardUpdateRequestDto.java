@@ -20,6 +20,12 @@ public class BoardUpdateRequestDto {
     private String title;
     @Schema(description = "업데이트 할 가격", example = "12312321213123")
     private Integer price;
-    @Schema(description = "업데이트 할 이미지", example = "파일임 json 아님")
-    private List<ImageUpdateResponseDto> imageUpdateResponseDto;
+    @Schema(description = "학번", example = "19011723")
+    private String studentId;
+    @Schema(description = "지울 이미지 id", example = "[1]")
+    private List<Long> imageId;
+    @Schema(description = "지울 테그 id", example = "[1]")
+    private List<Long> tagId;
+    @Schema(description = "새로 넣을 테그 카테고리", example = "[컴공]")
+    private List<String> newTagCategory;
 }

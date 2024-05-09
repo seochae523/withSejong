@@ -15,10 +15,11 @@ import sejongZoo.sejongZoo.board.domain.Image;
 import sejongZoo.sejongZoo.board.domain.Tag;
 import sejongZoo.sejongZoo.board.dto.request.BoardSaveRequestDto;
 import sejongZoo.sejongZoo.board.dto.request.BoardUpdateRequestDto;
-import sejongZoo.sejongZoo.board.dto.request.ImageUpdateResponseDto;
+import sejongZoo.sejongZoo.board.dto.response.ImageUpdateResponseDto;
 import sejongZoo.sejongZoo.board.dto.response.*;
 import sejongZoo.sejongZoo.board.repository.BoardRepository;
 import sejongZoo.sejongZoo.board.repository.ImageRepository;
+import sejongZoo.sejongZoo.board.repository.TagRepository;
 import sejongZoo.sejongZoo.common.exception.board.*;
 import sejongZoo.sejongZoo.common.exception.user.AccountNotFound;
 import sejongZoo.sejongZoo.common.exception.user.StudentIdNotFound;
@@ -36,6 +37,7 @@ public class BoardServiceImpl implements BoardService{
     private final UserRepository userRepository;
     private final BoardRepository boardRepository;
     private final ImageRepository imageRepository;
+    private final TagRepository tagRepository;
     private final AmazonS3 amazonS3;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -110,7 +112,7 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public BoardUpdateResponseDto update(BoardUpdateRequestDto boardUpdateRequestDto) {
+    public BoardUpdateResponseDto update(List<MultipartFile> multipartFile, BoardUpdateRequestDto boardUpdateRequestDto) throws IOException {
         // 1. 유저 검증
         // 2. board 찾기
         // 3. 이미지 찾기
@@ -118,7 +120,16 @@ public class BoardServiceImpl implements BoardService{
         String title = boardUpdateRequestDto.getTitle();
         String content = boardUpdateRequestDto.getContent();
         Integer price = boardUpdateRequestDto.getPrice();
-        List<ImageUpdateResponseDto> image = boardUpdateRequestDto.getImageUpdateResponseDto();
+        String studentId = boardUpdateRequestDto.getStudentId();
+        List<Long> imageIds = boardUpdateRequestDto.getImageId();
+        List<Long> tagIds = boardUpdateRequestDto.getTagId();
+        List<String> newTagCategories = boardUpdateRequestDto.getNewTagCategory();
+        List<MultipartFile> images = multipartFile;
+        List<ImageUpdateResponseDto> imageUpdateResponseDto = new ArrayList<>();
+        List<TagUpdateResponseDto> tagUpdateResponseDto = new ArrayList<>();
+        Set<Image> imageResult = new HashSet<>();
+        Set<Tag> tagResult = new HashSet<>();
+
         if(id == null){
             throw new BoardIdNotFound();
         }
@@ -131,24 +142,92 @@ public class BoardServiceImpl implements BoardService{
         if(price == null){
             throw new PriceNotFound();
         }
-        // 1. 이미지 추가
-        // 2. 이미지 수정
-        // 3. 이미지 삭제
-        for (ImageUpdateResponseDto imageUpdateResponseDto : image) {
-            Long imageId = imageUpdateResponseDto.getId();
-            String imageUrl = imageUpdateResponseDto.getUrl();
-            if(imageId == null){
-                throw new ImageIdNotFound();
-            }
-            if(imageUrl == null){
-                throw new ImageUrlNotFound();
-            }
-            imageRepository.findById(imageId).orElseThrow(()->new ImageNotFound(imageId));
+        if(studentId == null){
+            throw new StudentIdNotFound();
         }
+
+        // 1. 이미지 추가
+        // 2. 이미지 수정 -> 얘는 근데 삭제하고 다시 올리는거잖슴 따라서 필요 없다
+        // 3. 이미지 삭제
+        // --------------- 이미지 업데이트 시작
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new BoardNotFound(id));
 
-        return null;
+        for (Long imageId : imageIds) {
+            Image image = imageRepository.
+                    findById(imageId).orElseThrow(() -> new ImageNotFound(imageId));
+            imageRepository.delete(image);
+            String url = image.getUrl();
+            amazonS3.deleteObject(bucket, url.split("/")[3]);
+            imageUpdateResponseDto.add(ImageUpdateResponseDto.builder()
+                    .id(image.getId())
+                    .url(url)
+                    .status("deleted").build());
+
+        }
+
+        if(images != null) {
+            for (MultipartFile image : images) {
+                String originalFilename = image.getOriginalFilename() + UUID.randomUUID();
+
+                ObjectMetadata metadata = new ObjectMetadata();
+
+                metadata.setContentLength(image.getSize());
+                metadata.setContentType(image.getContentType());
+
+                amazonS3.putObject(bucket, originalFilename, image.getInputStream(), metadata);
+                String url = amazonS3.getUrl(bucket, originalFilename).toString();
+
+                Image save = imageRepository.save(Image.builder()
+                        .url(url)
+                        .build());
+
+                imageResult.add(save);
+                imageUpdateResponseDto.add(ImageUpdateResponseDto.builder()
+                                .id(save.getId())
+                                .status("added")
+                                .url(url)
+                                .build());
+            }
+        }
+        // --------------- 이미지 업데이트 끝
+
+        // --------------- 테그 업데이트 시작
+        for (Long tagId : tagIds) {
+            Tag tag = tagRepository.findById(tagId).orElseThrow(() -> new TagNotFound(tagId));
+            tagRepository.delete(tag);
+            tagUpdateResponseDto.add(TagUpdateResponseDto.builder()
+                            .id(tag.getId())
+                            .category(tag.getCategory())
+                            .status("deleted")
+                            .build());
+
+        }
+        for (String newTagCategory : newTagCategories) {
+            Tag save = tagRepository.save(Tag.builder()
+                    .category(newTagCategory)
+                    .board(board)
+                    .build());
+
+            tagResult.add(save);
+
+            tagUpdateResponseDto.add(TagUpdateResponseDto.builder()
+                            .id(save.getId())
+                            .status("added")
+                            .category(newTagCategory)
+                            .build());
+        }
+        board.updateBoard(boardUpdateRequestDto, imageResult, tagResult);
+
+        boardRepository.save(board);
+
+        return BoardUpdateResponseDto.builder()
+                .tag(tagUpdateResponseDto)
+                .image(imageUpdateResponseDto)
+                .content(content)
+                .price(price)
+                .title(title)
+                .build();
     }
 
     @Override

@@ -17,10 +17,12 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import sejongZoo.sejongZoo.chat.domain.Chat;
 
+import sejongZoo.sejongZoo.chat.domain.ChatRoom;
 import sejongZoo.sejongZoo.chat.dto.KafkaChatDto;
 import sejongZoo.sejongZoo.chat.dto.request.ChatSaveRequestDto;
 import sejongZoo.sejongZoo.chat.dto.response.ChatFindResponseDto;
 import sejongZoo.sejongZoo.chat.dto.response.ChatSaveResponseDto;
+import sejongZoo.sejongZoo.chat.repository.ChatRoomRepository;
 import sejongZoo.sejongZoo.chat.service.ChatService;
 import sejongZoo.sejongZoo.common.util.KafkaConst;
 import sejongZoo.sejongZoo.common.exception.chat.MessageNotFound;
@@ -41,6 +43,7 @@ public class ChatServiceImpl implements ChatService{
     private final AmazonDynamoDB amazonDynamoDB;
     private final KafkaTemplate<String, KafkaChatDto> kafkaTemplate;
     private final SimpMessagingTemplate template;
+    private final ChatRoomRepository chatRoomRepository;
     private void createChatTableIfNotExists() {
         CreateTableRequest createTableRequest = dynamoDBMapper.generateCreateTableRequest(Chat.class)
                 .withProvisionedThroughput(new ProvisionedThroughput(1L, 1L));

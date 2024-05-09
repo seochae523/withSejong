@@ -11,8 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sejongZoo.sejongZoo.board.dto.request.BoardSaveRequestDto;
+import sejongZoo.sejongZoo.board.dto.request.BoardUpdateRequestDto;
 import sejongZoo.sejongZoo.board.dto.response.BoardFindResponseDto;
 import sejongZoo.sejongZoo.board.dto.response.BoardSaveResponseDto;
+import sejongZoo.sejongZoo.board.dto.response.BoardUpdateResponseDto;
 import sejongZoo.sejongZoo.board.service.BoardService;
 
 import java.io.IOException;
@@ -20,7 +22,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/board")
+@RequestMapping("/user/board")
 @Tag(name = "board")
 @SecurityRequirement(name = "Bearer Authentication")
 public class BoardController {
@@ -54,5 +56,16 @@ public class BoardController {
     public ResponseEntity<List<BoardFindResponseDto>> search(@RequestParam(value = "keyword", required = false) String keyword,
                                                              @RequestParam(value = "page", defaultValue = "0") Integer page){
         return new ResponseEntity(boardService.search(keyword, page), HttpStatus.OK);
+    }
+    @Operation(summary = "게시글 업데이트",
+            description = "게시글 업데이트")
+    @PutMapping("/update")
+    @Parameters({
+            @Parameter(name = "file", description = "파일임 url xx"),
+            @Parameter(name = "request", description = "업데이트에 필요한 json 데이터들")
+    })
+    public ResponseEntity<BoardUpdateResponseDto> update(@RequestPart(value = "file", required = false) List<MultipartFile> multipartFile,
+                                                         @RequestPart(value = "request", required = false) BoardUpdateRequestDto boardUpdateRequestDto) throws IOException {
+        return new ResponseEntity(boardService.update(multipartFile, boardUpdateRequestDto), HttpStatus.OK);
     }
 }

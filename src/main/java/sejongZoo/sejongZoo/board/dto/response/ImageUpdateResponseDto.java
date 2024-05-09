@@ -1,4 +1,4 @@
-package sejongZoo.sejongZoo.board.dto.request;
+package sejongZoo.sejongZoo.board.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -15,4 +15,6 @@ public class ImageUpdateResponseDto {
     private Long id;
     @Schema(description = "업데이트 된 이미지 url", example = "ex.ex.com")
     private String url;
+    @Schema(description = "업데이트 된 이미지 상태 deleted = 삭제된것, added = 추가된것", example = "deleted")
+    private String status;
 }

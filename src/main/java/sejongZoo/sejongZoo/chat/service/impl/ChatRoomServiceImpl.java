@@ -37,6 +37,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
         User pub = userRepository.findByStudentId(publisher)
                 .orElseThrow(() -> new AccountNotFound(publisher));
+
         User sub = userRepository.findByStudentId(subscriber)
                 .orElseThrow(() -> new AccountNotFound(subscriber));
 

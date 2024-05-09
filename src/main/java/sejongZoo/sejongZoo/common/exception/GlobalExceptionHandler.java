@@ -25,34 +25,34 @@ public class GlobalExceptionHandler {
      * SET -> Sejong Error Token
      */
     @ExceptionHandler(InvalidJwtToken.class)
-    public ResponseEntity<ApiErrorResponse> invalidJwtToken(InvalidJwtToken ex){
+    public ResponseEntity<ApiErrorResponse> handleException(InvalidJwtToken ex){
         ApiErrorResponse response = new ApiErrorResponse("SET-001", "Invalid JWT Token. Token : " + ex.getMessage());
 
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(TokenExpired.class)
-    public ResponseEntity<ApiErrorResponse> tokenExpired(TokenExpired ex){
+    public ResponseEntity<ApiErrorResponse> handleException(TokenExpired ex){
         ApiErrorResponse response = new ApiErrorResponse("SET-002", "Token Has Been Expired. Token : " + ex.getMessage());
 
         return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
     }
 
     @ExceptionHandler(InvalidRefreshToken.class)
-    public ResponseEntity<ApiErrorResponse> invalidRefreshToken(InvalidRefreshToken ex){
+    public ResponseEntity<ApiErrorResponse> handleException(InvalidRefreshToken ex){
         ApiErrorResponse response = new ApiErrorResponse("SET-003", "Invalid Refresh Token. Token : "+ ex.getMessage());
 
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(RefreshTokenNotFound.class)
-    public ResponseEntity<ApiErrorResponse> refreshTokenNotFound(RefreshTokenNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(RefreshTokenNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SET-004", "Refresh Token Not Found : " + ex.getMessage());
 
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(IncorrectRefreshToken.class)
-    public ResponseEntity<ApiErrorResponse> incorrectRefreshToken(IncorrectRefreshToken ex){
+    public ResponseEntity<ApiErrorResponse> handleException(IncorrectRefreshToken ex){
         ApiErrorResponse response = new ApiErrorResponse("SET-005", "Incorrect Refresh Token. Token : " + ex.getMessage());
 
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
@@ -133,50 +133,55 @@ public class GlobalExceptionHandler {
      */
 
     @ExceptionHandler(ContentNotFound.class)
-    public ResponseEntity<ApiErrorResponse> emailNotFound(ContentNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(ContentNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEB-001", "Content Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(TitleNotFound.class)
-    public ResponseEntity<ApiErrorResponse> emailNotFound(TitleNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(TitleNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEB-002", "Title Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(PriceNotFound.class)
-    public ResponseEntity<ApiErrorResponse> emailNotFound(PriceNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(PriceNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEB-003", "Price Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(BoardNotFound.class)
-    public ResponseEntity<ApiErrorResponse> emailNotFound(BoardNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(BoardNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEB-004", "Board Not Found. Board id : "+ ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(BoardIdNotFound.class)
-    public ResponseEntity<ApiErrorResponse> emailNotFound(BoardIdNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(BoardIdNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEB-005", "Board Id Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(KeywordNotFound.class)
-    public ResponseEntity<ApiErrorResponse> emailNotFound(KeywordNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(KeywordNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEB-006", "Keyword Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(ImageNotFound.class)
-    public ResponseEntity<ApiErrorResponse> emailNotFound(ImageNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(ImageNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEB-007", "Image Not Found. Id : "+ ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(ImageIdNotFound.class)
-    public ResponseEntity<ApiErrorResponse> emailNotFound(ImageIdNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(ImageIdNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEB-008", "Image Id Not Found. ");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(ImageUrlNotFound.class)
-    public ResponseEntity<ApiErrorResponse> emailNotFound(ImageUrlNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(ImageUrlNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEB-009", "Image Url Not Found. ");
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(TagNotFound.class)
+    public ResponseEntity<ApiErrorResponse> handleException(TagNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEB-010", "Tag Not Found. Tag Id : " + ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
@@ -185,31 +190,31 @@ public class GlobalExceptionHandler {
      */
 
     @ExceptionHandler(FaqContextNotFound.class)
-    public ResponseEntity<ApiErrorResponse> FaqContentNotFound(FaqContextNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(FaqContextNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEF-001", "Faq Context Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(FaqIdNotFound.class)
-    public ResponseEntity<ApiErrorResponse> FaqIdNotFound(FaqIdNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(FaqIdNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEF-002", "Faq Id Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(FaqTitleNotFound.class)
-    public ResponseEntity<ApiErrorResponse> FaqTitleNotFound(FaqTitleNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(FaqTitleNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEF-003", "Faq Title Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(FaqNotFound.class)
-    public ResponseEntity<ApiErrorResponse> FaqContentNotFound(FaqNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(FaqNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEF-004", "Faq Not Found. Id : " + ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(FaqCreatedAtNotFound.class)
-    public ResponseEntity<ApiErrorResponse> FaqContentNotFound(FaqCreatedAtNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(FaqCreatedAtNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEF-005", "Faq Created At Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
@@ -218,27 +223,27 @@ public class GlobalExceptionHandler {
      * SEC -> Sejong Error Chatting
      */
     @ExceptionHandler(ChatRoomNotFound.class)
-    public ResponseEntity<ApiErrorResponse> chatRoomNotFound(ChatRoomNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(ChatRoomNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEC-001", "Chat Room Not Found. Room Id : " + ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(RoomIdNotFound.class)
-    public ResponseEntity<ApiErrorResponse> roomIdNotFound(RoomIdNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(RoomIdNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEC-002", "Room Id Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(ChatCreatedAtNotFound.class)
-    public ResponseEntity<ApiErrorResponse> createdAtNotFound(ChatCreatedAtNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(ChatCreatedAtNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEC-003", "Chat Created At Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(SenderNotFound.class)
-    public ResponseEntity<ApiErrorResponse> senderNotFound(SenderNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(SenderNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEC-004", "Sender Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(MessageNotFound.class)
-    public ResponseEntity<ApiErrorResponse> messageNotFound(MessageNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(MessageNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEC-005", "Message Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }

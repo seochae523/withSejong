@@ -12,7 +12,7 @@ public interface BoardService {
     List<BoardFindResponseDto> findAll(Integer page);
 
     BoardSaveResponseDto save(List<MultipartFile> multipartFile, BoardSaveRequestDto boardSaveRequestDto) throws IOException;
-    BoardUpdateResponseDto update(BoardUpdateRequestDto boardUpdateRequestDto);
+    BoardUpdateResponseDto update(List<MultipartFile> multipartFile, BoardUpdateRequestDto boardUpdateRequestDto) throws IOException;
     BoardDeleteResponseDto delete(Long id);
 
     List<BoardFindResponseDto> search(String keyword, Integer page);
