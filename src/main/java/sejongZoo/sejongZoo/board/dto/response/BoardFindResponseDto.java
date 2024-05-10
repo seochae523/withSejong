@@ -19,6 +19,8 @@ public class BoardFindResponseDto {
     private String title;
     @Schema(description = "가격", example = "12321123")
     private Integer price;
+    @Schema(description = "내용", example = "뭘 팔까요")
+    private String content;
     @Schema(description = "학번", example = "example")
     private String studentId;
     @Schema(description = "작성일", example = "2024-04-14T17:21:33.975Z")
@@ -33,6 +35,7 @@ public class BoardFindResponseDto {
         this.price = board.getPrice();
         this.studentId = board.getUser().getStudentId();
         this.createdAt = board.getCreatedAt();
+        this.content = board.getContent();
         if(board.getImage().isEmpty()){
             this.image = new HashSet<>();
         }
