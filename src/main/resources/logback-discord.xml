@@ -6,14 +6,14 @@
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%d{HH:mm:ss} [%thread] [%-5level] - %msg%n%ex{full}</pattern>
         </layout>
-        <username>HealthMe-logback</username>
+        <username>withSejong-logback</username>
         <avatarUrl>https://cdn-icons-png.flaticon.com/512/1383/1383395.png</avatarUrl>
         <tts>false</tts>
     </appender>
 
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
+            <pattern>%d{HH:mm:ss} [%thread] [%-5level] - %msg%n%ex{full}</pattern>
             <charset>utf8</charset>
         </encoder>
     </appender>
