@@ -92,10 +92,10 @@ cloud:
 
 
 
-#logging:
-#  discord:
-#    webhook-url: ${WEB_HOOK_URL}
-#  config: classpath:logback-discord.xml
+logging:
+  discord:
+    webhook-url: ${WEB_HOOK_URL}
+  config: classpath:logback-discord.xml
 
 firebase:
   url: ${FCM_APP_URL}
