@@ -83,7 +83,7 @@ public class BoardServiceImpl implements BoardService{
                 .orElseThrow(() -> new AccountNotFound(studentId));
         if(images != null) {
             for (MultipartFile image : images) {
-                String originalFilename = image.getOriginalFilename() + UUID.randomUUID();
+                String originalFilename = UUID.randomUUID()+ image.getOriginalFilename();
 
                 ObjectMetadata metadata = new ObjectMetadata();
 
@@ -168,7 +168,7 @@ public class BoardServiceImpl implements BoardService{
 
         if(images != null) {
             for (MultipartFile image : images) {
-                String originalFilename = image.getOriginalFilename() + UUID.randomUUID();
+                String originalFilename =  UUID.randomUUID() + image.getOriginalFilename();
 
                 ObjectMetadata metadata = new ObjectMetadata();
 
