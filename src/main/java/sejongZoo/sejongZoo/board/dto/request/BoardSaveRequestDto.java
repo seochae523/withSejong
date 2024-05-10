@@ -27,7 +27,6 @@ public class BoardSaveRequestDto {
     @Schema(description = "가격", example = "2999999")
     private Integer price;
 
-    private List<MultipartFile> image;
     public Board toEntity(User user, Set<Image> images){
         return Board.builder()
                 .content(content)
