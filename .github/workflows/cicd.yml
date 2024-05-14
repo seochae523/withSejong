@@ -75,7 +75,7 @@ jobs:
         --build-arg MAIL_PORT="{{env.MAIL_PORT}}" \
         --build-arg MAIL_HOST="{{env.MAIL_HOST}}" \
         --build-arg MAIL_USER_NAME="{{env.MAIL_USER_NAME}}" \
-        --build-arg MAIL_PASSWORD="{{env.MAIL_PASSWORD}} \
+        --build-arg MAIL_PASSWORD="{{env.MAIL_PASSWORD}}" \
         -t ${{ secrets.DOCKERHUB_USERNAME }}/with-sejong .
     # 4. DockerHub 로그인
     - name: docker login
