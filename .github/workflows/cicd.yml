@@ -71,11 +71,11 @@ jobs:
         --build-arg S3_ACCESS_KEY="${{env.S3_ACCESS_KEY}}" \
         --build-arg S3_SECRET_KEY="${{env.S3_SECRET_KEY}}" \
         --build-arg S3_URL="${{env.S3_URL}}" \
-        --build-arg WEB_HOOK_URL="{{env.WEB_HOOK_URL}}" \
-        --build-arg MAIL_PORT="{{env.MAIL_PORT}}" \
-        --build-arg MAIL_HOST="{{env.MAIL_HOST}}" \
-        --build-arg MAIL_USER_NAME="{{env.MAIL_USER_NAME}}" \
-        --build-arg MAIL_PASSWORD="{{env.MAIL_PASSWORD}}" \
+        --build-arg WEB_HOOK_URL="${{env.WEB_HOOK_URL}}" \
+        --build-arg MAIL_PORT="${{env.MAIL_PORT}}" \
+        --build-arg MAIL_HOST="${{env.MAIL_HOST}}" \
+        --build-arg MAIL_USER_NAME="${{env.MAIL_USER_NAME}}" \
+        --build-arg MAIL_PASSWORD="${{env.MAIL_PASSWORD}}" \
         -t ${{ secrets.DOCKERHUB_USERNAME }}/with-sejong .
     # 4. DockerHub 로그인
     - name: docker login
