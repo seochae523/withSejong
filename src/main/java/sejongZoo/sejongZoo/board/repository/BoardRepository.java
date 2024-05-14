@@ -5,7 +5,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 import sejongZoo.sejongZoo.board.domain.Board;
 
@@ -27,4 +26,8 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
             "or b.id=(select t2.board.id from tag t2 where t2.category like concat(:keyword, '%')) " +
             "order by b.createdAt desc")
     Page<Board> searchWithKeyword(@Param("keyword") String keyword, Pageable pageable);
+
+
+    @Query("select b from board b left join tag t where t.category in :tags")
+    Page<Board> findByTag(@Param("tags")List<String> tags, Pageable pageable);
 }

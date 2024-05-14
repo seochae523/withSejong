@@ -69,4 +69,16 @@ public class BoardController {
                                                          @RequestPart(value = "request", required = false) BoardUpdateRequestDto boardUpdateRequestDto) throws IOException {
         return new ResponseEntity(boardService.update(multipartFile, boardUpdateRequestDto), HttpStatus.OK);
     }
+
+    @Operation(summary = "테그로 게시글 검색",
+            description = "테그로 게시글 검색")
+    @GetMapping("/find-by-tag")
+    @Parameters({
+            @Parameter(name = "tags", description = "검색 태그 (전필, 전선 등등) 리스트로 주세요 ex) tags=전필,전선,교양", required = true),
+            @Parameter(name = "page", description = "페이지 번호 기본 값 0")
+    })
+    public ResponseEntity<BoardUpdateResponseDto> findByTags(@RequestParam(value = "tags", required = false) List<String> tags,
+                                                         @RequestParam(value = "page", defaultValue = "0") Integer page){
+        return new ResponseEntity(boardService.findByTag(tags, page), HttpStatus.OK);
+    }
 }

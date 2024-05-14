@@ -263,4 +263,21 @@ public class BoardServiceImpl implements BoardService{
                         .collect(Collectors.toList()))
                 .build();
     }
+
+    @Override
+    public BoardFindPagingResponseDto findByTag(List<String> tags, Integer page) {
+
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<Board> result = boardRepository.findByTag(tags, pageable);
+
+        return BoardFindPagingResponseDto.builder()
+                .totalElements(result.getTotalElements())
+                .totalPages(result.getTotalPages())
+                .currentPage(page)
+                .boardFindResponseDtoList(result.stream()
+                        .filter(x->!x.getDeleted())
+                        .map(BoardFindResponseDto::new)
+                        .collect(Collectors.toList()))
+                .build();
+    }
 }

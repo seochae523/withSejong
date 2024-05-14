@@ -1,5 +1,6 @@
 package sejongZoo.sejongZoo.board.service;
 
+import org.junit.jupiter.api.Tag;
 import org.springframework.web.multipart.MultipartFile;
 import sejongZoo.sejongZoo.board.dto.request.BoardSaveRequestDto;
 import sejongZoo.sejongZoo.board.dto.request.BoardUpdateRequestDto;
@@ -16,4 +17,6 @@ public interface BoardService {
     BoardDeleteResponseDto delete(Long id);
 
     BoardFindPagingResponseDto search(String keyword, Integer page);
+
+    BoardFindPagingResponseDto findByTag(List<String> tags, Integer page);
 }
