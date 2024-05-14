@@ -13,6 +13,8 @@ import sejongZoo.sejongZoo.common.exception.chat.RoomIdNotFound;
 import sejongZoo.sejongZoo.common.exception.chat.SenderNotFound;
 import sejongZoo.sejongZoo.common.exception.chat.ChatCreatedAtNotFound;
 import sejongZoo.sejongZoo.common.exception.faq.*;
+import sejongZoo.sejongZoo.common.exception.mail.EmailContentNotFound;
+import sejongZoo.sejongZoo.common.exception.mail.EmailTitleNotFound;
 import sejongZoo.sejongZoo.common.exception.token.*;
 import sejongZoo.sejongZoo.common.exception.user.*;
 
@@ -62,69 +64,79 @@ public class GlobalExceptionHandler {
      * SEU -> Sejong Error User
      */
     @ExceptionHandler(AccountNotFound.class)
-    public ResponseEntity<ApiErrorResponse> accountNotFound(AccountNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(AccountNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEU-001", "Account Not Found. Student ID : " + ex.getMessage());
 
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(StudentIdNotFound.class)
-    public ResponseEntity<ApiErrorResponse> emailNotFound(StudentIdNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(StudentIdNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEU-002", "Student Id Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UserIdNotFound.class)
-    public ResponseEntity<ApiErrorResponse> emailNotFound(UserIdNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(UserIdNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEU-003", "User Id (Primary key) Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MajorNotFound.class)
-    public ResponseEntity<ApiErrorResponse> majorNotFound(MajorNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(MajorNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEU-004", "Major Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(NicknameNotFound.class)
-    public ResponseEntity<ApiErrorResponse> nicknameNotFound(NicknameNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(NicknameNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEU-005", "Nickname Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(PasswordNotFound.class)
-    public ResponseEntity<ApiErrorResponse> passwordNotFound(PasswordNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(PasswordNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEU-006", "Password Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(UserNameNotFound.class)
-    public ResponseEntity<ApiErrorResponse> majorDoesNotExist(UserNameNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(UserNameNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEU-007", "User Name Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(DuplicatedNickname.class)
-    public ResponseEntity<ApiErrorResponse> duplicatedNickname(DuplicatedNickname ex){
+    public ResponseEntity<ApiErrorResponse> handleException(DuplicatedNickname ex){
         ApiErrorResponse response = new ApiErrorResponse("SEU-008", "Duplicated Nickname. Nickname : " + ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(DuplicatedStudentId.class)
-    public ResponseEntity<ApiErrorResponse> duplicatedStudentId(DuplicatedStudentId ex){
+    public ResponseEntity<ApiErrorResponse> handleException(DuplicatedStudentId ex){
         ApiErrorResponse response = new ApiErrorResponse("SEU-008", "Duplicated Student Id. Student Id : " + ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
     @ExceptionHandler(IsDeletedNotFound.class)
-    public ResponseEntity<ApiErrorResponse> isDeletedNotFound(IsDeletedNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(IsDeletedNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEU-009", "Is Deleted Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(IsSignedNotFound.class)
-    public ResponseEntity<ApiErrorResponse> isSignedNotFound(IsSignedNotFound ex){
+    public ResponseEntity<ApiErrorResponse> handleException(IsSignedNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEU-010", "Is Signed Not Found.");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(AccountAlreadyExist.class)
-    public ResponseEntity<ApiErrorResponse> isSignedNotFound(AccountAlreadyExist ex){
+    public ResponseEntity<ApiErrorResponse> handleException(AccountAlreadyExist ex){
         ApiErrorResponse response = new ApiErrorResponse("SEU-011", "Account Already Exist. Student Id : " + ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(EmailContentNotFound.class)
+    public ResponseEntity<ApiErrorResponse> handleException(EmailContentNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEU-012", "Email Content Not Found");
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(EmailTitleNotFound.class)
+    public ResponseEntity<ApiErrorResponse> handleException(EmailTitleNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEU-013", "Email Title Not Found");
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 

@@ -66,6 +66,9 @@ dependencies {
 	implementation 'com.google.firebase:firebase-admin:9.2.0'
 	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.2.2'
 
+	// mail
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
 	// logger
 	implementation 'com.github.napstr:logback-discord-appender:1.0.0'
 

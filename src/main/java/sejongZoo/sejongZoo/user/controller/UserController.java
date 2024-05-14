@@ -9,12 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sejongZoo.sejongZoo.common.token.dto.AuthToken;
 import sejongZoo.sejongZoo.user.dto.request.ChangePasswordRequestDto;
+import sejongZoo.sejongZoo.user.dto.request.EmailSendRequestDto;
 import sejongZoo.sejongZoo.user.dto.request.LoginRequestDto;
 import sejongZoo.sejongZoo.user.dto.request.UpdateRequestDto;
-import sejongZoo.sejongZoo.user.dto.response.ChangePasswordResponseDto;
-import sejongZoo.sejongZoo.user.dto.response.CheckStudentIdResponseDto;
-import sejongZoo.sejongZoo.user.dto.response.DeleteResponseDto;
-import sejongZoo.sejongZoo.user.dto.response.UpdateResponseDto;
+import sejongZoo.sejongZoo.user.dto.response.*;
+import sejongZoo.sejongZoo.user.service.EmailSendService;
 import sejongZoo.sejongZoo.user.service.UserService;
 
 @RestController
@@ -23,7 +22,7 @@ import sejongZoo.sejongZoo.user.service.UserService;
 @SecurityRequirement(name = "Bearer Authentication")
 public class UserController {
     private final UserService userService;
-
+    private final EmailSendService emailSendService;
     @GetMapping("/check-nickname")
     @Operation(summary = "닉네임 중복 체크",
             description = "닉네임 중복 체크")
@@ -68,5 +67,12 @@ public class UserController {
             description = "학번 기준으로 닉네임 찾기")
     public ResponseEntity<String> updateForgetPassword(@RequestParam(value = "studentId", required = false) String studentId){
         return new ResponseEntity(userService.findNickname(studentId), HttpStatus.OK);
+    }
+
+    @PostMapping("/user/report")
+    @Operation(summary = "신고하기",
+            description = "게시글 신고")
+    public ResponseEntity<EmailSendResponseDto> updateForgetPassword(@RequestBody EmailSendRequestDto emailSendRequestDto){
+        return new ResponseEntity(emailSendService.sendEmail(emailSendRequestDto), HttpStatus.CREATED);
     }
 }
