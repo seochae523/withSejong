@@ -31,10 +31,10 @@ jobs:
       DYNAMODB_SECRET_KEY: ${{secrets.DYNAMODB_SECRET_KEY}}
       S3_URL: ${{secrets.S3_URL}}
       WEB_HOOK_URL: ${{secrets.WEB_HOOK_URL}}
-      # MAIL_HOST: ${{secrets.MAIL_HOST}}
-      # MAIL_PORT: ${{secrets.MAIL_PORT}}
-      # MAIL_USER_NAME: ${{secrets.MAIL_USER_NAME}}
-      # MAIL_PASSWORD: ${{secrets.MAIL_PASSWORD}}
+      MAIL_HOST: ${{secrets.MAIL_HOST}}
+      MAIL_PORT: ${{secrets.MAIL_PORT}}
+      MAIL_USER_NAME: ${{secrets.MAIL_USER_NAME}}
+      MAIL_PASSWORD: ${{secrets.MAIL_PASSWORD}}
     steps:
     - uses: actions/checkout@v3
     # 1. Java 17 세팅
@@ -72,6 +72,10 @@ jobs:
         --build-arg S3_SECRET_KEY="${{env.S3_SECRET_KEY}}" \
         --build-arg S3_URL="${{env.S3_URL}}" \
         --build-arg WEB_HOOK_URL="{{env.WEB_HOOK_URL}}" \
+        --build-arg MAIL_PORT="{{env.MAIL_PORT}}" \
+        --build-arg MAIL_HOST="{{env.MAIL_HOST}}" \
+        --build-arg MAIL_USER_NAME="{{env.MAIL_USER_NAME}}" \
+        --build-arg MAIL_PASSWORD="{{env.MAIL_PASSWORD}} \
         -t ${{ secrets.DOCKERHUB_USERNAME }}/with-sejong .
     # 4. DockerHub 로그인
     - name: docker login
