@@ -1,6 +1,6 @@
 package sejongZoo.sejongZoo.board.service;
 
-import org.junit.jupiter.api.Tag;
+
 import org.springframework.web.multipart.MultipartFile;
 import sejongZoo.sejongZoo.board.dto.request.BoardSaveRequestDto;
 import sejongZoo.sejongZoo.board.dto.request.BoardUpdateRequestDto;
