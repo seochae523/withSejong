@@ -46,14 +46,18 @@ public class BoardServiceImpl implements BoardService{
     @Value("${spring.data.rest.default-page-size}")
     private Integer pageSize;
     @Override
-    public List<BoardFindResponseDto> findAll(Integer page) {
+    public BoardFindPagingResponseDto findAll(Integer page) {
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<Board> result = boardRepository.findAllWithUserAndImage(pageable);
-
-        return result.stream()
-                .filter(x->!x.getDeleted())
-                .map(BoardFindResponseDto::new)
-                .collect(Collectors.toList());
+        return BoardFindPagingResponseDto.builder()
+                .totalElements(result.getTotalElements())
+                .totalPages(result.getTotalPages())
+                .currentPage(page)
+                .boardFindResponseDtoList(result.stream()
+                        .filter(x->!x.getDeleted())
+                        .map(BoardFindResponseDto::new)
+                        .collect(Collectors.toList()))
+                .build();
     }
 
 
@@ -242,15 +246,21 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public List<BoardFindResponseDto> search(String keyword, Integer page){
+    public BoardFindPagingResponseDto search(String keyword, Integer page){
         if(keyword == null){
             throw new KeywordNotFound();
         }
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<Board> result = boardRepository.searchWithKeyword(keyword, pageable);
 
-        return result.stream()
-                .map(BoardFindResponseDto::new)
-                .collect(Collectors.toList());
+        return BoardFindPagingResponseDto.builder()
+                .totalElements(result.getTotalElements())
+                .totalPages(result.getTotalPages())
+                .currentPage(page)
+                .boardFindResponseDtoList(result.stream()
+                        .filter(x->!x.getDeleted())
+                        .map(BoardFindResponseDto::new)
+                        .collect(Collectors.toList()))
+                .build();
     }
 }

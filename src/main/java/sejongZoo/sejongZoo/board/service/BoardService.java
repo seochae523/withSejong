@@ -9,11 +9,11 @@ import java.io.IOException;
 import java.util.List;
 
 public interface BoardService {
-    List<BoardFindResponseDto> findAll(Integer page);
+    BoardFindPagingResponseDto findAll(Integer page);
 
     BoardSaveResponseDto save(List<MultipartFile> multipartFile, BoardSaveRequestDto boardSaveRequestDto) throws IOException;
     BoardUpdateResponseDto update(List<MultipartFile> multipartFile, BoardUpdateRequestDto boardUpdateRequestDto) throws IOException;
     BoardDeleteResponseDto delete(Long id);
 
-    List<BoardFindResponseDto> search(String keyword, Integer page);
+    BoardFindPagingResponseDto search(String keyword, Integer page);
 }

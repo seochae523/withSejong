@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sejongZoo.sejongZoo.board.dto.request.BoardSaveRequestDto;
 import sejongZoo.sejongZoo.board.dto.request.BoardUpdateRequestDto;
+import sejongZoo.sejongZoo.board.dto.response.BoardFindPagingResponseDto;
 import sejongZoo.sejongZoo.board.dto.response.BoardFindResponseDto;
 import sejongZoo.sejongZoo.board.dto.response.BoardSaveResponseDto;
 import sejongZoo.sejongZoo.board.dto.response.BoardUpdateResponseDto;
@@ -43,7 +44,7 @@ public class BoardController {
             description = "게시글을 10개씩 조회 (페이지 시작 0부터)")
     @GetMapping
     @Parameter(name = "page", description = "페이지 번호 기본 값 0")
-    public ResponseEntity<List<BoardFindResponseDto>> findAll(@RequestParam(value = "page", defaultValue = "0") Integer page){
+    public ResponseEntity<BoardFindPagingResponseDto> findAll(@RequestParam(value = "page", defaultValue = "0") Integer page){
         return new ResponseEntity(boardService.findAll(page), HttpStatus.OK);
     }
     @Operation(summary = "게시글 검색",
@@ -53,7 +54,7 @@ public class BoardController {
             @Parameter(name = "keyword", description = "검색 키워드", required = true),
             @Parameter(name = "page", description = "페이지 번호 기본 값 0")
     })
-    public ResponseEntity<List<BoardFindResponseDto>> search(@RequestParam(value = "keyword", required = false) String keyword,
+    public ResponseEntity<BoardFindPagingResponseDto> search(@RequestParam(value = "keyword", required = false) String keyword,
                                                              @RequestParam(value = "page", defaultValue = "0") Integer page){
         return new ResponseEntity(boardService.search(keyword, page), HttpStatus.OK);
     }

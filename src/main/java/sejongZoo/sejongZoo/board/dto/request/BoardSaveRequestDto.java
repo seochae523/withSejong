@@ -1,6 +1,7 @@
 package sejongZoo.sejongZoo.board.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 import sejongZoo.sejongZoo.board.domain.Board;
@@ -18,6 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 public class BoardSaveRequestDto {
+
     @Schema(description = "내용", example = "이 편지는 1970년 영국으로부터 시작되어...")
     private String content;
     @Schema(description = "제목", example = "행운의 편지")
