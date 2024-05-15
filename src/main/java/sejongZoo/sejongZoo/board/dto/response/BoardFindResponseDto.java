@@ -23,6 +23,8 @@ public class BoardFindResponseDto {
     private String content;
     @Schema(description = "학번", example = "example")
     private String studentId;
+    @Schema(description = "전공", example = "컴퓨터공학과")
+    private String major;
     @Schema(description = "작성일", example = "2024-04-14T17:21:33.975Z")
     private Date createdAt;
     @Schema(description = "이미지들", example = "image :[~~]")
@@ -36,6 +38,7 @@ public class BoardFindResponseDto {
         this.studentId = board.getUser().getStudentId();
         this.createdAt = board.getCreatedAt();
         this.content = board.getContent();
+        this.major = board.getUser().getMajor();
         if(board.getImage().isEmpty()){
             this.image = new HashSet<>();
         }
