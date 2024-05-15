@@ -70,21 +70,15 @@ public class BoardServiceImpl implements BoardService{
         Integer price = boardSaveRequestDto.getPrice();
         List<MultipartFile> images = multipartFile;
         Set<Image> imageResult = new HashSet<>();
-        if(studentId == null){
-            throw new StudentIdNotFound();
-        }
-        if(title == null){
-            throw new TitleNotFound();
-        }
-        if(content == null){
-            throw new ContentNotFound();
-        }
-        if(price == null){
-            throw new PriceNotFound();
-        }
+
+        if(studentId == null) throw new StudentIdNotFound();
+        if(title == null) throw new TitleNotFound();
+        if(content == null) throw new ContentNotFound();
+        if(price == null) throw new PriceNotFound();
 
         User user = userRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new AccountNotFound(studentId));
+
         if(images != null) {
             for (MultipartFile image : images) {
                 String originalFilename = UUID.randomUUID()+ image.getOriginalFilename();
@@ -117,9 +111,6 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public BoardUpdateResponseDto update(List<MultipartFile> multipartFile, BoardUpdateRequestDto boardUpdateRequestDto) throws IOException {
-        // 1. 유저 검증
-        // 2. board 찾기
-        // 3. 이미지 찾기
         Long id = boardUpdateRequestDto.getId();
         String title = boardUpdateRequestDto.getTitle();
         String content = boardUpdateRequestDto.getContent();
@@ -134,21 +125,12 @@ public class BoardServiceImpl implements BoardService{
         Set<Image> imageResult = new HashSet<>();
         Set<Tag> tagResult = new HashSet<>();
 
-        if(id == null){
-            throw new BoardIdNotFound();
-        }
-        if(title == null){
-            throw new TitleNotFound();
-        }
-        if(content == null){
-            throw new ContentNotFound();
-        }
-        if(price == null){
-            throw new PriceNotFound();
-        }
-        if(studentId == null){
-            throw new StudentIdNotFound();
-        }
+        if(id == null) throw new BoardIdNotFound();
+        if(title == null) throw new TitleNotFound();
+        if(content == null) throw new ContentNotFound();
+        if(price == null) throw new PriceNotFound();
+        if(studentId == null) throw new StudentIdNotFound();
+
 
         // 1. 이미지 추가
         // 2. 이미지 수정 -> 얘는 근데 삭제하고 다시 올리는거잖슴 따라서 필요 없다
@@ -247,9 +229,8 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public BoardFindPagingResponseDto search(String keyword, Integer page){
-        if(keyword == null){
-            throw new KeywordNotFound();
-        }
+        if(keyword == null) throw new KeywordNotFound();
+
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<Board> result = boardRepository.searchWithKeyword(keyword, pageable);
 
@@ -266,7 +247,6 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public BoardFindPagingResponseDto findByTag(List<String> tags, Integer page) {
-
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<Board> result = boardRepository.findByTag(tags, pageable);
 

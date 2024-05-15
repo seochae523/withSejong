@@ -38,7 +38,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class ChatServiceImpl implements ChatService{
-
     private final DynamoDBMapper dynamoDBMapper;
     private final AmazonDynamoDB amazonDynamoDB;
     private final KafkaTemplate<String, KafkaChatDto> kafkaTemplate;
@@ -56,15 +55,9 @@ public class ChatServiceImpl implements ChatService{
         String sender = chatSaveRequestDto.getSender();
         Date createdAt = new Date();
 
-        if(message == null){
-            throw new MessageNotFound();
-        }
-        if(roomId == null){
-            throw new RoomIdNotFound();
-        }
-        if(sender == null){
-            throw new SenderNotFound();
-        }
+        if(message == null) throw new MessageNotFound();
+        if(roomId == null) throw new RoomIdNotFound();
+        if(sender == null) throw new SenderNotFound();
 
         KafkaChatDto kafkaChatDto = new KafkaChatDto(chatSaveRequestDto, createdAt);
         this.createChatTableIfNotExists();

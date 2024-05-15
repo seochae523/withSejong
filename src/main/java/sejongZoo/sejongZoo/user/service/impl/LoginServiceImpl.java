@@ -38,9 +38,9 @@ public class LoginServiceImpl implements LoginService{
     @Override
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         String studentId = loginRequestDto.getStudentId();
-        if(studentId == null){
-            throw new StudentIdNotFound();
-        }
+
+        if(studentId == null) throw new StudentIdNotFound();
+
         User user = userRepository.findByStudentId(studentId)
                 .filter(x -> !x.getDeleted())
                 .orElseThrow(() -> new AccountNotFound(studentId));
@@ -80,21 +80,11 @@ public class LoginServiceImpl implements LoginService{
         String major = signUpRequestDto.getMajor();
         String nickname = signUpRequestDto.getNickname();
 
-        if(name == null){
-            throw new UserNameNotFound();
-        }
-        if(password == null){
-            throw new PasswordNotFound();
-        }
-        if(studentId == null){
-            throw new StudentIdNotFound();
-        }
-        if(major == null) {
-            throw new MajorNotFound();
-        }
-        if(nickname == null){
-            throw new NicknameNotFound();
-        }
+        if(name == null) throw new UserNameNotFound();
+        if(password == null) throw new PasswordNotFound();
+        if(studentId == null) throw new StudentIdNotFound();
+        if(major == null) throw new MajorNotFound();
+        if(nickname == null) throw new NicknameNotFound();
 
         Optional<User> result = userRepository.findByStudentId(studentId);
 
@@ -132,9 +122,8 @@ public class LoginServiceImpl implements LoginService{
 
     @Override
     public LogoutResponseDto logout(String studentId) {
-        if (studentId == null){
-            throw new StudentIdNotFound();
-        }
+        if (studentId == null) throw new StudentIdNotFound();
+
         User user = userRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new AccountNotFound(studentId));
 

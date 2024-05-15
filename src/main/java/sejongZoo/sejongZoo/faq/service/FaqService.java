@@ -53,12 +53,8 @@ public class FaqService {
         String context = faqSaveRequestDto.getContext();
         String title = faqSaveRequestDto.getTitle();
 
-        if(context == null){
-            throw new FaqContextNotFound();
-        }
-        if(title == null){
-            throw new FaqTitleNotFound();
-        }
+        if(context == null) throw new FaqContextNotFound();
+        if(title == null) throw new FaqTitleNotFound();
 
         Date createdAt = new Date();
         dynamoDBMapper.save(faqSaveRequestDto.toEntity(createdAt));
@@ -74,15 +70,10 @@ public class FaqService {
         String title = faqUpdateRequestDto.getTitle();
         String id = faqUpdateRequestDto.getId();
         Date createdAt = faqUpdateRequestDto.getCreatedAt();
-        if(id == null){
-            throw new FaqIdNotFound();
-        }
-        if(context == null){
-            throw new FaqContextNotFound();
-        }
-        if(title == null){
-            throw new FaqTitleNotFound();
-        }
+
+        if(id == null) throw new FaqIdNotFound();
+        if(context == null) throw new FaqContextNotFound();
+        if(title == null) throw new FaqTitleNotFound();
 
         Faq load = dynamoDBMapper.load(Faq.class, id, createdAt);
 
@@ -99,12 +90,8 @@ public class FaqService {
     }
 
     public FaqDeleteResponseDto deleteFaq(String id, Date createdAt) {
-        if(id == null){
-            throw new FaqIdNotFound();
-        }
-        if(createdAt == null){
-            throw new ChatCreatedAtNotFound();
-        }
+        if(id == null) throw new FaqIdNotFound();
+        if(createdAt == null) throw new ChatCreatedAtNotFound();
 
         Faq load = dynamoDBMapper.load(Faq.class, id, createdAt);
 

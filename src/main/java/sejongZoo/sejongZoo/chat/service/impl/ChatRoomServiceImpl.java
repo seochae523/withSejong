@@ -30,9 +30,9 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     public ChatRoomSaveResponseDto save(ChatRoomSaveRequestDto chatRoomSaveRequestDto) {
         String publisher = chatRoomSaveRequestDto.getPublisher();
         String subscriber = chatRoomSaveRequestDto.getSubscriber();
-        if(publisher == null || subscriber == null){
-            throw new StudentIdNotFound();
-        }
+
+        if(publisher == null || subscriber == null) throw new StudentIdNotFound();
+
         Date createdAt = new Date();
 
         User pub = userRepository.findByStudentId(publisher)
@@ -60,9 +60,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
     @Override
     public void delete(Long roomId) {
-        if(roomId == null){
-            throw new RoomIdNotFound();
-        }
+        if(roomId == null) throw new RoomIdNotFound();
 
         ChatRoom chatRoom = chatRoomRepository.findByRoomId(roomId)
                 .orElseThrow(() -> new ChatRoomNotFound(roomId));
@@ -73,9 +71,8 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
     @Override
     public List<ChatRoomFindResponseDto> findByStudentId(String studentId) {
-        if(studentId == null){
-            throw new StudentIdNotFound();
-        }
+        if(studentId == null) throw new StudentIdNotFound();
+
 
         List<ChatRoom> chatRooms = chatRoomRepository.findByStudentId(studentId);
         List<ChatRoomFindResponseDto> result = new ArrayList<>();

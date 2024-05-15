@@ -25,15 +25,10 @@ public class EmailSendServiceImpl implements EmailSendService {
         String content = emailSendRequestDto.getContent();
         Long boardId = emailSendRequestDto.getBoardId();
 
-        if(title == null){
-            throw new EmailTitleNotFound();
-        }
-        if(content == null){
-            throw new EmailContentNotFound();
-        }
-        if(boardId == null){
-            throw new BoardIdNotFound();
-        }
+        if(title == null) throw new EmailTitleNotFound();
+        if(content == null) throw new EmailContentNotFound();
+        if(boardId == null) throw new BoardIdNotFound();
+
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom("SejongUsedBookMarket@gmail.com");
         simpleMailMessage.setTo("SejongUsedBookMarket@gmail.com");
