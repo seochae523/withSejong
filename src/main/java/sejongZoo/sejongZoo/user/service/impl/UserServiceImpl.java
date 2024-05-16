@@ -1,9 +1,11 @@
 package sejongZoo.sejongZoo.user.service.impl;
 
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sejongZoo.sejongZoo.common.exception.user.*;
 import sejongZoo.sejongZoo.user.domain.User;
 import sejongZoo.sejongZoo.user.dto.request.ChangePasswordRequestDto;
@@ -20,6 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 @Service
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -69,6 +72,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public DeleteResponseDto delete(String studentId) {
         if(studentId == null) throw new StudentIdNotFound();
 
@@ -85,6 +89,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UpdateResponseDto update(UpdateRequestDto updateRequestDto) {
         String studentId = updateRequestDto.getStudentId();
         String major = updateRequestDto.getMajor();
@@ -110,6 +115,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public ChangePasswordResponseDto changePassword(ChangePasswordRequestDto changePasswordRequestDto) {
         String studentId = changePasswordRequestDto.getStudentId();
         String password = changePasswordRequestDto.getPassword();

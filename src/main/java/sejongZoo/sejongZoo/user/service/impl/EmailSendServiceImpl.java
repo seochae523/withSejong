@@ -1,11 +1,12 @@
 package sejongZoo.sejongZoo.user.service.impl;
 
-import jakarta.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sejongZoo.sejongZoo.common.exception.board.BoardIdNotFound;
 import sejongZoo.sejongZoo.common.exception.mail.EmailContentNotFound;
 import sejongZoo.sejongZoo.common.exception.mail.EmailTitleNotFound;
@@ -16,10 +17,11 @@ import sejongZoo.sejongZoo.user.service.EmailSendService;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class EmailSendServiceImpl implements EmailSendService {
     private final MailSender mailSender;
     @Override
+    @Transactional
     public EmailSendResponseDto sendEmail(EmailSendRequestDto emailSendRequestDto) {
         String title = emailSendRequestDto.getTitle();
         String content = emailSendRequestDto.getContent();

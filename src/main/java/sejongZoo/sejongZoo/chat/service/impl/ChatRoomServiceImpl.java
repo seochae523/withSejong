@@ -3,6 +3,7 @@ package sejongZoo.sejongZoo.chat.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sejongZoo.sejongZoo.chat.domain.ChatRoom;
 import sejongZoo.sejongZoo.chat.dto.request.ChatRoomSaveRequestDto;
 import sejongZoo.sejongZoo.chat.dto.response.ChatRoomFindResponseDto;
@@ -23,10 +24,12 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true)
 public class ChatRoomServiceImpl implements ChatRoomService {
     private final UserRepository userRepository;
     private final ChatRoomRepository chatRoomRepository;
     @Override
+    @Transactional
     public ChatRoomSaveResponseDto save(ChatRoomSaveRequestDto chatRoomSaveRequestDto) {
         String publisher = chatRoomSaveRequestDto.getPublisher();
         String subscriber = chatRoomSaveRequestDto.getSubscriber();
@@ -59,6 +62,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     }
 
     @Override
+    @Transactional
     public void delete(Long roomId) {
         if(roomId == null) throw new RoomIdNotFound();
 

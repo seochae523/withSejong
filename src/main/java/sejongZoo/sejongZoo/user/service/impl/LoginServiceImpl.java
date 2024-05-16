@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sejongZoo.sejongZoo.common.emun.Role;
 import sejongZoo.sejongZoo.common.exception.user.*;
 import sejongZoo.sejongZoo.common.token.AuthTokenProvider;
@@ -29,6 +30,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class LoginServiceImpl implements LoginService{
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -36,6 +38,7 @@ public class LoginServiceImpl implements LoginService{
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     @Override
+    @Transactional
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         String studentId = loginRequestDto.getStudentId();
 
@@ -73,6 +76,7 @@ public class LoginServiceImpl implements LoginService{
 
 
     @Override
+    @Transactional
     public SignUpResponseDto signup(SignUpRequestDto signUpRequestDto) {
         String name = signUpRequestDto.getName();
         String password = signUpRequestDto.getPassword();
@@ -121,6 +125,7 @@ public class LoginServiceImpl implements LoginService{
     }
 
     @Override
+    @Transactional
     public LogoutResponseDto logout(String studentId) {
         if (studentId == null) throw new StudentIdNotFound();
 
@@ -128,6 +133,7 @@ public class LoginServiceImpl implements LoginService{
                 .orElseThrow(() -> new AccountNotFound(studentId));
 
         user.setRefreshToken(null);
+        userRepository.save(user);
 
         return new LogoutResponseDto(user);
     }

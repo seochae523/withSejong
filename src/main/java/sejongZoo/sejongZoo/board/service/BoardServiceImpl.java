@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import sejongZoo.sejongZoo.board.domain.Board;
 import sejongZoo.sejongZoo.board.domain.Image;
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true)
 public class BoardServiceImpl implements BoardService{
     private final UserRepository userRepository;
     private final BoardRepository boardRepository;
@@ -63,6 +65,7 @@ public class BoardServiceImpl implements BoardService{
 
 
     @Override
+    @Transactional
     public BoardSaveResponseDto save(List<MultipartFile> multipartFile, BoardSaveRequestDto boardSaveRequestDto) throws IOException {
         String content = boardSaveRequestDto.getContent();
         String title = boardSaveRequestDto.getTitle();
@@ -110,6 +113,7 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
+    @Transactional
     public BoardUpdateResponseDto update(List<MultipartFile> multipartFile, BoardUpdateRequestDto boardUpdateRequestDto) throws IOException {
         Long id = boardUpdateRequestDto.getId();
         String title = boardUpdateRequestDto.getTitle();
@@ -217,6 +221,7 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
+    @Transactional
     public BoardDeleteResponseDto delete(Long id) {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new BoardNotFound(id));

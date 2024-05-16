@@ -10,6 +10,7 @@ import okhttp3.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import sejongZoo.sejongZoo.fcm.dto.FcmMessageDto;
 import sejongZoo.sejongZoo.fcm.dto.FcmSendDto;
 

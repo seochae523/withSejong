@@ -9,6 +9,7 @@ import com.amazonaws.services.dynamodbv2.util.TableUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sejongZoo.sejongZoo.common.exception.chat.ChatCreatedAtNotFound;
 import sejongZoo.sejongZoo.common.exception.faq.FaqContextNotFound;
 import sejongZoo.sejongZoo.common.exception.faq.FaqIdNotFound;
@@ -48,6 +49,7 @@ public class FaqService {
 
         return dtoList;
     }
+
     public FaqSaveResponseDto saveFaq(FaqSaveRequestDto faqSaveRequestDto) {
         this.createFAQTableIfNotExists();
         String context = faqSaveRequestDto.getContext();
