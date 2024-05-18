@@ -30,7 +30,7 @@ public class SecurityConfig {
         httpSecurity
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(sesstionManagement -> sesstionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // 세션을 사용하지 않기 때문에 STATELESS로 설정
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers( "/find-nickname", "/login", "/signup", "/swagger-ui/**", "/v3/api-docs/**", "/check-nickname",

@@ -140,6 +140,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(InvalidAccount.class)
+    public ResponseEntity<ApiErrorResponse> handleException(InvalidAccount ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEU-014", "Invalid Account. Student Id : " + ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+
     /**
      * SEB -> Sejong Error Board
      */

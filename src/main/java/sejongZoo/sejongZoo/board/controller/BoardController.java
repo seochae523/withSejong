@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sejongZoo.sejongZoo.board.dto.request.BoardSaveRequestDto;
 import sejongZoo.sejongZoo.board.dto.request.BoardUpdateRequestDto;
-import sejongZoo.sejongZoo.board.dto.response.BoardFindPagingResponseDto;
-import sejongZoo.sejongZoo.board.dto.response.BoardFindResponseDto;
-import sejongZoo.sejongZoo.board.dto.response.BoardSaveResponseDto;
-import sejongZoo.sejongZoo.board.dto.response.BoardUpdateResponseDto;
+import sejongZoo.sejongZoo.board.dto.response.*;
 import sejongZoo.sejongZoo.board.service.BoardService;
 
 import java.io.IOException;
@@ -68,6 +65,17 @@ public class BoardController {
     public ResponseEntity<BoardUpdateResponseDto> update(@RequestPart(value = "file", required = false) List<MultipartFile> multipartFile,
                                                          @RequestPart(value = "request", required = false) BoardUpdateRequestDto boardUpdateRequestDto) throws IOException {
         return new ResponseEntity(boardService.update(multipartFile, boardUpdateRequestDto), HttpStatus.OK);
+    }
+    @Operation(summary = "게시글 끌어올리기",
+            description = "게시글 끌어올리기")
+    @PutMapping("/pull-up")
+    @Parameters({
+            @Parameter(name = "studentId", description = "학번"),
+            @Parameter(name = "boardId", description = "게시판 id")
+    })
+    public ResponseEntity<BoardPullUpResponseDto> pullUp(@RequestParam(value = "boardId", required = false) Long id,
+                                                         @RequestParam(value = "studentId", required = false) String studentId) {
+        return new ResponseEntity(boardService.pullUp(id, studentId), HttpStatus.OK);
     }
 
     @Operation(summary = "테그로 게시글 검색",

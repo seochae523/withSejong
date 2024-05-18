@@ -23,6 +23,7 @@ import sejongZoo.sejongZoo.board.repository.ImageRepository;
 import sejongZoo.sejongZoo.board.repository.TagRepository;
 import sejongZoo.sejongZoo.common.exception.board.*;
 import sejongZoo.sejongZoo.common.exception.user.AccountNotFound;
+import sejongZoo.sejongZoo.common.exception.user.InvalidAccount;
 import sejongZoo.sejongZoo.common.exception.user.StudentIdNotFound;
 import sejongZoo.sejongZoo.user.domain.User;
 import sejongZoo.sejongZoo.user.repository.UserRepository;
@@ -264,5 +265,34 @@ public class BoardServiceImpl implements BoardService{
                         .map(BoardFindResponseDto::new)
                         .collect(Collectors.toList()))
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public BoardPullUpResponseDto pullUp(Long id, String studentId) {
+        if(id == null) throw new BoardIdNotFound();
+        if(studentId == null) throw new StudentIdNotFound();
+
+        userRepository.findByStudentId(studentId)
+                .orElseThrow(() -> new AccountNotFound(studentId));
+
+        Board board = boardRepository.findById(id)
+                .orElseThrow(() -> new BoardNotFound(id));
+
+        String storedStudentId = board.getUser().getStudentId();
+        if(!studentId.equals(storedStudentId)) throw new InvalidAccount(studentId);
+
+        Date date = new Date();
+        board.updateCreatedAt(date);
+        boardRepository.save(board);
+
+        return BoardPullUpResponseDto.builder()
+                .createdAt(date)
+                .id(board.getId())
+                .studentId(studentId)
+                .content(board.getContent())
+                .title(board.getTitle())
+                .build();
+
     }
 }
