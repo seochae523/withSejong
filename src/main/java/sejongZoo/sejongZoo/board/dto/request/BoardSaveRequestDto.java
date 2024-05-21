@@ -37,6 +37,7 @@ public class BoardSaveRequestDto {
                 .user(user)
                 .image(images)
                 .deleted(false)
+                .status(0)
                 .build();
     }
     public Board toEntity(User user){

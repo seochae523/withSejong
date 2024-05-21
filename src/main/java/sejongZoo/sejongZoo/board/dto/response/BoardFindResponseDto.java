@@ -27,6 +27,8 @@ public class BoardFindResponseDto {
     private String major;
     @Schema(description = "닉네임", example = "뿡뿡뿡")
     private String nickname;
+    @Schema(description = "판매 상태 0 = 판매중, 1 = 예약중, 2 = 완료", example = "0")
+    private Integer status;
     @Schema(description = "작성일", example = "2024-04-14T17:21:33.975Z")
     private Date createdAt;
     @Schema(description = "이미지들", example = "image :[~~]")
@@ -42,6 +44,7 @@ public class BoardFindResponseDto {
         this.content = board.getContent();
         this.major = board.getUser().getMajor();
         this.nickname = board.getUser().getNickname();
+        this.status = board.getStatus();
         if(board.getImage().isEmpty()){
             this.image = new HashSet<>();
         }

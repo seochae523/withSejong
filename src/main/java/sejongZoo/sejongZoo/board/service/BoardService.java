@@ -19,6 +19,9 @@ public interface BoardService {
     BoardFindPagingResponseDto search(String keyword, Integer page);
 
     BoardFindPagingResponseDto findByTag(List<String> tags, Integer page);
-
     BoardPullUpResponseDto pullUp(Long id, String studentId);
+
+    BoardFindResponseDto updateStatus(Long id, Integer status);
+    BoardFindPagingResponseDto findMySalesHistory(Integer page, String studentId);
+
 }

@@ -22,12 +22,14 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     Page<Board> findAllWithUserAndImage(Pageable pageable);
 
     @Query("select b from board b join fetch b.user u left join fetch b.image i left join fetch b.tag t " +
-            "where b.title like concat(:keyword, '%') or b.content like concat(:keyword, '%') " +
+            "where b.title like concat(:keyword, '%') or b.content like concat(:keyword, '%')" +
             "or b.id=(select t2.board.id from tag t2 where t2.category like concat(:keyword, '%')) " +
             "order by b.createdAt desc")
     Page<Board> searchWithKeyword(@Param("keyword") String keyword, Pageable pageable);
 
-
+    @Query("select b from board b join fetch b.user u left join fetch b.image i left join fetch b.tag t" +
+            " where u.studentId=:studentId")
+    Page<Board> findByStudentId(@Param("studentId") String studentId, Pageable pageable);
     @Query("select b from board b left join tag t where t.category in :tags")
     Page<Board> findByTag(@Param("tags")List<String> tags, Pageable pageable);
 }

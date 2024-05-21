@@ -42,6 +42,9 @@ public class Board {
     @NotNull
     private Integer price;
 
+    @Column(columnDefinition = "integer")
+    private Integer status;
+
     @ColumnDefault("false")
     private Boolean deleted;
 
@@ -70,4 +73,6 @@ public class Board {
     public void setDeleted(Boolean deleted){
         this.deleted = deleted;
     }
+
+    public void setStatus(Integer status){ this.status =status;}
 }

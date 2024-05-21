@@ -295,4 +295,38 @@ public class BoardServiceImpl implements BoardService{
                 .build();
 
     }
+
+    @Override
+    @Transactional
+    public BoardFindResponseDto updateStatus(Long id, Integer status) {
+
+        if(id == null) throw new BoardIdNotFound();
+
+        Board board = boardRepository.
+                findById(id).orElseThrow(() -> new BoardNotFound(id));
+
+        board.setStatus(status);
+        boardRepository.save(board);
+
+        return new BoardFindResponseDto(board);
+    }
+
+    @Override
+    public BoardFindPagingResponseDto findMySalesHistory(Integer page, String studentId) {
+        if(studentId == null) throw new StudentIdNotFound();
+
+        Pageable pageable = PageRequest.of(page, pageSize);
+
+        Page<Board> result = boardRepository.findByStudentId(studentId, pageable);
+
+        return BoardFindPagingResponseDto.builder()
+                .totalElements(result.getTotalElements())
+                .totalPages(result.getTotalPages())
+                .currentPage(page)
+                .boardFindResponseDtoList(result.stream()
+                        .filter(x->!x.getDeleted())
+                        .map(BoardFindResponseDto::new)
+                        .collect(Collectors.toList()))
+                .build();
+    }
 }

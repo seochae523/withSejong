@@ -89,4 +89,28 @@ public class BoardController {
                                                          @RequestParam(value = "page", defaultValue = "0") Integer page){
         return new ResponseEntity(boardService.findByTag(tags, page), HttpStatus.OK);
     }
+
+    @Operation(summary = "status 업데이트",
+            description = "status 업데이트 판매 중 = 0, 예약 중 = 1, 판매 완료 = 2")
+    @PutMapping("/status")
+    @Parameters({
+            @Parameter(name = "boardId", description = "개시판 id", required = true),
+            @Parameter(name = "status", description = "변경할 게시판 상태")
+    })
+    public ResponseEntity<BoardFindResponseDto> updateStatus(@RequestParam(value = "boardId", required = false) Long boardId,
+                                                             @RequestParam(value = "status", defaultValue = "0") Integer status){
+        return new ResponseEntity(boardService.updateStatus(boardId, status), HttpStatus.OK);
+    }
+
+    @Operation(summary = "내 판매 내역 조회",
+            description = "내 판매 내역 조회")
+    @GetMapping("/histtory")
+    @Parameters({
+            @Parameter(name = "studentId", description = "학번", required = true),
+            @Parameter(name = "page", description = "페이지 번호 기본 값 0")
+    })
+    public ResponseEntity<BoardFindPagingResponseDto> findMySalesHistory(@RequestParam(value = "studentId", required = false) String studentId,
+                                                                   @RequestParam(value = "page", defaultValue = "0") Integer page){
+        return new ResponseEntity(boardService.findMySalesHistory(page, studentId), HttpStatus.OK);
+    }
 }
