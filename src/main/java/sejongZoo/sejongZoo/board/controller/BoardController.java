@@ -104,7 +104,7 @@ public class BoardController {
 
     @Operation(summary = "내 판매 내역 조회",
             description = "내 판매 내역 조회")
-    @GetMapping("/histtory")
+    @GetMapping("/history")
     @Parameters({
             @Parameter(name = "studentId", description = "학번", required = true),
             @Parameter(name = "page", description = "페이지 번호 기본 값 0")
