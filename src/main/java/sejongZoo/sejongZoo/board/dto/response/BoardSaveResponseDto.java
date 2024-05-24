@@ -18,4 +18,5 @@ public class BoardSaveResponseDto {
     private String title;
     @Schema(description = "작성자", example = "example")
     private String studentId;
+    private List<String> tags;
 }

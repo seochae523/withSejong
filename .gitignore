@@ -37,6 +37,7 @@ out/
 .vscode/
 
 application-local.yml
+application-docker.yml
 .DS_Store
 
 firebase_private_key.json

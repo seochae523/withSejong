@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import sejongZoo.sejongZoo.chat.domain.Chat;
@@ -42,7 +43,7 @@ public class ChatServiceImpl implements ChatService{
     private final AmazonDynamoDB amazonDynamoDB;
     private final KafkaTemplate<String, KafkaChatDto> kafkaTemplate;
     private final SimpMessagingTemplate template;
-    private final ChatRoomRepository chatRoomRepository;
+
     private void createChatTableIfNotExists() {
         CreateTableRequest createTableRequest = dynamoDBMapper.generateCreateTableRequest(Chat.class)
                 .withProvisionedThroughput(new ProvisionedThroughput(1L, 1L));
@@ -73,8 +74,6 @@ public class ChatServiceImpl implements ChatService{
 
         dynamoDBMapper.save(chat);
 
-        // consume을 안해도 message가 도착하니까 일단 주석처리...
-        //this.consume(kafkaChatDto);
         return ChatSaveResponseDto.builder()
                 .roomId(roomId)
                 .createdAt(createdAt)
@@ -96,13 +95,12 @@ public class ChatServiceImpl implements ChatService{
     }
 
 
-    private void send(String topic, KafkaChatDto kafkaChatDto) {
+    public void send(String topic, KafkaChatDto kafkaChatDto) {
         kafkaTemplate.send(topic, kafkaChatDto);
     }
 
-
     @KafkaListener(topics = KafkaConst.TOPIC, groupId = "${spring.kafka.consumer.group-id}", containerFactory = "kafkaChatContainerFactory")
-    private void consume(KafkaChatDto kafkaChatDto) {
+    public void consume(KafkaChatDto kafkaChatDto) {
         template.convertAndSend("/sub/" + kafkaChatDto.getRoomId(), kafkaChatDto);
     }
 }

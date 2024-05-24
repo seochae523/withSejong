@@ -72,9 +72,10 @@ public class BoardServiceImpl implements BoardService{
         String title = boardSaveRequestDto.getTitle();
         String studentId = boardSaveRequestDto.getStudentId();
         Integer price = boardSaveRequestDto.getPrice();
+        List<String> tags = boardSaveRequestDto.getTags();
         List<MultipartFile> images = multipartFile;
         Set<Image> imageResult = new HashSet<>();
-
+        Set<Tag> tagResult = new HashSet<>();
         if(studentId == null) throw new StudentIdNotFound();
         if(title == null) throw new TitleNotFound();
         if(content == null) throw new ContentNotFound();
@@ -102,13 +103,22 @@ public class BoardServiceImpl implements BoardService{
                 imageResult.add(save);
             }
         }
+        Board entity = boardSaveRequestDto.toEntity(user, imageResult);
+        for (String tag : tags) {
+            tagRepository.save(Tag.builder()
+                    .category(tag)
+                    .board(entity)
+                    .build());
+        }
 
+        Board save = boardRepository.save(entity);
 
-            Board save = boardRepository.save(boardSaveRequestDto.toEntity(user, imageResult));
             return BoardSaveResponseDto.builder()
                     .studentId(user.getStudentId())
                     .content(save.getContent())
-                    .title(save.getTitle()).build();
+                    .title(save.getTitle())
+                    .tags(tags)
+                    .build();
 
 
     }
