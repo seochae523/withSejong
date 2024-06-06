@@ -58,6 +58,7 @@ public class ListenerConfig {
         return new DefaultKafkaConsumerFactory<>(consumerConfigurations, new StringDeserializer(), deserializer);
     }
 
+
     @Bean
     ConcurrentKafkaListenerContainerFactory<String, Notification> kafkaNotificationContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, Notification> factory = new ConcurrentKafkaListenerContainerFactory<>();

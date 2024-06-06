@@ -50,6 +50,7 @@ public class FaqService {
         return dtoList;
     }
 
+
     public FaqSaveResponseDto saveFaq(FaqSaveRequestDto faqSaveRequestDto) {
         this.createFAQTableIfNotExists();
         String context = faqSaveRequestDto.getContext();
@@ -66,6 +67,7 @@ public class FaqService {
                 .context(context)
                 .build();
     }
+
 
     public FaqUpdateResponseDto updateFaq(FaqUpdateRequestDto faqUpdateRequestDto){
         String context = faqUpdateRequestDto.getContext();

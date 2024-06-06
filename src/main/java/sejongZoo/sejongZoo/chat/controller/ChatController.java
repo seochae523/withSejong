@@ -29,4 +29,6 @@ public class ChatController {
     public ResponseEntity<ChatSaveResponseDto> chat(@RequestBody ChatSaveRequestDto chatSaveRequestDto){
         return new ResponseEntity(chatService.chat(chatSaveRequestDto), HttpStatus.OK);
     }
+
+
 }

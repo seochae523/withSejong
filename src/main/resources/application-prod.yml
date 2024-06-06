@@ -37,6 +37,8 @@ spring:
         order_inserts: true
         order_updates: true
         format_sql: true
+
+
   # 11/25 추가 : 이메일 관련 yml 작성
 #  mail:
 #    host: ${MAIL_HOST}
