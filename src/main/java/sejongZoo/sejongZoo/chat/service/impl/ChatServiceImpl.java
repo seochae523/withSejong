@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import sejongZoo.sejongZoo.chat.domain.Chat;
 
@@ -52,17 +53,8 @@ public class ChatServiceImpl implements ChatService{
 
         KafkaChatDto kafkaChatDto = new KafkaChatDto(chatSaveRequestDto, createdAt);
         this.createChatTableIfNotExists();
-
         this.send(KafkaConst.TOPIC, kafkaChatDto);
-
-        Chat chat = Chat.builder()
-                .id(roomId)
-                .message(message)
-                .sender(sender)
-                .createdAt(createdAt)
-                .build();
-
-        dynamoDBMapper.save(chat);
+        this.saveChat(chatSaveRequestDto);
 
         return ChatSaveResponseDto.builder()
                 .roomId(roomId)
@@ -92,5 +84,22 @@ public class ChatServiceImpl implements ChatService{
     @KafkaListener(topics = KafkaConst.TOPIC, groupId = "${spring.kafka.consumer.group-id}", containerFactory = "kafkaChatContainerFactory")
     public void consume(KafkaChatDto kafkaChatDto) {
         template.convertAndSend("/sub/" + kafkaChatDto.getRoomId(), kafkaChatDto);
+    }
+
+    @Async
+    public void saveChat(ChatSaveRequestDto chatSaveRequestDto){
+        String message = chatSaveRequestDto.getMessage();
+        Long roomId = chatSaveRequestDto.getRoomId();
+        String sender = chatSaveRequestDto.getSender();
+        Date createdAt = new Date();
+
+        Chat chat = Chat.builder()
+                .id(roomId)
+                .message(message)
+                .sender(sender)
+                .createdAt(createdAt)
+                .build();
+
+        dynamoDBMapper.save(chat);
     }
 }
