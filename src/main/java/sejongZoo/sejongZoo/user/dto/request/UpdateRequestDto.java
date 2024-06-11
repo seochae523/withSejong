@@ -2,16 +2,11 @@ package sejongZoo.sejongZoo.user.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.checkerframework.checker.units.qual.A;
 
 @Getter
-@Setter
-@AllArgsConstructor
-@Builder
+@NoArgsConstructor
 public class UpdateRequestDto {
     @NotBlank(message = "Student Id Not Found.")
     @Schema(description = "학번", example = "1901914912")

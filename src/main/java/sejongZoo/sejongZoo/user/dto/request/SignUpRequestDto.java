@@ -8,7 +8,6 @@ import lombok.Setter;
 import sejongZoo.sejongZoo.user.domain.User;
 
 @Getter
-@Setter
 @NoArgsConstructor
 public class SignUpRequestDto {
     @NotBlank(message = "Name Not Found.")

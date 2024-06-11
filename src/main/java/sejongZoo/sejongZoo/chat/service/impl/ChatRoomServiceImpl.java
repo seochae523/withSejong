@@ -52,6 +52,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .publisher(pub)
                 .subscriber(sub)
                 .createdAt(createdAt)
+                .board(board)
                 .deleted(false)
                 .build();
 

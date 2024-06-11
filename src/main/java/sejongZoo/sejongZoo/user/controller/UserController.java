@@ -28,8 +28,7 @@ public class UserController {
     private final UserService userService;
     private final EmailSendService emailSendService;
     @GetMapping("/check-nickname")
-    @Operation(
-            description = "닉네임 중복 체크")
+    @Operation(description = "닉네임 중복 체크")
     public ResponseEntity<Boolean> checkNickname(@RequestParam(value = "nickname")
                                                      @NotBlank(message = "Nickname Not Found.") String nickname){
         return new ResponseEntity(userService.checkNickname(nickname), HttpStatus.OK);

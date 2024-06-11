@@ -9,10 +9,7 @@ import lombok.*;
 import java.util.List;
 
 @Getter
-@Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class BoardUpdateRequestDto {
     @NotBlank(message = "Board Id Not Found.")
     @Schema(description = "업데이트 할 id 식별용", example = "2")

@@ -15,10 +15,7 @@ import java.util.Set;
 
 
 @Getter
-@Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class BoardSaveRequestDto {
     @NotBlank(message = "Board Content Not Found.")
     @Schema(description = "내용", example = "이 편지는 1970년 시작되어...")

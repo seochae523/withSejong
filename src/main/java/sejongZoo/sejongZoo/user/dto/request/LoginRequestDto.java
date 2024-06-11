@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
 @NoArgsConstructor
 public class LoginRequestDto {
     @NotBlank(message = "Student Id Not Found.")
@@ -20,9 +19,4 @@ public class LoginRequestDto {
     @Schema(description = "비번", example = "123132321312")
     private String password;
 
-    @Builder
-    public LoginRequestDto(String studentId, String password) {
-        this.studentId = studentId;
-        this.password = password;
-    }
 }
