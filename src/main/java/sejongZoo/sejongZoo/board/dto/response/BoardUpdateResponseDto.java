@@ -1,7 +1,6 @@
 package sejongZoo.sejongZoo.board.dto.response;
 
 import lombok.*;
-import sejongZoo.sejongZoo.board.dto.request.TagUpdateRequestDto;
 
 import java.util.List;
 

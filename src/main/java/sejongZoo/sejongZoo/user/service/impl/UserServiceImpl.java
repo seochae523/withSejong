@@ -33,8 +33,6 @@ public class UserServiceImpl implements UserService {
          * 2. 가입 됐는데 deleted true면 가입
          * 3. 가입 안됐으면 true 리턴
          */
-        if(studentId == null) throw new StudentIdNotFound();
-
         Optional<User> result = userRepository.findByStudentId(studentId);
 
         if(result.isEmpty()){
@@ -53,8 +51,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean checkNickname(String nickname) {
-        if(nickname == null) throw new NicknameNotFound();
-
         userRepository.findByNickname(nickname)
                 .ifPresent(x ->{
             throw new DuplicatedNickname(nickname);
@@ -74,9 +70,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public DeleteResponseDto delete(String studentId) {
-        if(studentId == null) throw new StudentIdNotFound();
-
-        User user = userRepository.findByStudentId(studentId).orElseThrow(() -> new AccountNotFound(studentId));
+        User user = userRepository.findByStudentId(studentId)
+                .orElseThrow(() -> new AccountNotFound(studentId));
 
         // soft delete
         user.setDeleted(true);
@@ -94,10 +89,6 @@ public class UserServiceImpl implements UserService {
         String studentId = updateRequestDto.getStudentId();
         String major = updateRequestDto.getMajor();
         String nickname = updateRequestDto.getNickname();
-
-        if(studentId == null) throw new StudentIdNotFound();
-        if(major == null) throw new MajorNotFound();
-        if(nickname == null) throw new NicknameNotFound();
 
         this.checkNickname(studentId, nickname);
 
@@ -120,9 +111,6 @@ public class UserServiceImpl implements UserService {
         String studentId = changePasswordRequestDto.getStudentId();
         String password = changePasswordRequestDto.getPassword();
 
-        if(studentId == null) throw new StudentIdNotFound();
-        if(password == null) throw new PasswordNotFound();
-
         User user = userRepository.
                 findByStudentId(studentId).
                 filter(x -> !x.getDeleted()).
@@ -140,8 +128,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String findNickname(String studentId) {
-        if(studentId == null) throw new StudentIdNotFound();
-
         User user = userRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new AccountNotFound(studentId));
 

@@ -9,11 +9,6 @@ import com.amazonaws.services.dynamodbv2.util.TableUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import sejongZoo.sejongZoo.common.exception.chat.ChatCreatedAtNotFound;
-import sejongZoo.sejongZoo.common.exception.faq.FaqContextNotFound;
-import sejongZoo.sejongZoo.common.exception.faq.FaqIdNotFound;
-import sejongZoo.sejongZoo.common.exception.faq.FaqTitleNotFound;
 import sejongZoo.sejongZoo.faq.domain.Faq;
 import sejongZoo.sejongZoo.faq.dto.request.FaqSaveRequestDto;
 import sejongZoo.sejongZoo.faq.dto.request.FaqUpdateRequestDto;
@@ -56,9 +51,6 @@ public class FaqService {
         String context = faqSaveRequestDto.getContext();
         String title = faqSaveRequestDto.getTitle();
 
-        if(context == null) throw new FaqContextNotFound();
-        if(title == null) throw new FaqTitleNotFound();
-
         Date createdAt = new Date();
         dynamoDBMapper.save(faqSaveRequestDto.toEntity(createdAt));
 
@@ -75,10 +67,6 @@ public class FaqService {
         String id = faqUpdateRequestDto.getId();
         Date createdAt = faqUpdateRequestDto.getCreatedAt();
 
-        if(id == null) throw new FaqIdNotFound();
-        if(context == null) throw new FaqContextNotFound();
-        if(title == null) throw new FaqTitleNotFound();
-
         Faq load = dynamoDBMapper.load(Faq.class, id, createdAt);
 
         load.setContext(context);
@@ -94,9 +82,6 @@ public class FaqService {
     }
 
     public FaqDeleteResponseDto deleteFaq(String id, Date createdAt) {
-        if(id == null) throw new FaqIdNotFound();
-        if(createdAt == null) throw new ChatCreatedAtNotFound();
-
         Faq load = dynamoDBMapper.load(Faq.class, id, createdAt);
 
         dynamoDBMapper.delete(load);

@@ -10,7 +10,7 @@ public class ChatRoomNotFound extends RuntimeException{
     String message;
 
     public ChatRoomNotFound(Long roomId) {
-        super();
+        super(roomId.toString());
         this.message = roomId.toString();
     }
 }

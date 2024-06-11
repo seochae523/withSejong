@@ -24,7 +24,6 @@ import sejongZoo.sejongZoo.board.repository.TagRepository;
 import sejongZoo.sejongZoo.common.exception.board.*;
 import sejongZoo.sejongZoo.common.exception.user.AccountNotFound;
 import sejongZoo.sejongZoo.common.exception.user.InvalidAccount;
-import sejongZoo.sejongZoo.common.exception.user.StudentIdNotFound;
 import sejongZoo.sejongZoo.user.domain.User;
 import sejongZoo.sejongZoo.user.repository.UserRepository;
 
@@ -44,8 +43,7 @@ public class BoardServiceImpl implements BoardService{
     private final AmazonS3 amazonS3;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
-    @Value("${cloud.aws.s3.url}")
-    private String s3Url;
+
     @Value("${spring.data.rest.default-page-size}")
     private Integer pageSize;
     @Override
@@ -68,18 +66,10 @@ public class BoardServiceImpl implements BoardService{
     @Override
     @Transactional
     public BoardSaveResponseDto save(List<MultipartFile> multipartFile, BoardSaveRequestDto boardSaveRequestDto) throws IOException {
-        String content = boardSaveRequestDto.getContent();
-        String title = boardSaveRequestDto.getTitle();
         String studentId = boardSaveRequestDto.getStudentId();
-        Integer price = boardSaveRequestDto.getPrice();
         List<String> tags = boardSaveRequestDto.getTags();
         List<MultipartFile> images = multipartFile;
         Set<Image> imageResult = new HashSet<>();
-        Set<Tag> tagResult = new HashSet<>();
-        if(studentId == null) throw new StudentIdNotFound();
-        if(title == null) throw new TitleNotFound();
-        if(content == null) throw new ContentNotFound();
-        if(price == null) throw new PriceNotFound();
 
         User user = userRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new AccountNotFound(studentId));
@@ -130,7 +120,6 @@ public class BoardServiceImpl implements BoardService{
         String title = boardUpdateRequestDto.getTitle();
         String content = boardUpdateRequestDto.getContent();
         Integer price = boardUpdateRequestDto.getPrice();
-        String studentId = boardUpdateRequestDto.getStudentId();
         List<Long> imageIds = boardUpdateRequestDto.getImageId();
         List<Long> tagIds = boardUpdateRequestDto.getTagId();
         List<String> newTagCategories = boardUpdateRequestDto.getNewTagCategory();
@@ -139,12 +128,6 @@ public class BoardServiceImpl implements BoardService{
         List<TagUpdateResponseDto> tagUpdateResponseDto = new ArrayList<>();
         Set<Image> imageResult = new HashSet<>();
         Set<Tag> tagResult = new HashSet<>();
-
-        if(id == null) throw new BoardIdNotFound();
-        if(title == null) throw new TitleNotFound();
-        if(content == null) throw new ContentNotFound();
-        if(price == null) throw new PriceNotFound();
-        if(studentId == null) throw new StudentIdNotFound();
 
 
         // 1. 이미지 추가
@@ -195,7 +178,8 @@ public class BoardServiceImpl implements BoardService{
 
         // --------------- 테그 업데이트 시작
         for (Long tagId : tagIds) {
-            Tag tag = tagRepository.findById(tagId).orElseThrow(() -> new TagNotFound(tagId));
+            Tag tag = tagRepository.findById(tagId)
+                    .orElseThrow(() -> new TagNotFound(tagId));
             tagRepository.delete(tag);
             tagUpdateResponseDto.add(TagUpdateResponseDto.builder()
                             .id(tag.getId())
@@ -245,7 +229,6 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public BoardFindPagingResponseDto search(String keyword, Integer page){
-        if(keyword == null) throw new KeywordNotFound();
 
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<Board> result = boardRepository.searchWithKeyword(keyword, pageable);
@@ -280,9 +263,6 @@ public class BoardServiceImpl implements BoardService{
     @Override
     @Transactional
     public BoardPullUpResponseDto pullUp(Long id, String studentId) {
-        if(id == null) throw new BoardIdNotFound();
-        if(studentId == null) throw new StudentIdNotFound();
-
         userRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new AccountNotFound(studentId));
 
@@ -309,9 +289,6 @@ public class BoardServiceImpl implements BoardService{
     @Override
     @Transactional
     public BoardFindResponseDto updateStatus(Long id, Integer status) {
-
-        if(id == null) throw new BoardIdNotFound();
-
         Board board = boardRepository.
                 findById(id).orElseThrow(() -> new BoardNotFound(id));
 
@@ -323,7 +300,6 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public BoardFindPagingResponseDto findMySalesHistory(Integer page, String studentId) {
-        if(studentId == null) throw new StudentIdNotFound();
 
         Pageable pageable = PageRequest.of(page, pageSize);
 

@@ -13,22 +13,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import sejongZoo.sejongZoo.chat.domain.Chat;
 
-import sejongZoo.sejongZoo.chat.domain.ChatRoom;
 import sejongZoo.sejongZoo.chat.dto.KafkaChatDto;
 import sejongZoo.sejongZoo.chat.dto.request.ChatSaveRequestDto;
 import sejongZoo.sejongZoo.chat.dto.response.ChatFindResponseDto;
 import sejongZoo.sejongZoo.chat.dto.response.ChatSaveResponseDto;
-import sejongZoo.sejongZoo.chat.repository.ChatRoomRepository;
 import sejongZoo.sejongZoo.chat.service.ChatService;
 import sejongZoo.sejongZoo.common.util.KafkaConst;
-import sejongZoo.sejongZoo.common.exception.chat.MessageNotFound;
-import sejongZoo.sejongZoo.common.exception.chat.RoomIdNotFound;
-import sejongZoo.sejongZoo.common.exception.chat.SenderNotFound;
 
 
 import java.util.Date;
@@ -55,10 +49,6 @@ public class ChatServiceImpl implements ChatService{
         Long roomId = chatSaveRequestDto.getRoomId();
         String sender = chatSaveRequestDto.getSender();
         Date createdAt = new Date();
-
-        if(message == null) throw new MessageNotFound();
-        if(roomId == null) throw new RoomIdNotFound();
-        if(sender == null) throw new SenderNotFound();
 
         KafkaChatDto kafkaChatDto = new KafkaChatDto(chatSaveRequestDto, createdAt);
         this.createChatTableIfNotExists();

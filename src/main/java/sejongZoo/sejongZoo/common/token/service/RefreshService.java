@@ -11,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import sejongZoo.sejongZoo.common.exception.token.*;
 import sejongZoo.sejongZoo.common.exception.user.AccountNotFound;
-import sejongZoo.sejongZoo.common.exception.user.StudentIdNotFound;
 import sejongZoo.sejongZoo.common.token.AuthTokenProvider;
 import sejongZoo.sejongZoo.common.token.dto.AuthToken;
 import sejongZoo.sejongZoo.common.token.dto.RefreshDto;
@@ -57,10 +56,6 @@ public class RefreshService {
         String studentId = refreshDto.getStudentId();
         if(refreshToken == null){
             throw new RefreshTokenNotFound();
-        }
-
-        if(studentId == null){
-            throw new StudentIdNotFound();
         }
 
         User user = userRepository.findByStudentId(studentId)

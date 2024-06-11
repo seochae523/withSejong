@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class TagNotFound extends RuntimeException{
     String message;
+
     public TagNotFound(Long tagId) {
         super(tagId.toString());
         this.message = tagId.toString();

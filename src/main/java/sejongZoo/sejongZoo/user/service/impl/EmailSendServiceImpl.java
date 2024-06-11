@@ -7,9 +7,6 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sejongZoo.sejongZoo.common.exception.board.BoardIdNotFound;
-import sejongZoo.sejongZoo.common.exception.mail.EmailContentNotFound;
-import sejongZoo.sejongZoo.common.exception.mail.EmailTitleNotFound;
 import sejongZoo.sejongZoo.user.dto.request.EmailSendRequestDto;
 import sejongZoo.sejongZoo.user.dto.response.EmailSendResponseDto;
 import sejongZoo.sejongZoo.user.service.EmailSendService;
@@ -23,14 +20,6 @@ public class EmailSendServiceImpl implements EmailSendService {
     @Override
     @Transactional
     public EmailSendResponseDto sendEmail(EmailSendRequestDto emailSendRequestDto) {
-        String title = emailSendRequestDto.getTitle();
-        String content = emailSendRequestDto.getContent();
-        Long boardId = emailSendRequestDto.getBoardId();
-
-        if(title == null) throw new EmailTitleNotFound();
-        if(content == null) throw new EmailContentNotFound();
-        if(boardId == null) throw new BoardIdNotFound();
-
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom("SejongUsedBookMarket@gmail.com");
         simpleMailMessage.setTo("SejongUsedBookMarket@gmail.com");
