@@ -17,11 +17,5 @@ public class ChatRoomFindResponseDto {
     private String publisher;
     private String subscriber;
     private Date createdAt;
-
-    public ChatRoomFindResponseDto(ChatRoom chatRoom, User publisher, User subscriber){
-        this.roomId = chatRoom.getRoomId();
-        this.publisher = publisher.getStudentId();
-        this.subscriber = subscriber.getStudentId();
-        this.createdAt = chatRoom.getCreatedAt();
-    }
+    private String boardTitle;
 }

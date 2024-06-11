@@ -14,4 +14,7 @@ public class ChatRoomSaveRequestDto {
     @NotBlank(message = "Chat Room Subscriber Not Found.")
     @Schema(description = "방 참여자", example = "ex")
     private String subscriber;
+    @NotBlank(message = "Board Id Not Found.")
+    @Schema(description = "게시판 id", example = "1")
+    private Long boardId;
 }

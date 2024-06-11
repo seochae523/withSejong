@@ -13,5 +13,6 @@ import java.util.Date;
 public class ChatRoomSaveResponseDto {
     private String publisher;
     private String subscriber;
+    private String boardTitle;
     private Date createdAt;
 }

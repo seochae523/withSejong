@@ -4,12 +4,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sejongZoo.sejongZoo.board.domain.Board;
+import sejongZoo.sejongZoo.board.repository.BoardRepository;
 import sejongZoo.sejongZoo.chat.domain.ChatRoom;
 import sejongZoo.sejongZoo.chat.dto.request.ChatRoomSaveRequestDto;
 import sejongZoo.sejongZoo.chat.dto.response.ChatRoomFindResponseDto;
 import sejongZoo.sejongZoo.chat.dto.response.ChatRoomSaveResponseDto;
 import sejongZoo.sejongZoo.chat.repository.ChatRoomRepository;
 import sejongZoo.sejongZoo.chat.service.ChatRoomService;
+import sejongZoo.sejongZoo.common.exception.board.BoardNotFound;
 import sejongZoo.sejongZoo.common.exception.chat.ChatRoomNotFound;
 import sejongZoo.sejongZoo.common.exception.user.AccountNotFound;
 import sejongZoo.sejongZoo.user.domain.User;
@@ -26,12 +29,13 @@ import java.util.List;
 public class ChatRoomServiceImpl implements ChatRoomService {
     private final UserRepository userRepository;
     private final ChatRoomRepository chatRoomRepository;
+    private final BoardRepository boardRepository;
     @Override
     @Transactional
     public ChatRoomSaveResponseDto save(ChatRoomSaveRequestDto chatRoomSaveRequestDto) {
         String publisher = chatRoomSaveRequestDto.getPublisher();
         String subscriber = chatRoomSaveRequestDto.getSubscriber();
-
+        Long boardId = chatRoomSaveRequestDto.getBoardId();
 
         Date createdAt = new Date();
 
@@ -40,6 +44,9 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
         User sub = userRepository.findByStudentId(subscriber)
                 .orElseThrow(() -> new AccountNotFound(subscriber));
+
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new BoardNotFound(boardId));
 
         ChatRoom build = ChatRoom.builder()
                 .publisher(pub)
@@ -51,6 +58,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         chatRoomRepository.save(build);
 
         return ChatRoomSaveResponseDto.builder()
+                .boardTitle(board.getTitle())
                 .publisher(publisher)
                 .subscriber(subscriber)
                 .createdAt(createdAt)
@@ -75,6 +83,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         List<ChatRoomFindResponseDto> result = new ArrayList<>();
         for (ChatRoom chatRoom : chatRooms) {
             ChatRoomFindResponseDto build = ChatRoomFindResponseDto.builder()
+                    .boardTitle(chatRoom.getBoard().getTitle())
                     .roomId(chatRoom.getRoomId())
                     .publisher(chatRoom.getPublisher().getStudentId())
                     .subscriber(chatRoom.getSubscriber().getStudentId())

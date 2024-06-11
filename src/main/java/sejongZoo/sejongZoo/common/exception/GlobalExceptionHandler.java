@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import sejongZoo.sejongZoo.board.domain.Tag;
@@ -132,6 +133,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     ResponseEntity<ApiErrorResponse> handleValidationException(ConstraintViolationException e) {
         ApiErrorResponse response = new ApiErrorResponse("SEP-002", e.getMessage());
+        log.error("Error = {}", e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    ResponseEntity<ApiErrorResponse> handleValidationException(MissingServletRequestParameterException e) {
+        ApiErrorResponse response = new ApiErrorResponse("SEP-003", e.getMessage());
         log.error("Error = {}", e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
