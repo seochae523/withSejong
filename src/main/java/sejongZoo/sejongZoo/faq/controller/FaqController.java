@@ -31,27 +31,23 @@ public class FaqController {
     private final FaqService faqService;
 
     @GetMapping("/user/faq")
-    @Operation(summary = "자주 묻는 질문",
-            description = "자주 묻는 질문 조회")
+    @Operation(description = "자주 묻는 질문 조회")
     public ResponseEntity<List<FaqFindResponseDto>> findAll(){
         return new ResponseEntity<>(faqService.findAll(), HttpStatus.OK);
     }
 
     @PostMapping("/admin/faq/save")
-    @Operation(summary = "자주 묻는 질문 저장",
-            description = "자주 묻는 질문 저장")
+    @Operation(description = "자주 묻는 질문 저장")
     public ResponseEntity<FaqSaveResponseDto> save(@RequestBody @Valid FaqSaveRequestDto faqSaveRequestDto){
         return new ResponseEntity<>(faqService.saveFaq(faqSaveRequestDto), HttpStatus.CREATED);
     }
     @PutMapping("/admin/faq/update")
-    @Operation(summary = "자주 묻는 질문 업데이트",
-            description = "자주 묻는 질문 업데이트")
+    @Operation(description = "자주 묻는 질문 업데이트")
     public ResponseEntity<FaqUpdateResponseDto> update(@RequestBody @Valid FaqUpdateRequestDto faqUpdateRequestDto){
         return new ResponseEntity<>(faqService.updateFaq(faqUpdateRequestDto), HttpStatus.OK);
     }
     @DeleteMapping("/admin/faq/delete")
-    @Operation(summary = "자주 묻는 질문 삭제",
-            description = "자주 묻는 질문 삭제")
+    @Operation(description = "자주 묻는 질문 삭제")
     public ResponseEntity<FaqDeleteResponseDto> delete(@NotNull(message = "Faq Id Not Found.")
                                                            @RequestParam(value = "id", required = false) String id,
 

@@ -28,36 +28,31 @@ public class UserController {
     private final UserService userService;
     private final EmailSendService emailSendService;
     @GetMapping("/check-nickname")
-    @Operation(summary = "닉네임 중복 체크",
-            description = "닉네임 중복 체크")
+    @Operation(description = "닉네임 중복 체크")
     public ResponseEntity<Boolean> checkNickname(@RequestParam(value = "nickname")
                                                      @NotBlank(message = "Nickname Not Found.") String nickname){
         return new ResponseEntity(userService.checkNickname(nickname), HttpStatus.OK);
     }
     @GetMapping("/check-student-id")
-    @Operation(summary = "학번 중복 체크",
-            description = "학번 중복 체크")
+    @Operation(description = "학번 중복 체크")
     public ResponseEntity<CheckStudentIdResponseDto> checkStudentId(@RequestParam(value = "studentId")
                                                                         @NotBlank(message = "Student Id Not Found.") String studentId){
         return new ResponseEntity(userService.checkStudentId(studentId), HttpStatus.OK);
     }
     @DeleteMapping("/user/delete")
-    @Operation(summary = "유저 삭제",
-            description = "해당 유저 삭제")
+    @Operation(description = "해당 유저 삭제")
     public ResponseEntity<DeleteResponseDto> delete(@RequestParam(value = "studentId")
                                                         @NotBlank(message = "Student Id Not Found.") String studentId){
         return new ResponseEntity(userService.delete(studentId), HttpStatus.OK);
     }
     @PutMapping("/user/update")
-    @Operation(summary = "유저 정보 업데이트",
-            description = "유저 정보 업데이트 - 내부에서 중복확인 하니까 따로 안해도 됨")
+    @Operation(description = "유저 정보 업데이트 - 내부에서 중복확인 하니까 따로 안해도 됨")
     public ResponseEntity<UpdateResponseDto> update(@RequestBody @Valid UpdateRequestDto updateRequestDto){
         return new ResponseEntity(userService.update(updateRequestDto), HttpStatus.OK);
     }
 
     @PutMapping("/user/change-password")
-    @Operation(summary = "비번 변경",
-        description = "입력된 정보로 비번 변경")
+    @Operation(description = "입력된 정보로 비번 변경")
     public ResponseEntity<ChangePasswordResponseDto> updatePassword(@RequestBody @Valid ChangePasswordRequestDto changePasswordRequestDto){
         return new ResponseEntity(userService.changePassword(changePasswordRequestDto), HttpStatus.OK);
     }

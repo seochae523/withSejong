@@ -33,8 +33,7 @@ public class ChatController {
     }
 
     @GetMapping("/user/chat/{roomId}")
-    @Operation(summary = "채팅 조회",
-            description = "해당 room id의 채팅 조회")
+    @Operation(description = "해당 room id의 채팅 조회")
     public ResponseEntity<List<ChatFindResponseDto>> findAllChat(@PathVariable
                                                                      @NotNull(message = "Chat Room Id Not Found.")
                                                                      @Positive(message = "Chat Room Id Must Be Positive Value.") Long roomId){

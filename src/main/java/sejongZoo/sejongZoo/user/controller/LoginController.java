@@ -25,22 +25,19 @@ public class LoginController {
     private final LoginService loginService;
 
     @PostMapping("/login")
-    @Operation(summary = "로그인",
-            description = "로그인")
+    @Operation(description = "로그인")
     public ResponseEntity<AuthToken> login(@RequestBody @Valid LoginRequestDto loginRequestDto){
         return new ResponseEntity(loginService.login(loginRequestDto), HttpStatus.OK);
     }
 
     @PostMapping("/signup")
-    @Operation(summary = "회원가입",
-            description = "회원가입")
+    @Operation(description = "회원가입")
     public ResponseEntity<SignUpResponseDto> signUp(@RequestBody @Valid SignUpRequestDto signUpRequestDto){
         return new ResponseEntity(loginService.signup(signUpRequestDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/user/logout")
-    @Operation(summary = "로그아웃",
-            description = "로그아웃 하면 refresh token 파기")
+    @Operation(description = "로그아웃 하면 refresh token 파기")
     public ResponseEntity<LogoutResponseDto> logout(@RequestParam(value = "studentId")
                                                         @NotBlank(message = "Student Id Not Found.") String studentId){
         return new ResponseEntity(loginService.logout(studentId), HttpStatus.OK);

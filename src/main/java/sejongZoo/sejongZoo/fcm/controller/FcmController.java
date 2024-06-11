@@ -25,8 +25,7 @@ public class FcmController {
     private final FcmService fcmService;
 
     @PostMapping("/send")
-    @Operation(summary = "알림 전송",
-            description = "알림 메시지 전송")
+    @Operation(description = "알림 메시지 전송")
     public ResponseEntity<Response> pushMessage(@RequestBody @Validated FcmSendDto fcmSendDto) throws IOException {
         return new ResponseEntity(fcmService.sendMessageTo(fcmSendDto), HttpStatus.OK);
     }

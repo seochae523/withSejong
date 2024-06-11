@@ -34,8 +34,7 @@ import java.util.List;
 public class BoardController {
     private final BoardService boardService;
 
-    @Operation(summary = "게시글 저장",
-            description = "게시글을 form-data 타입을 통해 저장 (json x)")
+    @Operation(description = "게시글을 form-data 타입을 통해 저장 (json x)")
     @PostMapping("/save")
     @Parameters({
             @Parameter(name="file", description = "파일 첨부"),
@@ -45,15 +44,13 @@ public class BoardController {
                                                      @RequestPart(value = "request", required = false) @Valid BoardSaveRequestDto boardSaveRequestDto) throws IOException {
         return new ResponseEntity(boardService.save(multipartFile, boardSaveRequestDto), HttpStatus.OK);
     }
-    @Operation(summary = "게시글 조회",
-            description = "게시글을 10개씩 조회 (페이지 시작 0부터)")
+    @Operation(description = "게시글을 10개씩 조회 (페이지 시작 0부터)")
     @GetMapping
     @Parameter(name = "page", description = "페이지 번호 기본 값 0")
     public ResponseEntity<BoardFindPagingResponseDto> findAll(@RequestParam(value = "page", defaultValue = "0") Integer page){
         return new ResponseEntity(boardService.findAll(page), HttpStatus.OK);
     }
-    @Operation(summary = "게시글 검색",
-            description = "게시글을 keyword를 통해 검색 마찬가지로 10개씩 검색 결과 나옴 (페이지 시작 0부터)")
+    @Operation(description = "게시글을 keyword를 통해 검색 마찬가지로 10개씩 검색 결과 나옴 (페이지 시작 0부터)")
     @GetMapping("/search")
     @Parameters({
             @Parameter(name = "keyword", description = "검색 키워드", required = true),
@@ -63,8 +60,7 @@ public class BoardController {
                                                              @RequestParam(value = "page", defaultValue = "0") Integer page){
         return new ResponseEntity(boardService.search(keyword, page), HttpStatus.OK);
     }
-    @Operation(summary = "게시글 업데이트",
-            description = "게시글 업데이트")
+    @Operation(description = "게시글 업데이트")
     @PutMapping("/update")
     @Parameters({
             @Parameter(name = "file", description = "파일임 url xx"),
@@ -74,8 +70,7 @@ public class BoardController {
                                                          @RequestPart(value = "request", required = false) @Valid BoardUpdateRequestDto boardUpdateRequestDto) throws IOException {
         return new ResponseEntity(boardService.update(multipartFile, boardUpdateRequestDto), HttpStatus.OK);
     }
-    @Operation(summary = "게시글 끌어올리기",
-            description = "게시글 끌어올리기")
+    @Operation(description = "게시글 끌어올리기")
     @PutMapping("/pull-up")
     @Parameters({
             @Parameter(name = "studentId", description = "학번"),
@@ -87,8 +82,7 @@ public class BoardController {
         return new ResponseEntity(boardService.pullUp(id, studentId), HttpStatus.OK);
     }
 
-    @Operation(summary = "테그로 게시글 검색",
-            description = "테그로 게시글 검색")
+    @Operation(description = "테그로 게시글 검색")
     @GetMapping("/find-by-tag")
     @Parameters({
             @Parameter(name = "tags", description = "검색 태그 (전필, 전선 등등) 리스트로 주세요 ex) tags=전필,전선,교양", required = true),
@@ -100,8 +94,7 @@ public class BoardController {
         return new ResponseEntity(boardService.findByTag(tags, page), HttpStatus.OK);
     }
 
-    @Operation(summary = "status 업데이트",
-            description = "status 업데이트 판매 중 = 0, 예약 중 = 1, 판매 완료 = 2")
+    @Operation(description = "status 업데이트 판매 중 = 0, 예약 중 = 1, 판매 완료 = 2")
     @PutMapping("/status")
     @Parameters({
             @Parameter(name = "boardId", description = "개시판 id", required = true),
@@ -116,8 +109,7 @@ public class BoardController {
         return new ResponseEntity(boardService.updateStatus(boardId, status), HttpStatus.OK);
     }
 
-    @Operation(summary = "내 판매 내역 조회",
-            description = "내 판매 내역 조회")
+    @Operation(description = "내 판매 내역 조회")
     @GetMapping("/history")
     @Parameters({
             @Parameter(name = "studentId", description = "학번", required = true),
