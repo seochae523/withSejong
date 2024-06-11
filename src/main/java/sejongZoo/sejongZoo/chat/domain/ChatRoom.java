@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import sejongZoo.sejongZoo.board.domain.Board;
 import sejongZoo.sejongZoo.user.domain.User;
 
 import java.util.Date;
@@ -39,6 +40,11 @@ public class ChatRoom {
     @ManyToOne
     @JoinColumn(name = "subscriber_id")
     private User subscriber;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private Board board;
 
     @NotNull
     @ColumnDefault("false")
