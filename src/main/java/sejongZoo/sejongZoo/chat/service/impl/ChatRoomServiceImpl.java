@@ -21,6 +21,7 @@ import sejongZoo.sejongZoo.user.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,6 +49,18 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new BoardNotFound(boardId));
 
+        Optional<ChatRoom> chatRoom = chatRoomRepository.findByBoardAndPublisherAndSubscriber(board.getId(), pub.getStudentId(), sub.getStudentId());
+
+        if(chatRoom.isPresent()){
+            return ChatRoomSaveResponseDto.builder()
+                    .id(chatRoom.get().getRoomId())
+                    .boardTitle(board.getTitle())
+                    .publisher(publisher)
+                    .subscriber(subscriber)
+                    .createdAt(createdAt)
+                    .build();
+        }
+
         ChatRoom build = ChatRoom.builder()
                 .publisher(pub)
                 .subscriber(sub)
@@ -56,9 +69,10 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .deleted(false)
                 .build();
 
-        chatRoomRepository.save(build);
+        ChatRoom save = chatRoomRepository.save(build);
 
         return ChatRoomSaveResponseDto.builder()
+                .id(save.getRoomId())
                 .boardTitle(board.getTitle())
                 .publisher(publisher)
                 .subscriber(subscriber)
