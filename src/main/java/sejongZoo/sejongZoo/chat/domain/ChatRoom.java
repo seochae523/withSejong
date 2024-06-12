@@ -1,10 +1,7 @@
 package sejongZoo.sejongZoo.chat.domain;
 
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -13,7 +10,7 @@ import sejongZoo.sejongZoo.board.domain.Board;
 import sejongZoo.sejongZoo.user.domain.User;
 
 import java.util.Date;
-import java.util.List;
+
 
 @Getter
 @NoArgsConstructor

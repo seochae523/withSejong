@@ -1,8 +1,9 @@
 package sejongZoo.sejongZoo.chat.controller;
 
-import io.swagger.v3.oas.annotations.Hidden;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,16 +11,12 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.*;
 import sejongZoo.sejongZoo.chat.dto.request.ChatRoomSaveRequestDto;
-import sejongZoo.sejongZoo.chat.dto.response.ChatFindResponseDto;
 import sejongZoo.sejongZoo.chat.dto.response.ChatRoomFindResponseDto;
-import sejongZoo.sejongZoo.chat.dto.request.ChatSaveRequestDto;
 import sejongZoo.sejongZoo.chat.dto.response.ChatRoomSaveResponseDto;
-import sejongZoo.sejongZoo.chat.dto.response.ChatSaveResponseDto;
 import sejongZoo.sejongZoo.chat.service.ChatRoomService;
-import sejongZoo.sejongZoo.chat.service.ChatService;
+
 
 import java.util.List;
 
@@ -27,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/user")
 @SecurityRequirement(name = "Bearer Authentication")
+@Tag(name="chat room")
 public class ChatRoomController {
     private final ChatRoomService chatRoomService;
 

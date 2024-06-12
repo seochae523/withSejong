@@ -5,9 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sejongZoo.sejongZoo.chat.domain.Chat;
-import sejongZoo.sejongZoo.chat.dto.KafkaChatDto;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter

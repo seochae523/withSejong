@@ -1,6 +1,6 @@
 package sejongZoo.sejongZoo.fcm.dto;
 
-import com.google.firebase.messaging.Message;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

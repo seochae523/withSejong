@@ -25,7 +25,7 @@ import sejongZoo.sejongZoo.user.service.LoginService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
+
 
 @Service
 @Slf4j

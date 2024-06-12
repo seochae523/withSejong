@@ -4,7 +4,7 @@ package sejongZoo.sejongZoo.chat.domain;
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+
 import java.util.Date;
 
 

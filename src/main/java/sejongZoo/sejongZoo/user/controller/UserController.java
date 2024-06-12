@@ -2,18 +2,19 @@ package sejongZoo.sejongZoo.user.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import sejongZoo.sejongZoo.common.token.dto.AuthToken;
+
 import sejongZoo.sejongZoo.user.dto.request.ChangePasswordRequestDto;
 import sejongZoo.sejongZoo.user.dto.request.EmailSendRequestDto;
-import sejongZoo.sejongZoo.user.dto.request.LoginRequestDto;
+
 import sejongZoo.sejongZoo.user.dto.request.UpdateRequestDto;
 import sejongZoo.sejongZoo.user.dto.response.*;
 import sejongZoo.sejongZoo.user.service.EmailSendService;
@@ -24,6 +25,7 @@ import sejongZoo.sejongZoo.user.service.UserService;
 @RequestMapping
 @SecurityRequirement(name = "Bearer Authentication")
 @Validated
+@Tag(name = "user")
 public class UserController {
     private final UserService userService;
     private final EmailSendService emailSendService;

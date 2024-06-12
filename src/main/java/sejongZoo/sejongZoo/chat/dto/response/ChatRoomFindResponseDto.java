@@ -2,8 +2,7 @@ package sejongZoo.sejongZoo.chat.dto.response;
 
 
 import lombok.*;
-import sejongZoo.sejongZoo.chat.domain.ChatRoom;
-import sejongZoo.sejongZoo.user.domain.User;
+
 
 import java.util.Date;
 

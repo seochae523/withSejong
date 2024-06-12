@@ -12,9 +12,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import sejongZoo.sejongZoo.board.dto.request.BoardUpdateRequestDto;
 import sejongZoo.sejongZoo.user.domain.User;
 
-import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Entity(name = "board")

@@ -1,7 +1,7 @@
 package sejongZoo.sejongZoo.common.configuration.kafka;
 import com.google.common.collect.ImmutableMap;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.common.protocol.Message;
+
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +12,7 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import sejongZoo.sejongZoo.chat.dto.KafkaChatDto;
-import sejongZoo.sejongZoo.chat.dto.response.ChatSaveResponseDto;
+
 
 
 import javax.management.Notification;

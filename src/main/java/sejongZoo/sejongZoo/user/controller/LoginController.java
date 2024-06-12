@@ -3,6 +3,7 @@ package sejongZoo.sejongZoo.user.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import sejongZoo.sejongZoo.user.service.LoginService;
 @RequiredArgsConstructor
 @RequestMapping
 @SecurityRequirement(name = "Bearer Authentication")
+@Tag(name = "login")
 public class LoginController {
 
     private final LoginService loginService;

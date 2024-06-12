@@ -2,6 +2,7 @@ package sejongZoo.sejongZoo.faq.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ import java.util.List;
 @RequestMapping
 @SecurityRequirement(name = "Bearer Authentication")
 @Validated
+@Tag(name ="faq")
 public class FaqController {
     private final FaqService faqService;
 

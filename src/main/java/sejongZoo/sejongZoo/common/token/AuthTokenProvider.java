@@ -2,7 +2,7 @@ package sejongZoo.sejongZoo.common.token;
 
 
 import io.jsonwebtoken.*;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

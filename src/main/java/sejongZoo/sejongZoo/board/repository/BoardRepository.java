@@ -9,14 +9,10 @@ import org.springframework.stereotype.Repository;
 import sejongZoo.sejongZoo.board.domain.Board;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
-    List<Board> findTop10ByIdGreaterThan(@Param("id") Long id);
-
-    @Query("SELECT b from board b left join fetch b.user u join fetch image i where b.id=:id")
-    Optional<Board> findByIdWithUserAndImage(@Param("id") Long id);
 
     @Query("SELECT b from board b left join fetch b.user u left join fetch b.image i left join fetch b.tag t order by b.createdAt DESC ")
     Page<Board> findAllWithUserAndImage(Pageable pageable);
