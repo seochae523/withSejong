@@ -16,4 +16,5 @@ public class ChatRoomSaveResponseDto {
     private String subscriber;
     private String boardTitle;
     private Date createdAt;
+    private Boolean isCreated;
 }

@@ -58,6 +58,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                     .publisher(publisher)
                     .subscriber(subscriber)
                     .createdAt(createdAt)
+                    .isCreated(true)
                     .build();
         }
 
@@ -77,6 +78,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .publisher(publisher)
                 .subscriber(subscriber)
                 .createdAt(createdAt)
+                .isCreated(false)
                 .build();
 
     }
