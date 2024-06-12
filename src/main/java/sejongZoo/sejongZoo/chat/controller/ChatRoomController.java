@@ -16,6 +16,7 @@ import sejongZoo.sejongZoo.chat.dto.request.ChatRoomSaveRequestDto;
 import sejongZoo.sejongZoo.chat.dto.response.ChatFindResponseDto;
 import sejongZoo.sejongZoo.chat.dto.response.ChatRoomFindResponseDto;
 import sejongZoo.sejongZoo.chat.dto.request.ChatSaveRequestDto;
+import sejongZoo.sejongZoo.chat.dto.response.ChatRoomSaveResponseDto;
 import sejongZoo.sejongZoo.chat.dto.response.ChatSaveResponseDto;
 import sejongZoo.sejongZoo.chat.service.ChatRoomService;
 import sejongZoo.sejongZoo.chat.service.ChatService;
@@ -31,7 +32,7 @@ public class ChatRoomController {
 
     @PostMapping("/chat/room")
     @Operation(description = "리턴되는 room 번호로 새로운 채팅방 생성")
-    public ResponseEntity<ChatRoomFindResponseDto> createRoom(@RequestBody @Valid ChatRoomSaveRequestDto chatRoomSaveRequestDto){
+    public ResponseEntity<ChatRoomSaveResponseDto> createRoom(@RequestBody @Valid ChatRoomSaveRequestDto chatRoomSaveRequestDto){
         return new ResponseEntity(chatRoomService.save(chatRoomSaveRequestDto), HttpStatus.CREATED);
     }
 

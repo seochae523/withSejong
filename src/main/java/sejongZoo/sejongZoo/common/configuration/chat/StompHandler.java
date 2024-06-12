@@ -15,23 +15,16 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 @Component
 @Slf4j
 public class StompHandler implements ChannelInterceptor {
-    @Override
-    public Message<?> preSend(Message<?> message, MessageChannel channel) {
-        log.info("Stomp Handler 실행");
-        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(message);
-        log.info("header : {}", headerAccessor.getMessageHeaders().toString());
-        // 헤더 토큰 얻기
-        //String authorizationHeader = String.valueOf(headerAccessor.getNativeHeader("Authorization"));
-        return message;
-    }
-
     @EventListener
     public void handleWebSocketConnectionListener(SessionConnectedEvent event){
+
         log.info("사용자 입장");
+        log.info("event = {}", event);
     }
 
     @EventListener
     public void handleWebSocketDisconnectionListener(SessionDisconnectEvent event){
+
         log.info("사용자 퇴장");
     }
 }
