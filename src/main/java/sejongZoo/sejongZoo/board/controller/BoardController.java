@@ -120,4 +120,15 @@ public class BoardController {
                                                                    @PositiveOrZero(message = "Page Must Be Positive Or Zero Value.") Integer page){
         return new ResponseEntity(boardService.findMySalesHistory(page, studentId), HttpStatus.OK);
     }
+
+    @Operation(description = "삭제")
+    @DeleteMapping
+    @Parameters({
+            @Parameter(name = "boardId", description = "게시판 id", required = true)
+    })
+    public ResponseEntity<BoardDeleteResponseDto> delete(@RequestParam(value = "boardId")
+                                                                         @NotNull(message = "Board Id Not Found.")
+                                                                            @PositiveOrZero(message = "Board Id Must Be Positive Or Zero Value.") Long boardId){
+        return new ResponseEntity(boardService.delete(boardId), HttpStatus.OK);
+    }
 }
