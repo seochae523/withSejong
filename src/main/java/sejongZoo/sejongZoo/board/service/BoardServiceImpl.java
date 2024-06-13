@@ -219,6 +219,7 @@ public class BoardServiceImpl implements BoardService{
     @Transactional
     public BoardDeleteResponseDto delete(Long id) {
         Board board = boardRepository.findById(id)
+                .filter(x -> !x.getDeleted())
                 .orElseThrow(() -> new BoardNotFound(id));
 
         board.setDeleted(true);

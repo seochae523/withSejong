@@ -122,11 +122,11 @@ public class BoardController {
     }
 
     @Operation(description = "삭제")
-    @DeleteMapping
+    @DeleteMapping("/{boardId}")
     @Parameters({
             @Parameter(name = "boardId", description = "게시판 id", required = true)
     })
-    public ResponseEntity<BoardDeleteResponseDto> delete(@RequestParam(value = "boardId")
+    public ResponseEntity<BoardDeleteResponseDto> delete(@PathVariable(value = "boardId")
                                                                          @NotNull(message = "Board Id Not Found.")
                                                                             @PositiveOrZero(message = "Board Id Must Be Positive Or Zero Value.") Long boardId){
         return new ResponseEntity(boardService.delete(boardId), HttpStatus.OK);

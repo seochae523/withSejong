@@ -1,9 +1,15 @@
 package sejongZoo.sejongZoo.board.dto.response;
 
+import lombok.*;
 import sejongZoo.sejongZoo.board.domain.Board;
 
 import java.util.Date;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class BoardDeleteResponseDto {
     private Date date;
     private String content;
