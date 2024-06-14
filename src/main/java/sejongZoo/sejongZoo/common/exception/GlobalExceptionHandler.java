@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import sejongZoo.sejongZoo.board.domain.Tag;
 import sejongZoo.sejongZoo.common.exception.board.*;
+import sejongZoo.sejongZoo.common.exception.chat.ChatNotFound;
 import sejongZoo.sejongZoo.common.exception.chat.ChatRoomNotFound;
 import sejongZoo.sejongZoo.common.exception.token.*;
 import sejongZoo.sejongZoo.common.exception.user.*;
@@ -64,6 +65,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ChatRoomNotFound.class)
     public ResponseEntity<ApiErrorResponse> handleException(ChatRoomNotFound ex){
         ApiErrorResponse response = new ApiErrorResponse("SEC-001", "Chat Room Not Found. Room Id : " + ex.getMessage());
+
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(ChatNotFound.class)
+    public ResponseEntity<ApiErrorResponse> handleException(ChatNotFound ex){
+        ApiErrorResponse response = new ApiErrorResponse("SEC-002", "Chat Not Found. Room Id : " + ex.getMessage());
 
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }

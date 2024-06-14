@@ -9,4 +9,6 @@ import java.util.List;
 public interface ChatService {
     ChatSaveResponseDto chat(ChatSaveRequestDto chatSaveRequestDto);
     List<ChatFindResponseDto> findAll(Long roomId);
+
+    ChatFindResponseDto findLastChat(Long roomId);
 }

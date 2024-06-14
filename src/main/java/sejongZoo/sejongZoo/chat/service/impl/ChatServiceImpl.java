@@ -23,6 +23,7 @@ import sejongZoo.sejongZoo.chat.dto.request.ChatSaveRequestDto;
 import sejongZoo.sejongZoo.chat.dto.response.ChatFindResponseDto;
 import sejongZoo.sejongZoo.chat.dto.response.ChatSaveResponseDto;
 import sejongZoo.sejongZoo.chat.service.ChatService;
+import sejongZoo.sejongZoo.common.exception.chat.ChatNotFound;
 import sejongZoo.sejongZoo.common.util.KafkaConst;
 
 
@@ -74,6 +75,23 @@ public class ChatServiceImpl implements ChatService{
         return query.stream()
                 .map(ChatFindResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ChatFindResponseDto findLastChat(Long roomId) {
+        DynamoDBQueryExpression<Chat> objectDynamoDBQueryExpression = new DynamoDBQueryExpression<Chat>()
+                .withKeyConditionExpression("id = :id")
+                .withExpressionAttributeValues(ImmutableMap.of(":id", new AttributeValue().withN(roomId.toString())))
+                .withLimit(1)
+                .withScanIndexForward(false);
+
+
+        PaginatedQueryList<Chat> result = dynamoDBMapper.query(Chat.class, objectDynamoDBQueryExpression);
+
+        if(result.isEmpty()) throw new ChatNotFound(roomId);
+
+        return new ChatFindResponseDto(result.get(0));
+
     }
 
 
