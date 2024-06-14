@@ -44,7 +44,7 @@ public class ChatController {
 
     @GetMapping("/user/chat/last/{roomId}")
     @Operation(description = "해당 room id의 채팅 조회")
-    public ResponseEntity<List<ChatFindResponseDto>> findLastChat(@PathVariable
+    public ResponseEntity<ChatFindResponseDto> findLastChat(@PathVariable
                                                                  @NotNull(message = "Chat Room Id Not Found.")
                                                                  @Positive(message = "Chat Room Id Must Be Positive Value.") Long roomId){
         return new ResponseEntity(chatService.findLastChat(roomId), HttpStatus.OK);
