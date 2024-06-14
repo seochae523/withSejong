@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class ChatNotFound extends RuntimeException{
     String message;
-
     public ChatNotFound(Long roomId) {
         super(roomId.toString());
         this.message = roomId.toString();
