@@ -2,6 +2,7 @@ package sejongZoo.sejongZoo.user.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +17,7 @@ public class EmailSendRequestDto {
     @Schema(description = "내용", example = "content")
     private String content;
 
-    @NotBlank(message = "Board Id Not Found.")
+    @NotNull(message = "Board Id Not Found.")
     @Schema(description = "게시판 아이디", example = "1")
     private Long boardId;
 }

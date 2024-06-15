@@ -4,6 +4,7 @@ package sejongZoo.sejongZoo.board.dto.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class BoardUpdateRequestDto {
     @Schema(description = "업데이트 할 제목", example = "제목몾고족")
     private String title;
 
-    @NotBlank(message = "Price Not Found Not Found.")
+    @NotNull(message = "Price Not Found Not Found.")
     @Min(value = 0, message = "Minimum Value Of Price Is Zero.")
     @Schema(description = "업데이트 할 가격", example = "12312321213123")
     private Integer price;

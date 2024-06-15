@@ -3,6 +3,7 @@ package sejongZoo.sejongZoo.board.dto.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import sejongZoo.sejongZoo.board.domain.Board;
 import sejongZoo.sejongZoo.board.domain.Image;
@@ -29,7 +30,7 @@ public class BoardSaveRequestDto {
     @Schema(description = "학번", example = "19011584")
     private String studentId;
 
-    @NotBlank(message = "Price Not Found Not Found.")
+    @NotNull(message = "Price Not Found Not Found.")
     @Min(value = 0, message = "Minimum Value Of Price Is Zero.")
     @Schema(description = "가격", example = "2999999")
     private Integer price;

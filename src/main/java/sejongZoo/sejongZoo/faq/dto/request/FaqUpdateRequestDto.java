@@ -11,7 +11,7 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 public class FaqUpdateRequestDto {
-    @NotNull(message = "Faq Id Not Found.")
+    @NotBlank(message = "Faq Id Not Found.")
     @Schema(description = "자주 묻는 질문 id", example = "1")
     private String id;
 
