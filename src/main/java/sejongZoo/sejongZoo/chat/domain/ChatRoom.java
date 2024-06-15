@@ -24,26 +24,26 @@ public class ChatRoom {
     @Column(name="room_id")
     private Long roomId;
 
-    @NotNull
-    @Column(name="created_at")
+
+    @Column(name="created_at", nullable = false)
     private Date createdAt;
 
-    @NotNull
+
     @ManyToOne
-    @JoinColumn(name = "publisher_id")
+    @JoinColumn(name = "publisher_id", nullable = false)
     private User publisher;
 
-    @NotNull
+
     @ManyToOne
-    @JoinColumn(name = "subscriber_id")
+    @JoinColumn(name = "subscriber_id", nullable = false)
     private User subscriber;
 
-    @NotNull
+
     @ManyToOne
-    @JoinColumn(name = "board_id")
+    @JoinColumn(name = "board_id", nullable = false)
     private Board board;
 
-    @NotNull
+    @Column(name="deleted", nullable = false)
     @ColumnDefault("false")
     private Boolean deleted;
 

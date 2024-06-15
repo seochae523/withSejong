@@ -25,24 +25,26 @@ public class Board {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @CreationTimestamp
+    @Column(name="created_at" , nullable = false)
     private Date createdAt;
 
-    @Column(columnDefinition = "TEXT")
-    @NotNull
+    @Column(name="content", columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @Column(columnDefinition = "varchar(50)")
-    @NotNull
+    @Column(name="title", columnDefinition = "varchar(50)", nullable = false, length = 50)
     private String title;
 
-    @Column(columnDefinition = "int")
-    @NotNull
+    @Column(name="price", columnDefinition = "int", nullable = false)
     private Integer price;
 
-    @Column(columnDefinition = "integer")
+    @Column(name="status", columnDefinition = "integer", nullable = false)
+    @ColumnDefault("0")
     private Integer status;
 
+
+    @Column(name = "deleted", columnDefinition = "tinyint", nullable = false)
     @ColumnDefault("false")
     private Boolean deleted;
 

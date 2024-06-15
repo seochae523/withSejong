@@ -24,38 +24,38 @@ import java.util.Collection;
 public class User implements UserDetails {
 
     @Id
-    @Column(name="ID")
+    @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(columnDefinition = "varchar(20)")
+
+    @Column(name="student_id", columnDefinition = "varchar",length = 20,nullable = false)
     private String studentId;
 
-    @NotNull
-    @Column(columnDefinition = "varchar(10)")
+    @Column(name="name", columnDefinition = "varchar",length = 10, nullable = false)
     private String name;
 
-    @NotNull
-    @Column(columnDefinition = "varchar(20)")
+
+    @Column(name="major", columnDefinition = "varchar", length = 20, nullable = false)
     private String major;
 
-    @NotNull
-    @Column(columnDefinition = "varchar(255)")
+
+    @Column(name="password", columnDefinition = "varchar", nullable = false)
     private String password;
 
-    @Column(columnDefinition = "varchar(20)")
+    @Column(name="nickname", columnDefinition = "varchar",length = 20, nullable = false)
     private String nickname;
 
+    @Column(name="refresh_token")
     private String refreshToken;
 
-    @NotNull
     @ColumnDefault("50")
     private Integer manner;
 
-    @Column(columnDefinition = "varchar(50)")
+    @Column(name="role", columnDefinition = "varchar", length = 50)
     private String role;
 
+    @Column(name="deleted")
     @ColumnDefault("false")
     private Boolean deleted;
 
