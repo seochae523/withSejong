@@ -88,7 +88,7 @@ public class ChatServiceImpl implements ChatService{
 
         PaginatedQueryList<Chat> result = dynamoDBMapper.query(Chat.class, objectDynamoDBQueryExpression);
 
-        if(result.isEmpty()) throw new ChatNotFound(roomId);
+        if(result.isEmpty()) return new ChatFindResponseDto();
 
         return new ChatFindResponseDto(result.get(0));
 
