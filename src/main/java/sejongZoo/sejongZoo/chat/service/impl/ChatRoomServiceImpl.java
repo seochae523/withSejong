@@ -55,8 +55,8 @@ public class ChatRoomServiceImpl implements ChatRoomService {
             return ChatRoomSaveResponseDto.builder()
                     .id(chatRoom.get().getRoomId())
                     .boardTitle(board.getTitle())
-                    .publisher(publisher)
-                    .subscriber(subscriber)
+                    .publisher(pub.getStudentId())
+                    .subscriber(sub.getStudentId())
                     .createdAt(createdAt)
                     .isCreated(true)
                     .build();
@@ -75,8 +75,8 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         return ChatRoomSaveResponseDto.builder()
                 .id(save.getRoomId())
                 .boardTitle(board.getTitle())
-                .publisher(publisher)
-                .subscriber(subscriber)
+                .publisher(pub.getStudentId())
+                .subscriber(sub.getStudentId())
                 .createdAt(createdAt)
                 .isCreated(false)
                 .build();

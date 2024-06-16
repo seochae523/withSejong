@@ -76,8 +76,8 @@ public class FaqService {
         dynamoDBMapper.save(load);
 
         return FaqUpdateResponseDto.builder()
-                .title(faqUpdateRequestDto.getTitle())
-                .context(faqUpdateRequestDto.getContext())
+                .title(title)
+                .context(context)
                 .build();
     }
 

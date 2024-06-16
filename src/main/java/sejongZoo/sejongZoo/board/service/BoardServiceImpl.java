@@ -67,8 +67,9 @@ public class BoardServiceImpl implements BoardService{
     @Transactional
     public BoardSaveResponseDto save(List<MultipartFile> multipartFile, BoardSaveRequestDto boardSaveRequestDto) throws IOException {
         String studentId = boardSaveRequestDto.getStudentId();
-        List<String> tags = boardSaveRequestDto.getTags();
         List<MultipartFile> images = multipartFile;
+        List<String> tagInputs = boardSaveRequestDto.getTags();
+        List<String> tags = new ArrayList<>();
         Set<Image> imageResult = new HashSet<>();
 
         User user = userRepository.findByStudentId(studentId)
@@ -94,11 +95,13 @@ public class BoardServiceImpl implements BoardService{
             }
         }
         Board entity = boardSaveRequestDto.toEntity(user, imageResult);
-        for (String tag : tags) {
-            tagRepository.save(Tag.builder()
+        for (String tag : tagInputs) {
+            Tag saveTag = tagRepository.save(Tag.builder()
                     .category(tag)
                     .board(entity)
                     .build());
+
+            tags.add(saveTag.getCategory());
         }
 
         Board save = boardRepository.save(entity);
@@ -199,19 +202,19 @@ public class BoardServiceImpl implements BoardService{
             tagUpdateResponseDto.add(TagUpdateResponseDto.builder()
                             .id(save.getId())
                             .status("added")
-                            .category(newTagCategory)
+                            .category(save.getCategory())
                             .build());
         }
         board.updateBoard(boardUpdateRequestDto, imageResult, tagResult);
 
-        boardRepository.save(board);
+        Board save = boardRepository.save(board);
 
         return BoardUpdateResponseDto.builder()
                 .tag(tagUpdateResponseDto)
                 .image(imageUpdateResponseDto)
-                .content(content)
-                .price(price)
-                .title(title)
+                .content(save.getContent())
+                .price(save.getPrice())
+                .title(save.getTitle())
                 .build();
     }
 
@@ -264,7 +267,7 @@ public class BoardServiceImpl implements BoardService{
     @Override
     @Transactional
     public BoardPullUpResponseDto pullUp(Long id, String studentId) {
-        userRepository.findByStudentId(studentId)
+        User user = userRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new AccountNotFound(studentId));
 
         Board board = boardRepository.findById(id)
@@ -280,7 +283,7 @@ public class BoardServiceImpl implements BoardService{
         return BoardPullUpResponseDto.builder()
                 .createdAt(date)
                 .id(board.getId())
-                .studentId(studentId)
+                .studentId(user.getStudentId())
                 .content(board.getContent())
                 .title(board.getTitle())
                 .build();
@@ -305,6 +308,11 @@ public class BoardServiceImpl implements BoardService{
         Pageable pageable = PageRequest.of(page, pageSize);
 
         Page<Board> result = boardRepository.findByStudentId(studentId, pageable);
+        for (Board board : result) {
+            log.info("board = {}", board.getTitle());
+            log.info("board = {}", board.getDeleted());
+        }
+
 
         return BoardFindPagingResponseDto.builder()
                 .totalElements(result.getTotalElements())

@@ -49,15 +49,15 @@ public class Board {
     private Boolean deleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="USER_ID")
+    @JoinColumn(name="user_id")
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name="BOARD_ID")
+    @JoinColumn(name="board_id")
     private Set<Image> image;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name="BOARD_ID")
+    @JoinColumn(name="board_id")
     private Set<Tag> tag;
     public void updateBoard(BoardUpdateRequestDto dto,Set<Image> image, Set<Tag> tag){
         this.content = dto.getContent();
